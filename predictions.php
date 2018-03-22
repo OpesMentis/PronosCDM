@@ -26,7 +26,7 @@ if (!isset($_SESSION['login'])) {
             <?php
             include('connect.php');
 
-            $req = $bdd->query("SELECT poules.id AS id_match, DATE_FORMAT(date, '%d/%m, %Hh%i') AS date, poules.groupe, eq1.pays AS e1, eq2.pays AS e2 FROM poules JOIN teams eq1 ON eq1.id = poules.team1 JOIN teams eq2 ON eq2.id = poules.team2 WHERE date > NOW() ORDER BY date ASC");
+            $req = $bdd->query("SELECT matchs_q.id AS id_match, DATE_FORMAT(date, '%d/%m, %Hh%i') AS date, matchs_q.groupe, eq1.pays AS e1, eq2.pays AS e2 FROM matchs_q JOIN teams eq1 ON eq1.id = matchs_q.team1 JOIN teams eq2 ON eq2.id = matchs_q.team2 WHERE date > NOW() ORDER BY date ASC");
             ?>
             <font style="font-family: 'Open Sans'; font-size: 30px;"><b>Dans la cabane de Madame Irma</b><br/><br/></font>
         </div>
@@ -39,6 +39,9 @@ if (!isset($_SESSION['login'])) {
         <?php
         $i = 0;
         while ($item = $req->fetch()) {
+            $pari = $bdd->prepare("SELECT score1, score2 FROM paris_q JOIN users ON users.id = paris_q.id_user WHERE id_match=:play AND users.login=:usr");
+            $pari->execute(array('play' => $item['id_match'], 'usr' => $_SESSION['login']));
+            $res = $pari->fetch();
             if ($i % 4 == 0) {?>
             <tr>
             <?php
@@ -47,7 +50,15 @@ if (!isset($_SESSION['login'])) {
                     <font style="font-family: 'Open Sans'; font-size: 15px;"><?php echo $item['e1'] . ' — ' . $item['e2'];?></font><br/>
                     <font style="font-family: 'Open Sans'; font-size: 10px;">-- / --</font><br/>
                     <font style="font-family: 'Open Sans'; font-size: 10px;"><?php echo $item['date'];?></font><br/>
-                    <font style="font-family: 'Open Sans'; font-size: 10px;"><a href=<?php echo '"poules.php?id=' . $item['id_match'] . '"';?>>PARIER</font><br/><br/><br/>
+                    <font style="font-family: 'Open Sans'; font-size: 10px;"><b>
+                        <?php
+                        if (!$res) {
+                            echo '<a href="poules.php?id=' . $item['id_match'] . '">AUCUN PARI POUR L\'INSTANT</a>';
+                        } else {
+                            echo '<a href="poules.php?id=' . $item['id_match'] . '">VOUS PRÉVOYEZ : ' . $res['score1'] . '-' . $res['score2'] . '</a>';
+                        }
+                        ?>
+                    </b></font><br/><br/><br/>
                 </td><?php
             if ($i % 4 == 2) {?>
             <?php

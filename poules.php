@@ -34,11 +34,51 @@ if (!isset($_SESSION['login'])) {
             $match = $req->fetch();
             if (!$match) {
                 echo 'Alors comme ça on veut jouer les hackers ?';
-            } else {?>
+            } else {
+                if (isset($_POST['score1']) && isset($_POST['score2'])) {
+                    if (ctype_digit($_POST['score1']) && ctype_digit(($_POST['score2']))) {
+                        $req = $bdd->query("SELECT id FROM users WHERE login='" . $_SESSION['login'] . "'");
+                        $id_perso = $req->fetch()['id'];
+                        $req = $bdd->prepare("SELECT id_pari FROM paris_q WHERE id_user=:usr AND id_match=:play");
+                        $req->execute(array(
+                            'usr' => $id_perso,
+                            'play' => $_GET['id']
+                        ));
+                        $pari = $req->fetch();
+                        if (!$pari) {
+                            $req = $bdd->prepare("INSERT INTO paris_q(id_user, id_match, score1, score2) VALUES(:usr, :play, :s1, :s2)");
+                            $req->execute(array(
+                                'usr' => $id_perso,
+                                'play' => $_GET['id'],
+                                's1' => $_POST['score1'],
+                                's2' => $_POST['score2']
+                            ));
+                        } else {
+                            $req = $bdd->prepare("UPDATE paris_q SET score1=:s1, score2=:s2 WHERE id_user=:usr AND id_match=:play");
+                            $req->execute(array(
+                                's1' => $_POST['score1'],
+                                's2' => $_POST['score2'],
+                                'usr' => $id_perso,
+                                'play' => $_GET['id']
+                            ));
+                        }
+                    }
+                }
+                $pari = $bdd->prepare("SELECT score1, score2 FROM paris_q JOIN users ON users.id = paris_q.id_user WHERE id_match=:play AND users.login=:usr");
+                $pari->execute(array('play' => $_GET['id'], 'usr' => $_SESSION['login']));
+                $res = $pari->fetch();
+                if (!$res) {
+                    $s1 = '';
+                    $s2 = '';
+                } else {
+                    $s1 = $res['score1'];
+                    $s2 = $res['score2'];
+                }
+                ?>
                 <font style="font-family: 'Open Sans'; font-size: 20px;"><?php echo 'GROUPE ' . $match['groupe'] . ' ⋅ ' . $match['date'];?><br/><br/></font>
                 <font style="font-family: 'Open Sans'; font-size: 35px;"><?php echo $match['e1'] . ' — ' . $match['e2'];?><br/></font>
                 <form method="post" action=<?php echo '"poules.php?id=' . $_GET['id'] . '"';?>>
-                    <input type="text" name="score1" id="score1" size="2"/> <input type="text" name="score2" id="score2" size="2"/><br/>
+                    <input type="text" name="score1" size="2" value=<?php echo '"' . $s1 . '"';?>/> <input type="text" name="score2" size="2" value=<?php echo '"' . $s2 . '"';?>/><br/>
                     <input type="submit" value="Telle est mon opinion"/>
                 </form>
             <?php

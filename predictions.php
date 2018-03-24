@@ -32,7 +32,7 @@ if (!isset($_SESSION['login'])) {
     </div>
     <table width="100%" align="center">
         <tr>
-            <td width="10%" align="center">
+            <td width="20%" align="center">
                 <font style="font-family: 'Open Sans'; font-size: 25px;">Les matchs à venir</font><br/><br/>
             </td>
         </tr>
@@ -60,9 +60,6 @@ if (!isset($_SESSION['login'])) {
                         ?>
                     </b></font><br/><br/><br/>
                 </td><?php
-            if ($i % 4 == 2) {?>
-            <?php
-            }
             $i += 1;
         }
         ?>

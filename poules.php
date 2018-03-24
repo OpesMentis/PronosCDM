@@ -26,6 +26,8 @@ if (!isset($_SESSION['login'])) {
         <?php
         include('connect.php');
 
+        $msg = '';
+
         if (!isset($_GET['id'])) {
             echo 'Hum... Il semblerait que vous ayez touché à un truc que vous n\'auriez pas dû toucher...';
         } else {
@@ -45,7 +47,7 @@ if (!isset($_SESSION['login'])) {
                             'play' => $_GET['id']
                         ));
                         $pari = $req->fetch();
-                        if (!$pari) {
+                        if (!$pari && $id_perso) {
                             $req = $bdd->prepare("INSERT INTO paris_q(id_user, id_match, score1, score2) VALUES(:usr, :play, :s1, :s2)");
                             $req->execute(array(
                                 'usr' => $id_perso,
@@ -53,7 +55,8 @@ if (!isset($_SESSION['login'])) {
                                 's1' => $_POST['score1'],
                                 's2' => $_POST['score2']
                             ));
-                        } else {
+                            $msg = 'Votre pronostic a été pris en compte !';
+                        } elseif ($id_perso) {
                             $req = $bdd->prepare("UPDATE paris_q SET score1=:s1, score2=:s2 WHERE id_user=:usr AND id_match=:play");
                             $req->execute(array(
                                 's1' => $_POST['score1'],
@@ -61,6 +64,9 @@ if (!isset($_SESSION['login'])) {
                                 'usr' => $id_perso,
                                 'play' => $_GET['id']
                             ));
+                            $msg = 'Votre pronostic a été pris en compte !';
+                        } else {
+                            $msg = 'Une erreur est survenu, veuillez vous déconnecter puis vous reconnecter.';
                         }
                     }
                 }
@@ -80,7 +86,8 @@ if (!isset($_SESSION['login'])) {
                 <form method="post" action=<?php echo '"poules.php?id=' . $_GET['id'] . '"';?>>
                     <input type="text" name="score1" size="2" value=<?php echo '"' . $s1 . '"';?>/> <input type="text" name="score2" size="2" value=<?php echo '"' . $s2 . '"';?>/><br/>
                     <input type="submit" value="Telle est mon opinion"/>
-                </form>
+                </form><br/><br/>
+                <font style="font-family: 'Open Sans'; font-size: 20px;"><?php echo $msg;?></font>
             <?php
             }
         }

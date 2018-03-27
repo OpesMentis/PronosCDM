@@ -8,7 +8,7 @@ if (!isset($_SESSION['login'])) {
 
 <html>
 <head>
-<title>Parier sur un match | Pronostics coupe du monde 2018</title>
+<title>Résultats de la phase de groupe | Pronostics coupe du monde 2018</title>
     <link href='https://fonts.googleapis.com/css?family=Mina'
     rel='stylesheet'>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans'
@@ -145,7 +145,7 @@ if (!isset($_SESSION['login'])) {
                 <font style="font-family: 'Open Sans'; font-size: 15px;"><b>La phase de groupes</b></font><br/>
             </td>
             <td width="20%" align="center">
-                <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="">Les huitièmes de finale</a></font><br/>
+                <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="general8.php">Les huitièmes de finale</a></font><br/>
             </td>
             <td width="20%" align="center">
                 <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="">Les quarts de finale</a></font><br/>

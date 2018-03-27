@@ -21,7 +21,7 @@ if (!isset($_SESSION['login'])) {
     </div>
     <div align="right">
         <font style="font-family: 'Open Sans'; font-size: 20px;"><a href="logout.php">Déconnexion</a></font>
-    </div><br/><br/>
+    </div><br/>
     <div align="center">
         <?php
         include('connect.php');

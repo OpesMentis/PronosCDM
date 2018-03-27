@@ -26,13 +26,26 @@ if (!isset($_SESSION['login'])) {
         <?php
         include('connect.php');
         ?>
-        <font style="font-family: 'Open Sans'; font-size: 30px;"><b>Voilà ce qui va se passer...</b></font>
+        <font style="font-family: 'Open Sans'; font-size: 30px;"><b>Voilà ce qui va se passer...</b><br/><br/></font>
     </div>
     <?php
     $grp = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H');
     $req = $bdd->query("SELECT id FROM users WHERE login='" . $_SESSION['login'] . "'");
     $id_perso = $req->fetch()['id'];
     ?>
+    <table width="100%" align="center">
+        <tr>
+            <td width="20%" align="center">
+                <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="predictions.php">Matchs individuels</a></font><br/>
+            </td>
+            <td width="20%" align="center">
+                <font style="font-family: 'Open Sans'; font-size: 15px;"><b>Toute la compétition</b></font><br/>
+            </td>
+            <td width="20%" align="center">
+                <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="">Paris divers</a></font><br/>
+            </td>
+        </tr>
+    </table>
     <table width="90%" align="center">
         <form action="general.php" method="post">
         <?php
@@ -85,7 +98,6 @@ if (!isset($_SESSION['login'])) {
             }
             ?>
             <td width="20%" align="center">
-                <br/><br/>
                 <font style="font-family: 'Open Sans'; font-size: 20px;">Groupe <?php echo ' ' . $grp[$i];?></font><br/>
                 <font style="font-family: 'Open Sans'; font-size: 15px;">1<sup>er</sup> du groupe</font>
                 <select name=<?php echo '"' . $grp[$i] . '1"';?>>
@@ -121,11 +133,28 @@ if (!isset($_SESSION['login'])) {
         ?>
         <tr>
             <td width="10%" align="center">
-                <br/><br/><br/>
-                <input type="submit" value=">> Valider mes choix <<"/>
-            </td>
+                <br/>
+                <input type="submit" value="Valider"/><br/><br/><br/>
+            </td><br/>
         </tr>
     </form>
     </table>
+    <table width="90%" align="center">
+        <tr>
+            <td width="20%" align="center">
+                <font style="font-family: 'Open Sans'; font-size: 15px;"><b>La phase de groupes</b></font><br/>
+            </td>
+            <td width="20%" align="center">
+                <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="">Les huitièmes de finale</a></font><br/>
+            </td>
+            <td width="20%" align="center">
+                <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="">Les quarts de finale</a></font><br/>
+            </td>
+            <td width="20%" align="center">
+                <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="">Les demi-finales</a></font><br/>
+            </td>
+            <td width="20%" align="center">
+                <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="">La finale</a></font><br/>
+            </td>
 </body>
 </html>

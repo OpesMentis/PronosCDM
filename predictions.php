@@ -33,6 +33,19 @@ if (!isset($_SESSION['login'])) {
     <table width="100%" align="center">
         <tr>
             <td width="20%" align="center">
+                <font style="font-family: 'Open Sans'; font-size: 15px;"><b>Matchs individuels</b></font><br/><br/>
+            </td>
+            <td width="20%" align="center">
+                <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="general.php">Toute la compétition</a></font><br/><br/>
+            </td>
+            <td width="20%" align="center">
+                <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="">Paris divers</a></font><br/><br/>
+            </td>
+        </tr>
+    </table>
+    <table width="100%" align="center">
+        <tr>
+            <td width="20%" align="center">
                 <font style="font-family: 'Open Sans'; font-size: 25px;">Les matchs à venir</font><br/><br/>
             </td>
         </tr>

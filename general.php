@@ -8,7 +8,7 @@ if (!isset($_SESSION['login'])) {
 
 <html>
 <head>
-<title>Résultats de la phase de groupe | Pronostics coupe du monde 2018</title>
+<title>Résultats de la phase de groupes | Pronostics coupe du monde 2018</title>
     <link href='https://fonts.googleapis.com/css?family=Mina'
     rel='stylesheet'>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans'

@@ -78,7 +78,7 @@ if (!isset($_SESSION['login'])) {
                 <td width="20%" align="center">
                     <font style="font-family: 'Open Sans'; font-size: 20px;">Huitième de finale n°<?php echo ($i+1);?></font><br/>
                     <font style="font-family: 'Open Sans'; font-size: 15px;">Vainqueur</font>
-                    <select name=<?php echo '"' . ($i+1) . '"';?>>
+                    <select name=<?php echo '"' . ($i+1) . '" ' . ($j11 == '0' || $j22 == '0' ? 'disabled': '');?>>
                         <option value="0">--</option>
                         <?php
                         if ($j11 != '0') {
@@ -93,7 +93,7 @@ if (!isset($_SESSION['login'])) {
                 <td width="20%" align="center">
                     <font style="font-family: 'Open Sans'; font-size: 20px;">Huitième de finale n°<?php echo ($i+2);?></font><br/>
                     <font style="font-family: 'Open Sans'; font-size: 15px;">Vainqueur</font>
-                    <select name=<?php echo '"' . ($i+2) . '"';?>>
+                    <select name=<?php echo '"' . ($i+2) . '" ' . ($j12 == '0' || $j21 == '0' ? 'disabled': '');?>>
                         <option value="0">--</option>
                         <?php
                         if ($j21 != '0') {

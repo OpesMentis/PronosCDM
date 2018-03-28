@@ -47,7 +47,7 @@ if (!isset($_SESSION['login'])) {
         </tr>
     </table>
     <table width="90%" align="center">
-        <form action="general.php" method="post">
+        <form action="general8.php" method="post">
             <?php
             for ($i = 0; $i < 8; $i+=2) {
                 if ($i == 0 || $i == 4) {
@@ -74,6 +74,70 @@ if (!isset($_SESSION['login'])) {
                     $j22 = $fin8_2['id_e2'];
                     $e_j22 = $fin8_2['e2'];
                 }
+
+                $slc1 = '';
+                $slc2 = '';
+                $msg1 = '';
+                $msg2 = '';
+
+                $prono1 = $bdd->prepare("SELECT id_pari, id_e1 FROM paris_0 WHERE id_user=:id AND grp=:grp");
+                $prono1->execute(array('id' => $id_perso, 'grp' => 'H' . (string)($i+1)));
+
+                if ($data = $prono1->fetch()) {
+                    if ($data['id_e1'] != $j11 && $data['id_e1'] != $j22) {
+                        $correc = $bdd->prepare("DELETE FROM paris_0 WHERE id_pari=:id");
+                        $correc->execute(array('id' => $data['id_pari']));
+                    } else {
+                        $slc1 = $data['id_e1'];
+                    }
+                }
+
+                if (isset($_POST[(string)($i+1)]) && $_POST[(string)($i+1)] != '0' && $j11 != '0' && $j22 != '0') {
+                    if ($_POST[(string)($i+1)] == $j11 || $_POST[(string)($i+1)] == $j22) {
+                        $slc1 = $_POST[(string)($i+1)];
+                        if (!$data) {
+                            $inser = $bdd->prepare("INSERT INTO `paris_0` (`id_user`, `grp`, `id_e1`) VALUES (:id, :grp, :id_eq);");
+                            $inser->execute(array('id' => $id_perso, 'grp' => 'H' . (string)($i+1), 'id_eq' => $_POST[(string)($i+1)]));
+                            $msg1 = 'Votre choix a été pris en compte';
+                        } else {
+                            $maj = $bdd->prepare("UPDATE `paris_0` SET `id_e1` = :id_eq WHERE id_pari=:id;");
+                            $maj->execute(array('id_eq' => $_POST[(string)($i+1)], 'id' => $data['id_pari']));
+                            $msg1 = 'Votre pronostic a été mis à jour';
+                        }
+                    } else {
+                        $msg1 = 'Erreur dans la submission';
+                    }
+                }
+
+                $prono2 = $bdd->prepare("SELECT id_pari, id_e1 FROM paris_0 WHERE id_user=:id AND grp=:grp");
+                $prono2->execute(array('id' => $id_perso, 'grp' => 'H' . (string)($i+2)));
+
+                if ($data = $prono2->fetch()) {
+                    if ($data['id_e1'] != $j12 && $data['id_e1'] != $j21) {
+                        $correc = $bdd->prepare("DELETE FROM paris_0 WHERE id_pari=:id");
+                        $correc->execute(array('id' => $data['id_pari']));
+                    } else {
+                        $slc2 = $data['id_e1'];
+                    }
+                }
+
+                if (isset($_POST[(string)($i+2)]) && $_POST[(string)($i+2)] != '0' && $j12 != '0' && $j21 != '0') {
+                    if ($_POST[(string)($i+2)] == $j12 || $_POST[(string)($i+2)] == $j21) {
+                        $slc2 = $_POST[(string)($i+2)];
+                        if (!$data) {
+                            $inser = $bdd->prepare("INSERT INTO `paris_0` (`id_user`, `grp`, `id_e1`) VALUES (:id, :grp, :id_eq);");
+                            $inser->execute(array('id' => $id_perso, 'grp' => 'H' . (string)($i+2), 'id_eq' => $_POST[(string)($i+2)]));
+                            $msg2 = 'Votre choix a été pris en compte';
+                        } else {
+                            $maj = $bdd->prepare("UPDATE `paris_0` SET `id_e1` = :id_eq WHERE id_pari=:id;");
+                            $maj->execute(array('id_eq' => $_POST[(string)($i+2)], 'id' => $data['id_pari']));
+                            $msg2 = 'Votre pronostic a été mis à jour';
+                        }
+                    } else {
+                        $msg2 = 'Erreur dans la submission';
+                    }
+                }
+
                 ?>
                 <td width="20%" align="center">
                     <font style="font-family: 'Open Sans'; font-size: 20px;">Huitième de finale n°<?php echo ($i+1);?></font><br/>
@@ -82,13 +146,14 @@ if (!isset($_SESSION['login'])) {
                         <option value="0">--</option>
                         <?php
                         if ($j11 != '0') {
-                            echo '<option value="' . $j11 . '">' . $e_j11 . '</option>';
+                            echo '<option value="' . $j11 . '"' . ($slc1 == $j11 ? ' selected': '') . '>' . $e_j11 . '</option>';
                         }
                         if ($j22 != '0') {
-                            echo '<option value="' . $j22 . '">' . $e_j22 . '</option>';
+                            echo '<option value="' . $j22 . '"' . ($slc1 == $j22 ? ' selected': '') . '>' . $e_j22 . '</option>';
                         }
                         ?>
                     </select><br/>
+                    <font style="font-family: 'Open Sans'; font-size: 10px;"><?php echo $msg1;?></font>
                 </td>
                 <td width="20%" align="center">
                     <font style="font-family: 'Open Sans'; font-size: 20px;">Huitième de finale n°<?php echo ($i+2);?></font><br/>
@@ -97,13 +162,14 @@ if (!isset($_SESSION['login'])) {
                         <option value="0">--</option>
                         <?php
                         if ($j21 != '0') {
-                            echo '<option value="' . $j21 . '">' . $e_j21 . '</option>';
+                            echo '<option value="' . $j21 . '"' . ($slc2 == $j21 ? ' selected': '') . '>' . $e_j21 . '</option>';
                         }
                         if ($j12 != '0') {
-                            echo '<option value="' . $j12 . '">' . $e_j12 . '</option>';
+                            echo '<option value="' . $j12 . '"' . ($slc2 == $j12 ? ' selected': '') . '>' . $e_j12 . '</option>';
                         }
                         ?>
                     </select><br/>
+                    <font style="font-family: 'Open Sans'; font-size: 10px;"><?php echo $msg2;?></font>
                 </td>
                 <?php
                 if ($i == 3 || $i == 7) {

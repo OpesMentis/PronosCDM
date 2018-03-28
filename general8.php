@@ -98,14 +98,14 @@ if (!isset($_SESSION['login'])) {
                         if (!$data) {
                             $inser = $bdd->prepare("INSERT INTO `paris_0` (`id_user`, `grp`, `id_e1`) VALUES (:id, :grp, :id_eq);");
                             $inser->execute(array('id' => $id_perso, 'grp' => 'H' . (string)($i+1), 'id_eq' => $_POST[(string)($i+1)]));
-                            $msg1 = 'Votre choix a été pris en compte';
+                            $msg1 = 'Votre choix a été pris en compte.';
                         } else {
                             $maj = $bdd->prepare("UPDATE `paris_0` SET `id_e1` = :id_eq WHERE id_pari=:id;");
                             $maj->execute(array('id_eq' => $_POST[(string)($i+1)], 'id' => $data['id_pari']));
-                            $msg1 = 'Votre pronostic a été mis à jour';
+                            $msg1 = 'Votre choix a été pris en compte.';
                         }
                     } else {
-                        $msg1 = 'Erreur dans la submission';
+                        $msg1 = 'Un problème a été rencontré.';
                     }
                 }
 
@@ -127,14 +127,14 @@ if (!isset($_SESSION['login'])) {
                         if (!$data) {
                             $inser = $bdd->prepare("INSERT INTO `paris_0` (`id_user`, `grp`, `id_e1`) VALUES (:id, :grp, :id_eq);");
                             $inser->execute(array('id' => $id_perso, 'grp' => 'H' . (string)($i+2), 'id_eq' => $_POST[(string)($i+2)]));
-                            $msg2 = 'Votre choix a été pris en compte';
+                            $msg2 = 'Votre choix a été pris en compte.';
                         } else {
                             $maj = $bdd->prepare("UPDATE `paris_0` SET `id_e1` = :id_eq WHERE id_pari=:id;");
                             $maj->execute(array('id_eq' => $_POST[(string)($i+2)], 'id' => $data['id_pari']));
-                            $msg2 = 'Votre pronostic a été mis à jour';
+                            $msg2 = 'Votre choix a été pris en compte.';
                         }
                     } else {
-                        $msg2 = 'Erreur dans la submission';
+                        $msg2 = 'Un problème a été rencontré.';
                     }
                 }
 

@@ -144,7 +144,7 @@ if (!isset($_SESSION['login'])) {
                 <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="">La petite finale</b></font><br/>
             </td>
             <td width="15%" align="center">
-                <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="">La finale</a></font><br/>
+                <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="general1.php">La finale</a></font><br/>
             </td>
 </body>
 </html>

@@ -49,12 +49,12 @@ if (!isset($_SESSION['login'])) {
     <table width="90%" align="center">
         <form action="general8.php" method="post">
             <?php
-            for ($i = 0; $i < 8; $i+=2) {
-                if ($i == 0 || $i == 4) {
+            for ($i = 0; $i < 4; $i+=1) {
+                if ($i == 0 || $i == 2) {
                     echo '<tr>';
                 }
-                $fin8_1 = $bdd->query("SELECT id_e1, eq1.pays AS e1, id_e2, eq2.pays AS e2 FROM paris_0 JOIN teams eq1 ON paris_0.id_e1 = eq1.id JOIN teams eq2 ON paris_0.id_e2 = eq2.id WHERE grp='" . $grp[$i] . "'")->fetch();
-                $fin8_2 = $bdd->query("SELECT id_e1, eq1.pays AS e1, id_e2, eq2.pays AS e2 FROM paris_0 JOIN teams eq1 ON paris_0.id_e1 = eq1.id JOIN teams eq2 ON paris_0.id_e2 = eq2.id WHERE grp='" . $grp[$i+1] . "'")->fetch();
+                $fin8_1 = $bdd->query("SELECT id_e1, eq1.pays AS e1, id_e2, eq2.pays AS e2 FROM paris_0 JOIN teams eq1 ON paris_0.id_e1 = eq1.id JOIN teams eq2 ON paris_0.id_e2 = eq2.id WHERE grp='" . $grp[2*$i] . "'")->fetch();
+                $fin8_2 = $bdd->query("SELECT id_e1, eq1.pays AS e1, id_e2, eq2.pays AS e2 FROM paris_0 JOIN teams eq1 ON paris_0.id_e1 = eq1.id JOIN teams eq2 ON paris_0.id_e2 = eq2.id WHERE grp='" . $grp[2*$i+1] . "'")->fetch();
 
                 if (!$fin8_1) {
                     $j11 = '0';
@@ -110,7 +110,7 @@ if (!isset($_SESSION['login'])) {
                 }
 
                 $prono2 = $bdd->prepare("SELECT id_pari, id_e1 FROM paris_0 WHERE id_user=:id AND grp=:grp");
-                $prono2->execute(array('id' => $id_perso, 'grp' => 'H' . (string)($i+2)));
+                $prono2->execute(array('id' => $id_perso, 'grp' => 'H' . (string)($i+5)));
 
                 if ($data = $prono2->fetch()) {
                     if ($data['id_e1'] != $j12 && $data['id_e1'] != $j21) {
@@ -121,16 +121,16 @@ if (!isset($_SESSION['login'])) {
                     }
                 }
 
-                if (isset($_POST[(string)($i+2)]) && $_POST[(string)($i+2)] != '0' && $j12 != '0' && $j21 != '0') {
-                    if ($_POST[(string)($i+2)] == $j12 || $_POST[(string)($i+2)] == $j21) {
-                        $slc2 = $_POST[(string)($i+2)];
+                if (isset($_POST[(string)($i+5)]) && $_POST[(string)($i+5)] != '0' && $j12 != '0' && $j21 != '0') {
+                    if ($_POST[(string)($i+5)] == $j12 || $_POST[(string)($i+5)] == $j21) {
+                        $slc2 = $_POST[(string)($i+5)];
                         if (!$data) {
                             $inser = $bdd->prepare("INSERT INTO `paris_0` (`id_user`, `grp`, `id_e1`) VALUES (:id, :grp, :id_eq);");
-                            $inser->execute(array('id' => $id_perso, 'grp' => 'H' . (string)($i+2), 'id_eq' => $_POST[(string)($i+2)]));
+                            $inser->execute(array('id' => $id_perso, 'grp' => 'H' . (string)($i+5), 'id_eq' => $_POST[(string)($i+5)]));
                             $msg2 = 'Votre choix a été pris en compte.';
                         } else {
                             $maj = $bdd->prepare("UPDATE `paris_0` SET `id_e1` = :id_eq WHERE id_pari=:id;");
-                            $maj->execute(array('id_eq' => $_POST[(string)($i+2)], 'id' => $data['id_pari']));
+                            $maj->execute(array('id_eq' => $_POST[(string)($i+5)], 'id' => $data['id_pari']));
                             $msg2 = 'Votre choix a été pris en compte.';
                         }
                     } else {
@@ -140,7 +140,7 @@ if (!isset($_SESSION['login'])) {
 
                 ?>
                 <td width="20%" align="center">
-                    <font style="font-family: 'Open Sans'; font-size: 20px;">Huitième de finale n°<?php echo ($i+1);?></font><br/>
+                    <font style="font-family: 'Open Sans'; font-size: 20px;">Huitième de finale n°<?php echo (2*$i+1);?></font><br/>
                     <font style="font-family: 'Open Sans'; font-size: 15px;">Vainqueur</font>
                     <select name=<?php echo '"' . ($i+1) . '" ' . ($j11 == '0' || $j22 == '0' ? 'disabled': '');?>>
                         <option value="0">--</option>
@@ -156,9 +156,9 @@ if (!isset($_SESSION['login'])) {
                     <font style="font-family: 'Open Sans'; font-size: 10px;"><?php echo $msg1;?></font>
                 </td>
                 <td width="20%" align="center">
-                    <font style="font-family: 'Open Sans'; font-size: 20px;">Huitième de finale n°<?php echo ($i+2);?></font><br/>
+                    <font style="font-family: 'Open Sans'; font-size: 20px;">Huitième de finale n°<?php echo (2*$i+2);?></font><br/>
                     <font style="font-family: 'Open Sans'; font-size: 15px;">Vainqueur</font>
-                    <select name=<?php echo '"' . ($i+2) . '" ' . ($j12 == '0' || $j21 == '0' ? 'disabled': '');?>>
+                    <select name=<?php echo '"' . ($i+5) . '" ' . ($j12 == '0' || $j21 == '0' ? 'disabled': '');?>>
                         <option value="0">--</option>
                         <?php
                         if ($j21 != '0') {
@@ -172,7 +172,7 @@ if (!isset($_SESSION['login'])) {
                     <font style="font-family: 'Open Sans'; font-size: 10px;"><?php echo $msg2;?></font>
                 </td>
                 <?php
-                if ($i == 3 || $i == 7) {
+                if ($i == 1 || $i == 3) {
                     echo '</tr>';
                 }
             }?>

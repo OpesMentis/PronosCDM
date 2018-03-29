@@ -151,7 +151,7 @@ if (!isset($_SESSION['login'])) {
                 <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="general4.php">Les quarts de finale</a></font><br/>
             </td>
             <td width="20%" align="center">
-                <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="">Les demi-finales</a></font><br/>
+                <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="general2.php">Les demi-finales</a></font><br/>
             </td>
             <td width="20%" align="center">
                 <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="">La finale</a></font><br/>

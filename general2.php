@@ -128,19 +128,22 @@ if (!isset($_SESSION['login'])) {
     </table>
     <table width="90%" align="center">
         <tr>
-            <td width="20%" align="center">
+            <td width="15%" align="center">
                 <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="general.php">La phase de groupes</a></font><br/>
             </td>
-            <td width="20%" align="center">
+            <td width="15%" align="center">
                 <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="general8.php">Les huitièmes de finale</b></font><br/>
             </td>
-            <td width="20%" align="center">
+            <td width="15%" align="center">
                 <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="general4.php">Les quarts de finale</a></font><br/>
             </td>
-            <td width="20%" align="center">
+            <td width="15%" align="center">
                 <font style="font-family: 'Open Sans'; font-size: 15px;"><b>Les demi-finales</b></font><br/>
             </td>
-            <td width="20%" align="center">
+            <td width="15%" align="center">
+                <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="">La petite finale</b></font><br/>
+            </td>
+            <td width="15%" align="center">
                 <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="">La finale</a></font><br/>
             </td>
 </body>

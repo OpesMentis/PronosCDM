@@ -193,7 +193,7 @@ if (!isset($_SESSION['login'])) {
                 <font style="font-family: 'Open Sans'; font-size: 15px;"><b>Les huitièmes de finale</b></font><br/>
             </td>
             <td width="20%" align="center">
-                <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="">Les quarts de finale</a></font><br/>
+                <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="general4.php">Les quarts de finale</a></font><br/>
             </td>
             <td width="20%" align="center">
                 <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="">Les demi-finales</a></font><br/>

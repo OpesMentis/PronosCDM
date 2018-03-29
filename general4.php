@@ -46,7 +46,7 @@ if (!isset($_SESSION['login'])) {
         </tr>
     </table>
     <table width="90%" align="center">
-        <form action="general8.php" method="post">
+        <form action="general4.php" method="post">
             <tr>
             <?php
             for ($i = 0; $i < 4; $i+=1) {

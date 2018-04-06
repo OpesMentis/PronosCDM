@@ -89,9 +89,27 @@ if (!isset($_SESSION['login'])) {
                         if (!$data) {
                             $inser = $bdd->prepare("INSERT INTO `paris_0` (`id_user`, `grp`, `id_e1`) VALUES (:id, :grp, :id_eq);");
                             $inser->execute(array('id' => $id_perso, 'grp' => 'D' . (string)($i+1), 'id_eq' => $_POST[(string)($i+1)]));
+
+                            if ($_POST[(string)($i+1)] == $j1) {
+                                $inser = $bdd->prepare("INSERT INTO `paris_0` (`id_user`, `grp`, `id_e2`) VALUES (:id, :grp, :id_eq);");
+                                $inser->execute(array('id' => $id_perso, 'grp' => 'D' . (string)($i+1), 'id_eq' => $j2));
+                            } else {
+                                $inser = $bdd->prepare("INSERT INTO `paris_0` (`id_user`, `grp`, `id_e2`) VALUES (:id, :grp, :id_eq);");
+                                $inser->execute(array('id' => $id_perso, 'grp' => 'D' . (string)($i+1), 'id_eq' => $j1));
+                            }
+
                         } else {
                             $maj = $bdd->prepare("UPDATE `paris_0` SET `id_e1` = :id_eq WHERE id_pari=:id;");
                             $maj->execute(array('id_eq' => $_POST[(string)($i+1)], 'id' => $data['id_pari']));
+
+                            if ($_POST[(string)($i+1)] == $j1) {
+                                $maj = $bdd->prepare("UPDATE `paris_0` SET `id_e2` = :id_eq WHERE id_pari=:id;");
+                                $maj->execute(array('id_eq' => $j2, 'id' => $data['id_pari']));
+                            } else {
+                                $maj = $bdd->prepare("UPDATE `paris_0` SET `id_e2` = :id_eq WHERE id_pari=:id;");
+                                $maj->execute(array('id_eq' => $j1, 'id' => $data['id_pari']));
+                            }
+
                         }
                     } else {
                         $msg = 'Un problème a été rencontré.';
@@ -141,7 +159,7 @@ if (!isset($_SESSION['login'])) {
                 <font style="font-family: 'Open Sans'; font-size: 15px;"><b>Les demi-finales</b></font><br/>
             </td>
             <td width="15%" align="center">
-                <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="">La petite finale</b></font><br/>
+                <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="petitefinale.php">La petite finale</b></font><br/>
             </td>
             <td width="15%" align="center">
                 <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="general1.php">La finale</a></font><br/>

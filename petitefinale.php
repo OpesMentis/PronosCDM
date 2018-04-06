@@ -8,7 +8,7 @@ if (!isset($_SESSION['login'])) {
 
 <html>
 <head>
-<title>Résultat de la finale | Pronostics coupe du monde 2018</title>
+<title>Résultat de la petite finale | Pronostics coupe du monde 2018</title>
     <link href='https://fonts.googleapis.com/css?family=Mina'
     rel='stylesheet'>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans'
@@ -46,30 +46,30 @@ if (!isset($_SESSION['login'])) {
         </tr>
     </table>
     <table width="90%" align="center">
-        <form action="general1.php" method="post">
+        <form action="petitefinale.php" method="post">
             <tr>
             <?php
-            $fin_1 = $bdd->query("SELECT id_e1, eq1.pays AS e1 FROM paris_0 JOIN teams eq1 ON paris_0.id_e1 = eq1.id WHERE grp='D1'")->fetch();
-            $fin_2 = $bdd->query("SELECT id_e1, eq1.pays AS e1 FROM paris_0 JOIN teams eq1 ON paris_0.id_e1 = eq1.id WHERE grp='D2'")->fetch();
+            $fin_1 = $bdd->query("SELECT id_e2, eq1.pays AS e2 FROM paris_0 JOIN teams eq1 ON paris_0.id_e2 = eq1.id WHERE grp='D1'")->fetch();
+            $fin_2 = $bdd->query("SELECT id_e2, eq1.pays AS e2 FROM paris_0 JOIN teams eq1 ON paris_0.id_e2 = eq1.id WHERE grp='D2'")->fetch();
 
             if (!$fin_1) {
                 $j1 = '0';
             } else {
-                $j1 = $fin_1['id_e1'];
-                $e_j1 = $fin_1['e1'];
+                $j1 = $fin_1['id_e2'];
+                $e_j1 = $fin_1['e2'];
             }
             if (!$fin_2) {
                 $j2 = '0';
             } else {
-                $j2 = $fin_2['id_e1'];
-                $e_j2 = $fin_2['e1'];
+                $j2 = $fin_2['id_e2'];
+                $e_j2 = $fin_2['e2'];
             }
 
             $slc = '';
             $msg = '';
 
             $prono = $bdd->prepare("SELECT id_pari, id_e1 FROM paris_0 WHERE id_user=:id AND grp=:grp");
-            $prono->execute(array('id' => $id_perso, 'grp' => 'F0'));
+            $prono->execute(array('id' => $id_perso, 'grp' => 'F1'));
 
             if ($data = $prono->fetch()) {
                 if ($data['id_e1'] != $j1 && $data['id_e1'] != $j2) {
@@ -86,7 +86,7 @@ if (!isset($_SESSION['login'])) {
                     $msg = 'Votre choix a été pris en compte.';
                     if (!$data) {
                         $inser = $bdd->prepare("INSERT INTO `paris_0` (`id_user`, `grp`, `id_e1`) VALUES (:id, :grp, :id_eq);");
-                        $inser->execute(array('id' => $id_perso, 'grp' => 'F0', 'id_eq' => $_POST['1']));
+                        $inser->execute(array('id' => $id_perso, 'grp' => 'F1', 'id_eq' => $_POST['1']));
                     } else {
                         $maj = $bdd->prepare("UPDATE `paris_0` SET `id_e1` = :id_eq WHERE id_pari=:id;");
                         $maj->execute(array('id_eq' => $_POST['1'], 'id' => $data['id_pari']));
@@ -98,7 +98,7 @@ if (!isset($_SESSION['login'])) {
 
             ?>
             <td width="20%" align="center">
-                <font style="font-family: 'Open Sans'; font-size: 20px;">Finale</font><br/>
+                <font style="font-family: 'Open Sans'; font-size: 20px;">Petite finale</font><br/>
                 <font style="font-family: 'Open Sans'; font-size: 15px;">Vainqueur</font>
                 <select name=<?php echo '"1" ' . ($j1 == '0' || $j2 == '0' ? 'disabled': '');?>>
                     <option value="0">--</option>
@@ -137,10 +137,10 @@ if (!isset($_SESSION['login'])) {
                 <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="general2.php">Les demi-finales</a></font><br/>
             </td>
             <td width="15%" align="center">
-                <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="petitefinale.php">La petite finale</b></font><br/>
+                <font style="font-family: 'Open Sans'; font-size: 15px;"><b>La petite finale</b></font><br/>
             </td>
             <td width="15%" align="center">
-                <font style="font-family: 'Open Sans'; font-size: 15px;"><b>La finale</b></font><br/>
+                <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="general1.php">La finale</a></font><br/>
             </td>
 </body>
 </html>

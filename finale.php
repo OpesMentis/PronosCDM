@@ -125,16 +125,16 @@ if (!isset($_SESSION['login'])) {
     <table width="90%" align="center">
         <tr>
             <td width="15%" align="center">
-                <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="general.php">La phase de groupes</a></font><br/>
+                <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="groupes.php">La phase de groupes</a></font><br/>
             </td>
             <td width="15%" align="center">
-                <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="general8.php">Les huitièmes de finale</b></font><br/>
+                <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="huitiemes.php">Les huitièmes de finale</b></font><br/>
             </td>
             <td width="15%" align="center">
-                <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="general4.php">Les quarts de finale</a></font><br/>
+                <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="quarts.php">Les quarts de finale</a></font><br/>
             </td>
             <td width="15%" align="center">
-                <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="general2.php">Les demi-finales</a></font><br/>
+                <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="demifinales.php">Les demi-finales</a></font><br/>
             </td>
             <td width="15%" align="center">
                 <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="petitefinale.php">La petite finale</b></font><br/>

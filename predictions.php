@@ -36,7 +36,7 @@ if (!isset($_SESSION['login'])) {
                 <font style="font-family: 'Open Sans'; font-size: 15px;"><b>Matchs individuels</b></font><br/><br/>
             </td>
             <td width="20%" align="center">
-                <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="general.php">Toute la compétition</a></font><br/><br/>
+                <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="groupes.php">Toute la compétition</a></font><br/><br/>
             </td>
             <td width="20%" align="center">
                 <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="">Paris divers</a></font><br/><br/>

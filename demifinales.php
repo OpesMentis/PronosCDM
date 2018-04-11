@@ -46,7 +46,7 @@ if (!isset($_SESSION['login'])) {
         </tr>
     </table>
     <table width="90%" align="center">
-        <form action="general2.php" method="post">
+        <form action="demifinales.php" method="post">
             <tr>
             <?php
             for ($i = 0; $i < 2; $i+=1) {

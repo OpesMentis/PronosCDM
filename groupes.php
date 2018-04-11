@@ -47,7 +47,7 @@ if (!isset($_SESSION['login'])) {
         </tr>
     </table>
     <table width="90%" align="center">
-        <form action="general.php" method="post">
+        <form action="groupes.php" method="post">
         <?php
         $pays = $bdd->query("SELECT pays FROM teams ORDER BY groupe, id");
         for ($i = 0; $i < count($grp); $i++) {

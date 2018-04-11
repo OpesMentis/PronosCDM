@@ -46,7 +46,7 @@ if (!isset($_SESSION['login'])) {
         </tr>
     </table>
     <table width="90%" align="center">
-        <form action="general1.php" method="post">
+        <form action="finale.php" method="post">
             <tr>
             <?php
             $fin_1 = $bdd->query("SELECT id_e1, eq1.pays AS e1 FROM paris_0 JOIN teams eq1 ON paris_0.id_e1 = eq1.id WHERE grp='D1'")->fetch();

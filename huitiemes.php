@@ -47,7 +47,7 @@ if (!isset($_SESSION['login'])) {
         </tr>
     </table>
     <table width="90%" align="center">
-        <form action="general8.php" method="post">
+        <form action="huitiemes.php" method="post">
             <?php
             for ($i = 0; $i < 4; $i+=1) {
                 if ($i == 0 || $i == 2) {

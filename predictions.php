@@ -66,9 +66,9 @@ if (!isset($_SESSION['login'])) {
                     <font style="font-family: 'Open Sans'; font-size: 10px;"><b>
                         <?php
                         if (!$res) {
-                            echo '<a href="poules.php?id=' . $item['id_match'] . '">AUCUN PARI POUR L\'INSTANT</a>';
+                            echo '<a href="match.php?id=' . $item['id_match'] . '">AUCUN PARI POUR L\'INSTANT</a>';
                         } else {
-                            echo '<a href="poules.php?id=' . $item['id_match'] . '">VOUS PRÉVOYEZ : ' . $res['score1'] . '-' . $res['score2'] . '</a>';
+                            echo '<a href="match.php?id=' . $item['id_match'] . '">VOUS PRÉVOYEZ : ' . $res['score1'] . '-' . $res['score2'] . '</a>';
                         }
                         ?>
                     </b></font><br/><br/><br/>

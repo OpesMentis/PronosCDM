@@ -21,8 +21,10 @@ if (!isset($_SESSION['login'])) {
     </div>
     <div align="right">
         <font style="font-family: 'Open Sans'; font-size: 20px;"><a href="logout.php">Déconnexion</a></font>
-    </div><br/><br/>
+    </div><br/>
     <div align="center">
+        <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="predictions.php">Revenir à la liste des matchs</a></font><br/><br/>
+
         <?php
         include('connect.php');
 
@@ -68,6 +70,8 @@ if (!isset($_SESSION['login'])) {
                         } else {
                             $msg = 'Une erreur est survenu, veuillez vous déconnecter puis vous reconnecter.';
                         }
+                    } else {
+                        $msg = 'Un problème a été détecté dans les valeurs proposées.';
                     }
                 }
                 $pari = $bdd->prepare("SELECT score1, score2 FROM paris_q JOIN users ON users.id = paris_q.id_user WHERE id_match=:play AND users.login=:usr");
@@ -83,10 +87,10 @@ if (!isset($_SESSION['login'])) {
                 ?>
                 <font style="font-family: 'Open Sans'; font-size: 20px;"><?php echo 'GROUPE ' . $match['groupe'] . ' ⋅ ' . $match['date'];?><br/><br/></font>
                 <font style="font-family: 'Open Sans'; font-size: 35px;"><?php echo $match['e1'] . ' — ' . $match['e2'];?><br/></font>
-                <form method="post" action=<?php echo '"poules.php?id=' . $_GET['id'] . '"';?>>
+                <form method="post" action=<?php echo '"match.php?id=' . $_GET['id'] . '"';?>>
                     <input type="text" name="score1" size="2" value=<?php echo '"' . $s1 . '"';?>/> <input type="text" name="score2" size="2" value=<?php echo '"' . $s2 . '"';?>/><br/>
                     <input type="submit" value="Telle est mon opinion"/>
-                </form><br/><br/>
+                </form><br/>
                 <font style="font-family: 'Open Sans'; font-size: 20px;"><?php echo $msg;?></font>
             <?php
             }

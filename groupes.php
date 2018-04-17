@@ -178,6 +178,31 @@ if (!isset($_SESSION['login'])) {
         }
     }
 
+    /* Demi-finales */
+    for ($i = 0; $i < 2; $i++) {
+        $win = $bdd->prepare("SELECT id_pari, id_e1 FROM `paris_0` WHERE grp=:groupe AND id_user=:usr");
+        $win->execute(array('groupe' => 'D' . (string)($i+1), 'usr' => $id_perso));
+        $pari = $win->fetch();
+
+        if ($i == 0) {
+            if ($winners[4*$i][0] != $pari['id_e1'] && $winners[4*$i+1][1] != $pari['id_e1'] &&
+                $winners[4*$i+2][0] != $pari['id_e1'] && $winners[4*$i+3][1] != $pari['id_e1'] &&
+                $winners[4*$i+4][0] != $pari['id_e1'] && $winners[4*$i+5][1] != $pari['id_e1'] &&
+                $winners[4*$i+6][0] != $pari['id_e1'] && $winners[4*$i+7][1] != $pari['id_e1']) {
+                $correc = $bdd->prepare("DELETE FROM paris_0 WHERE id_pari=:id");
+                $correc->execute(array('id' => $pari['id_pari']));
+            }
+        } else {
+            if ($winners[4*($i-1)][1] != $pari['id_e1'] && $winners[4*($i-1)+1][0] != $pari['id_e1'] &&
+                $winners[4*($i-1)+2][1] != $pari['id_e1'] && $winners[4*($i-1)+3][0] != $pari['id_e1'] &&
+                $winners[4*($i-1)+4][1] != $pari['id_e1'] && $winners[4*($i-1)+5][0] != $pari['id_e1'] &&
+                $winners[4*($i-1)+6][1] != $pari['id_e1'] && $winners[4*($i-1)+7][0] != $pari['id_e1']) {
+                $correc = $bdd->prepare("DELETE FROM paris_0 WHERE id_pari=:id");
+                $correc->execute(array('id' => $pari['id_pari']));
+            }
+        }
+    }
+
     ?>
 
 

@@ -182,6 +182,19 @@ if (!isset($_SESSION['login'])) {
             $correc->execute(array('id' => $pari['id_pari']));
         }
     }
+
+    /* Demi-finales */
+    for ($i = 0; $i < 2; $i++) {
+        $win = $bdd->prepare("SELECT id_pari, id_e1 FROM `paris_0` WHERE grp=:groupe AND id_user=:usr");
+        $win->execute(array('groupe' => 'D' . (string)($i+1), 'usr' => $id_perso));
+        $pari = $win->fetch();
+
+        if ($winners[4*$i] != $pari['id_e1'] && $winners[4*$i+1] != $pari['id_e1'] &&
+            $winners[4*$i+2] != $pari['id_e1'] && $winners[4*$i+3] != $pari['id_e1']) {
+            $correc = $bdd->prepare("DELETE FROM paris_0 WHERE id_pari=:id");
+            $correc->execute(array('id' => $pari['id_pari']));
+        }
+    }
     ?>
 
     <table width="90%" align="center">

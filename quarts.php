@@ -49,8 +49,8 @@ if (!isset($_SESSION['login'])) {
         <form action="quarts.php" method="post">
             <tr>
             <?php
+            $winners = [0, 0, 0, 0];
             for ($i = 0; $i < 4; $i+=1) {
-
                 $fin4_1 = $bdd->query("SELECT id_e1, eq1.pays AS e1 FROM paris_0 JOIN teams eq1 ON paris_0.id_e1 = eq1.id WHERE grp='H" . (string)(2*$i+1) . "'")->fetch();
                 $fin4_2 = $bdd->query("SELECT id_e1, eq1.pays AS e1 FROM paris_0 JOIN teams eq1 ON paris_0.id_e1 = eq1.id WHERE grp='H" . (string)(2*$i+2) . "'")->fetch();
 
@@ -67,19 +67,16 @@ if (!isset($_SESSION['login'])) {
                     $e_j2 = $fin4_2['e1'];
                 }
 
-                $slc = '';
                 $msg = '';
 
                 $prono = $bdd->prepare("SELECT id_pari, id_e1 FROM paris_0 WHERE id_user=:id AND grp=:grp");
                 $prono->execute(array('id' => $id_perso, 'grp' => 'Q' . (string)($i+1)));
 
                 $data = $prono->fetch();
-                $slc = $data['id_e1'];
+                $winners[$i] = $data['id_e1'];
 
                 if (isset($_POST[(string)($i+1)]) && $_POST[(string)($i+1)] != '0' && $j1 != '0' && $j2 != '0') {
                     if ($_POST[(string)($i+1)] == $j1 || $_POST[(string)($i+1)] == $j2) {
-                        $slc = $_POST[(string)($i+1)];
-                        $msg = 'Votre choix a été pris en compte.';
                         if (!$data) {
                             $inser = $bdd->prepare("INSERT INTO `paris_0` (`id_user`, `grp`, `id_e1`) VALUES (:id, :grp, :id_eq);");
                             $inser->execute(array('id' => $id_perso, 'grp' => 'Q' . (string)($i+1), 'id_eq' => $_POST[(string)($i+1)]));
@@ -87,6 +84,8 @@ if (!isset($_SESSION['login'])) {
                             $maj = $bdd->prepare("UPDATE `paris_0` SET `id_e1` = :id_eq WHERE id_pari=:id;");
                             $maj->execute(array('id_eq' => $_POST[(string)($i+1)], 'id' => $data['id_pari']));
                         }
+                        $msg = 'Votre choix a été pris en compte.';
+                        $winners[$i] = $_POST[(string)($i+1)];
                     } else {
                         $msg = 'Un problème a été rencontré.';
                     }
@@ -100,10 +99,10 @@ if (!isset($_SESSION['login'])) {
                         <option value="0">--</option>
                         <?php
                         if ($j1 != '0') {
-                            echo '<option value="' . $j1 . '"' . ($slc == $j1 ? ' selected': '') . '>' . $e_j1 . '</option>';
+                            echo '<option value="' . $j1 . '"' . ($winners[$i] == $j1 ? ' selected': '') . '>' . $e_j1 . '</option>';
                         }
                         if ($j2 != '0') {
-                            echo '<option value="' . $j2 . '"' . ($slc == $j2 ? ' selected': '') . '>' . $e_j2 . '</option>';
+                            echo '<option value="' . $j2 . '"' . ($winners[$i] == $j2 ? ' selected': '') . '>' . $e_j2 . '</option>';
                         }
                         ?>
                     </select><br/>
@@ -120,6 +119,19 @@ if (!isset($_SESSION['login'])) {
             </tr>
         </form>
     </table>
+    <?php
+    /* Demi-finales */
+    for ($i = 0; $i < 2; $i++) {
+        $win = $bdd->prepare("SELECT id_pari, id_e1 FROM `paris_0` WHERE grp=:groupe AND id_user=:usr");
+        $win->execute(array('groupe' => 'D' . (string)($i+1), 'usr' => $id_perso));
+        $pari = $win->fetch();
+
+        if ($winners[2*$i] != $pari['id_e1'] && $winners[2*$i+1] != $pari['id_e1']) {
+            $correc = $bdd->prepare("DELETE FROM paris_0 WHERE id_pari=:id");
+            $correc->execute(array('id' => $pari['id_pari']));
+        }
+    }
+    ?>
     <table width="90%" align="center">
         <tr>
             <td width="15%" align="center">

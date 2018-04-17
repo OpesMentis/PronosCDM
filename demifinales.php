@@ -49,6 +49,7 @@ if (!isset($_SESSION['login'])) {
         <form action="demifinales.php" method="post">
             <tr>
             <?php
+            $winners = [0, 0];
             for ($i = 0; $i < 2; $i+=1) {
 
                 $fin2_1 = $bdd->query("SELECT id_e1, eq1.pays AS e1 FROM paris_0 JOIN teams eq1 ON paris_0.id_e1 = eq1.id WHERE grp='Q" . (string)(2*$i+1) . "'")->fetch();
@@ -67,49 +68,36 @@ if (!isset($_SESSION['login'])) {
                     $e_j2 = $fin2_2['e1'];
                 }
 
-                $slc = '';
                 $msg = '';
 
                 $prono = $bdd->prepare("SELECT id_pari, id_e1 FROM paris_0 WHERE id_user=:id AND grp=:grp");
                 $prono->execute(array('id' => $id_perso, 'grp' => 'D' . (string)($i+1)));
 
-                if ($data = $prono->fetch()) {
-                    if ($data['id_e1'] != $j1 && $data['id_e1'] != $j2) {
-                        $correc = $bdd->prepare("DELETE FROM paris_0 WHERE id_pari=:id");
-                        $correc->execute(array('id' => $data['id_pari']));
-                    } else {
-                        $slc = $data['id_e1'];
-                    }
-                }
+                $data = $prono->fetch();
+                $winners[$i] = $data['id_e1'];
 
                 if (isset($_POST[(string)($i+1)]) && $_POST[(string)($i+1)] != '0' && $j1 != '0' && $j2 != '0') {
                     if ($_POST[(string)($i+1)] == $j1 || $_POST[(string)($i+1)] == $j2) {
-                        $slc = $_POST[(string)($i+1)];
+                        $winners[$i] = $_POST[(string)($i+1)];
                         $msg = 'Votre choix a été pris en compte.';
                         if (!$data) {
-                            $inser = $bdd->prepare("INSERT INTO `paris_0` (`id_user`, `grp`, `id_e1`) VALUES (:id, :grp, :id_eq);");
-                            $inser->execute(array('id' => $id_perso, 'grp' => 'D' . (string)($i+1), 'id_eq' => $_POST[(string)($i+1)]));
-
+                            $inser = $bdd->prepare("INSERT INTO `paris_0` (id_user, grp, id_e1, id_e2) VALUES (:id, :grp, :eq1, :eq2);");
                             if ($_POST[(string)($i+1)] == $j1) {
-                                $inser = $bdd->prepare("INSERT INTO `paris_0` (`id_user`, `grp`, `id_e2`) VALUES (:id, :grp, :id_eq);");
-                                $inser->execute(array('id' => $id_perso, 'grp' => 'D' . (string)($i+1), 'id_eq' => $j2));
+                                $inser->execute(array('id' => $id_perso, 'grp' => 'D' . (string)($i+1), 'eq1' => $_POST[(string)($i+1)], 'eq2' => $j2));
                             } else {
-                                $inser = $bdd->prepare("INSERT INTO `paris_0` (`id_user`, `grp`, `id_e2`) VALUES (:id, :grp, :id_eq);");
-                                $inser->execute(array('id' => $id_perso, 'grp' => 'D' . (string)($i+1), 'id_eq' => $j1));
+                                $inser->execute(array('id' => $id_perso, 'grp' => 'D' . (string)($i+1), 'eq1' => $_POST[(string)($i+1)], 'eq2' => $j1));
                             }
-
                         } else {
-                            $maj = $bdd->prepare("UPDATE `paris_0` SET `id_e1` = :id_eq WHERE id_pari=:id;");
-                            $maj->execute(array('id_eq' => $_POST[(string)($i+1)], 'id' => $data['id_pari']));
+                            $maj = $bdd->prepare("UPDATE `paris_0` SET id_e1 = :eq1 WHERE id_pari=:id;");
+                            $maj->execute(array('eq1' => $_POST[(string)($i+1)], 'id' => $data['id_pari']));
 
                             if ($_POST[(string)($i+1)] == $j1) {
-                                $maj = $bdd->prepare("UPDATE `paris_0` SET `id_e2` = :id_eq WHERE id_pari=:id;");
-                                $maj->execute(array('id_eq' => $j2, 'id' => $data['id_pari']));
+                                $maj = $bdd->prepare("UPDATE `paris_0` SET `id_e2` = :eq2 WHERE id_pari=:id;");
+                                $maj->execute(array('eq2' => $j2, 'id' => $data['id_pari']));
                             } else {
-                                $maj = $bdd->prepare("UPDATE `paris_0` SET `id_e2` = :id_eq WHERE id_pari=:id;");
-                                $maj->execute(array('id_eq' => $j1, 'id' => $data['id_pari']));
+                                $maj = $bdd->prepare("UPDATE `paris_0` SET `id_e2` = :eq2 WHERE id_pari=:id;");
+                                $maj->execute(array('eq2' => $j1, 'id' => $data['id_pari']));
                             }
-
                         }
                     } else {
                         $msg = 'Un problème a été rencontré.';
@@ -124,10 +112,10 @@ if (!isset($_SESSION['login'])) {
                         <option value="0">--</option>
                         <?php
                         if ($j1 != '0') {
-                            echo '<option value="' . $j1 . '"' . ($slc == $j1 ? ' selected': '') . '>' . $e_j1 . '</option>';
+                            echo '<option value="' . $j1 . '"' . ($winners[$i] == $j1 ? ' selected': '') . '>' . $e_j1 . '</option>';
                         }
                         if ($j2 != '0') {
-                            echo '<option value="' . $j2 . '"' . ($slc == $j2 ? ' selected': '') . '>' . $e_j2 . '</option>';
+                            echo '<option value="' . $j2 . '"' . ($winners[$i] == $j2 ? ' selected': '') . '>' . $e_j2 . '</option>';
                         }
                         ?>
                     </select><br/>

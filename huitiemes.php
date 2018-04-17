@@ -83,14 +83,7 @@ if (!isset($_SESSION['login'])) {
                 $prono1 = $bdd->prepare("SELECT id_pari, id_e1 FROM paris_0 WHERE id_user=:id AND grp=:grp");
                 $prono1->execute(array('id' => $id_perso, 'grp' => 'H' . (string)($i+1)));
 
-                if ($data = $prono1->fetch()) {
-                    if ($data['id_e1'] != $j11 && $data['id_e1'] != $j22) {
-                        $correc = $bdd->prepare("DELETE FROM paris_0 WHERE id_pari=:id");
-                        $correc->execute(array('id' => $data['id_pari']));
-                    } else {
-                        $slc1 = $data['id_e1'];
-                    }
-                }
+                $data = $prono1->fetch();
 
                 if (isset($_POST[(string)($i+1)]) && $_POST[(string)($i+1)] != '0' && $j11 != '0' && $j22 != '0') {
                     if ($_POST[(string)($i+1)] == $j11 || $_POST[(string)($i+1)] == $j22) {
@@ -112,14 +105,7 @@ if (!isset($_SESSION['login'])) {
                 $prono2 = $bdd->prepare("SELECT id_pari, id_e1 FROM paris_0 WHERE id_user=:id AND grp=:grp");
                 $prono2->execute(array('id' => $id_perso, 'grp' => 'H' . (string)($i+5)));
 
-                if ($data = $prono2->fetch()) {
-                    if ($data['id_e1'] != $j12 && $data['id_e1'] != $j21) {
-                        $correc = $bdd->prepare("DELETE FROM paris_0 WHERE id_pari=:id");
-                        $correc->execute(array('id' => $data['id_pari']));
-                    } else {
-                        $slc2 = $data['id_e1'];
-                    }
-                }
+                $data = $prono2->fetch();
 
                 if (isset($_POST[(string)($i+5)]) && $_POST[(string)($i+5)] != '0' && $j12 != '0' && $j21 != '0') {
                     if ($_POST[(string)($i+5)] == $j12 || $_POST[(string)($i+5)] == $j21) {

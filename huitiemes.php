@@ -84,6 +84,7 @@ if (!isset($_SESSION['login'])) {
                 $prono1->execute(array('id' => $id_perso, 'grp' => 'H' . (string)($i+1)));
 
                 $data = $prono1->fetch();
+                $slc1 = $data['id_e1'];
 
                 if (isset($_POST[(string)($i+1)]) && $_POST[(string)($i+1)] != '0' && $j11 != '0' && $j22 != '0') {
                     if ($_POST[(string)($i+1)] == $j11 || $_POST[(string)($i+1)] == $j22) {
@@ -106,6 +107,7 @@ if (!isset($_SESSION['login'])) {
                 $prono2->execute(array('id' => $id_perso, 'grp' => 'H' . (string)($i+5)));
 
                 $data = $prono2->fetch();
+                $slc2 = $data['id_e1'];
 
                 if (isset($_POST[(string)($i+5)]) && $_POST[(string)($i+5)] != '0' && $j12 != '0' && $j21 != '0') {
                     if ($_POST[(string)($i+5)] == $j12 || $_POST[(string)($i+5)] == $j21) {

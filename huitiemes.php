@@ -49,6 +49,7 @@ if (!isset($_SESSION['login'])) {
     <table width="90%" align="center">
         <form action="huitiemes.php" method="post">
             <?php
+            $winners = [0, 0, 0, 0, 0, 0, 0, 0];
             for ($i = 0; $i < 4; $i+=1) {
                 if ($i == 0 || $i == 2) {
                     echo '<tr>';
@@ -75,8 +76,6 @@ if (!isset($_SESSION['login'])) {
                     $e_j22 = $fin8_2['e2'];
                 }
 
-                $slc1 = '';
-                $slc2 = '';
                 $msg1 = '';
                 $msg2 = '';
 
@@ -84,20 +83,19 @@ if (!isset($_SESSION['login'])) {
                 $prono1->execute(array('id' => $id_perso, 'grp' => 'H' . (string)($i+1)));
 
                 $data = $prono1->fetch();
-                $slc1 = $data['id_e1'];
+                $winners[$i] = $data['id_e1'];
 
                 if (isset($_POST[(string)($i+1)]) && $_POST[(string)($i+1)] != '0' && $j11 != '0' && $j22 != '0') {
                     if ($_POST[(string)($i+1)] == $j11 || $_POST[(string)($i+1)] == $j22) {
-                        $slc1 = $_POST[(string)($i+1)];
                         if (!$data) {
                             $inser = $bdd->prepare("INSERT INTO `paris_0` (`id_user`, `grp`, `id_e1`) VALUES (:id, :grp, :id_eq);");
                             $inser->execute(array('id' => $id_perso, 'grp' => 'H' . (string)($i+1), 'id_eq' => $_POST[(string)($i+1)]));
-                            $msg1 = 'Votre choix a été pris en compte.';
                         } else {
                             $maj = $bdd->prepare("UPDATE `paris_0` SET `id_e1` = :id_eq WHERE id_pari=:id;");
                             $maj->execute(array('id_eq' => $_POST[(string)($i+1)], 'id' => $data['id_pari']));
-                            $msg1 = 'Votre choix a été pris en compte.';
                         }
+                        $msg1 = 'Votre choix a été pris en compte.';
+                        $winners[$i] = $_POST[(string)($i+1)];
                     } else {
                         $msg1 = 'Un problème a été rencontré.';
                     }
@@ -107,20 +105,19 @@ if (!isset($_SESSION['login'])) {
                 $prono2->execute(array('id' => $id_perso, 'grp' => 'H' . (string)($i+5)));
 
                 $data = $prono2->fetch();
-                $slc2 = $data['id_e1'];
+                $winners[$i+4] = $data['id_e1'];
 
                 if (isset($_POST[(string)($i+5)]) && $_POST[(string)($i+5)] != '0' && $j12 != '0' && $j21 != '0') {
                     if ($_POST[(string)($i+5)] == $j12 || $_POST[(string)($i+5)] == $j21) {
-                        $slc2 = $_POST[(string)($i+5)];
                         if (!$data) {
                             $inser = $bdd->prepare("INSERT INTO `paris_0` (`id_user`, `grp`, `id_e1`) VALUES (:id, :grp, :id_eq);");
                             $inser->execute(array('id' => $id_perso, 'grp' => 'H' . (string)($i+5), 'id_eq' => $_POST[(string)($i+5)]));
-                            $msg2 = 'Votre choix a été pris en compte.';
                         } else {
                             $maj = $bdd->prepare("UPDATE `paris_0` SET `id_e1` = :id_eq WHERE id_pari=:id;");
                             $maj->execute(array('id_eq' => $_POST[(string)($i+5)], 'id' => $data['id_pari']));
-                            $msg2 = 'Votre choix a été pris en compte.';
                         }
+                        $msg2 = 'Votre choix a été pris en compte.';
+                        $winners[$i+4] = $_POST[(string)($i+5)];
                     } else {
                         $msg2 = 'Un problème a été rencontré.';
                     }
@@ -134,10 +131,10 @@ if (!isset($_SESSION['login'])) {
                         <option value="0">--</option>
                         <?php
                         if ($j11 != '0') {
-                            echo '<option value="' . $j11 . '"' . ($slc1 == $j11 ? ' selected': '') . '>' . $e_j11 . '</option>';
+                            echo '<option value="' . $j11 . '"' . ($winners[$i] == $j11 ? ' selected': '') . '>' . $e_j11 . '</option>';
                         }
                         if ($j22 != '0') {
-                            echo '<option value="' . $j22 . '"' . ($slc1 == $j22 ? ' selected': '') . '>' . $e_j22 . '</option>';
+                            echo '<option value="' . $j22 . '"' . ($winners[$i] == $j22 ? ' selected': '') . '>' . $e_j22 . '</option>';
                         }
                         ?>
                     </select><br/>
@@ -150,10 +147,10 @@ if (!isset($_SESSION['login'])) {
                         <option value="0">--</option>
                         <?php
                         if ($j21 != '0') {
-                            echo '<option value="' . $j21 . '"' . ($slc2 == $j21 ? ' selected': '') . '>' . $e_j21 . '</option>';
+                            echo '<option value="' . $j21 . '"' . ($winners[$i+4] == $j21 ? ' selected': '') . '>' . $e_j21 . '</option>';
                         }
                         if ($j12 != '0') {
-                            echo '<option value="' . $j12 . '"' . ($slc2 == $j12 ? ' selected': '') . '>' . $e_j12 . '</option>';
+                            echo '<option value="' . $j12 . '"' . ($winners[$i+4] == $j12 ? ' selected': '') . '>' . $e_j12 . '</option>';
                         }
                         ?>
                     </select><br/>
@@ -172,6 +169,21 @@ if (!isset($_SESSION['login'])) {
             </tr>
         </form>
     </table>
+
+    <?php
+    /* Quarts de finales */
+    for ($i = 0; $i < 4; $i++) {
+        $win = $bdd->prepare("SELECT id_pari, id_e1 FROM `paris_0` WHERE grp=:groupe AND id_user=:usr");
+        $win->execute(array('groupe' => 'Q' . (string)($i+1), 'usr' => $id_perso));
+        $pari = $win->fetch();
+
+        if ($winners[2*$i] != $pari['id_e1'] && $winners[2*$i+1] != $pari['id_e1']) {
+            $correc = $bdd->prepare("DELETE FROM paris_0 WHERE id_pari=:id");
+            $correc->execute(array('id' => $pari['id_pari']));
+        }
+    }
+    ?>
+
     <table width="90%" align="center">
         <tr>
             <td width="15%" align="center">

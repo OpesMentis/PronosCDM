@@ -73,14 +73,8 @@ if (!isset($_SESSION['login'])) {
                 $prono = $bdd->prepare("SELECT id_pari, id_e1 FROM paris_0 WHERE id_user=:id AND grp=:grp");
                 $prono->execute(array('id' => $id_perso, 'grp' => 'Q' . (string)($i+1)));
 
-                if ($data = $prono->fetch()) {
-                    if ($data['id_e1'] != $j1 && $data['id_e1'] != $j2) {
-                        $correc = $bdd->prepare("DELETE FROM paris_0 WHERE id_pari=:id");
-                        $correc->execute(array('id' => $data['id_pari']));
-                    } else {
-                        $slc = $data['id_e1'];
-                    }
-                }
+                $data = $prono->fetch();
+                $slc = $data['id_e1'];
 
                 if (isset($_POST[(string)($i+1)]) && $_POST[(string)($i+1)] != '0' && $j1 != '0' && $j2 != '0') {
                     if ($_POST[(string)($i+1)] == $j1 || $_POST[(string)($i+1)] == $j2) {

@@ -157,6 +157,27 @@ if (!isset($_SESSION['login'])) {
         }
     }
 
+    /* Quarts de finales */
+    for ($i = 0; $i < 4; $i++) {
+        $win = $bdd->prepare("SELECT id_pari, id_e1 FROM `paris_0` WHERE grp=:groupe AND id_user=:usr");
+        $win->execute(array('groupe' => 'Q' . (string)($i+1), 'usr' => $id_perso));
+        $pari = $win->fetch();
+
+        if ($i < 2) {
+            if ($winners[4*$i][0] != $pari['id_e1'] && $winners[4*$i+1][1] != $pari['id_e1'] &&
+                $winners[4*$i+2][0] != $pari['id_e1'] && $winners[4*$i+3][1] != $pari['id_e1']) {
+                $correc = $bdd->prepare("DELETE FROM paris_0 WHERE id_pari=:id");
+                $correc->execute(array('id' => $pari['id_pari']));
+            }
+        } else {
+            if ($winners[4*($i-2)][1] != $pari['id_e1'] && $winners[4*($i-2)+1][0] != $pari['id_e1'] &&
+                $winners[4*($i-2)+2][1] != $pari['id_e1'] && $winners[4*($i-2)+3][0] != $pari['id_e1']) {
+                $correc = $bdd->prepare("DELETE FROM paris_0 WHERE id_pari=:id");
+                $correc->execute(array('id' => $pari['id_pari']));
+            }
+        }
+    }
+
     ?>
 
 

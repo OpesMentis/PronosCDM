@@ -25,8 +25,6 @@ if (!isset($_SESSION['login'])) {
     <div align="center">
         <?php
         include('connect.php');
-
-        $req = $bdd->query("SELECT matchs_q.id AS id_match, DATE_FORMAT(date, '%d/%m, %Hh%i') AS date, matchs_q.groupe, eq1.pays AS e1, eq2.pays AS e2 FROM matchs_q JOIN teams eq1 ON eq1.id = matchs_q.team1 JOIN teams eq2 ON eq2.id = matchs_q.team2 WHERE date > NOW() ORDER BY date ASC");
         ?>
         <font style="font-family: 'Open Sans'; font-size: 30px;"><b>Dans la cabane de Madame Irma</b><br/><br/></font>
     </div>
@@ -43,13 +41,15 @@ if (!isset($_SESSION['login'])) {
             </td>
         </tr>
     </table>
-    <table width="100%" align="center">
+    <table width="90%" align="center">
         <tr>
-            <td width="20%" align="center">
+            <td width="20%" align="left">
                 <font style="font-family: 'Open Sans'; font-size: 25px;">Les matchs à venir</font><br/><br/>
             </td>
         </tr>
         <?php
+        $req = $bdd->query("SELECT matchs_q.id AS id_match, DATE_FORMAT(date, '%d/%m, %Hh%i') AS date, matchs_q.groupe, eq1.pays AS e1, eq2.pays AS e2 FROM matchs_q JOIN teams eq1 ON eq1.id = matchs_q.team1 JOIN teams eq2 ON eq2.id = matchs_q.team2 WHERE date > NOW() ORDER BY date ASC");
+
         $i = 0;
         while ($item = $req->fetch()) {
             $pari = $bdd->prepare("SELECT score1, score2 FROM paris_q JOIN users ON users.id = paris_q.id_user WHERE id_match=:play AND users.login=:usr");
@@ -72,6 +72,74 @@ if (!isset($_SESSION['login'])) {
                         }
                         ?>
                     </b></font><br/><br/><br/>
+                </td><?php
+            $i += 1;
+        }
+        ?>
+        <tr>
+            <td width="20%" align="left">
+                <font style="font-family: 'Open Sans'; font-size: 25px;">Les matchs en attente du résultat</font><br/><br/>
+            </td>
+        </tr>
+        <?php
+        $req = $bdd->query("SELECT matchs_q.id AS id_match, DATE_FORMAT(date, '%d/%m, %Hh%i') AS date, matchs_q.groupe, eq1.pays AS e1, eq2.pays AS e2 FROM matchs_q JOIN teams eq1 ON eq1.id = matchs_q.team1 JOIN teams eq2 ON eq2.id = matchs_q.team2 WHERE date < NOW() AND played = 0 ORDER BY date ASC");
+
+        $i = 0;
+        while ($item = $req->fetch()) {
+            $pari = $bdd->prepare("SELECT score1, score2 FROM paris_q JOIN users ON users.id = paris_q.id_user WHERE id_match=:play AND users.login=:usr");
+            $pari->execute(array('play' => $item['id_match'], 'usr' => $_SESSION['login']));
+            $res = $pari->fetch();
+            if ($i % 4 == 0) {?>
+            <tr>
+            <?php
+            }?>
+                <td width="20%" align="center">
+                    <font style="font-family: 'Open Sans'; font-size: 15px;"><?php echo $item['e1'] . ' — ' . $item['e2'];?></font><br/>
+                    <font style="font-family: 'Open Sans'; font-size: 10px;">-- / --</font><br/>
+                    <font style="font-family: 'Open Sans'; font-size: 10px;"><?php echo $item['date'];?></font><br/>
+                    <font style="font-family: 'Open Sans'; font-size: 10px;"><b>
+                        <?php
+                        if (!$res) {
+                            echo 'TROP TARD POUR PARIER';
+                        } else {
+                            echo 'VOUS PRÉVOYEZ : ' . $res['score1'] . '-' . $res['score2'];
+                        }
+                        ?>
+                    </b></font><br/><br/><br/>
+                </td><?php
+            $i += 1;
+        }
+        ?>
+        <tr>
+            <td width="20%" align="left">
+                <font style="font-family: 'Open Sans'; font-size: 25px;">Les matchs passés</font><br/><br/>
+            </td>
+        </tr>
+        <?php
+        $req = $bdd->query("SELECT matchs_q.id AS id_match, DATE_FORMAT(date, '%d/%m, %Hh%i') AS date, matchs_q.groupe, eq1.pays AS e1, eq2.pays AS e2, score1, score2 FROM matchs_q JOIN teams eq1 ON eq1.id = matchs_q.team1 JOIN teams eq2 ON eq2.id = matchs_q.team2 WHERE date < NOW() AND played = 1 ORDER BY date ASC");
+
+        $i = 0;
+        while ($item = $req->fetch()) {
+            $pari = $bdd->prepare("SELECT score1, score2 FROM paris_q JOIN users ON users.id = paris_q.id_user WHERE id_match=:play AND users.login=:usr");
+            $pari->execute(array('play' => $item['id_match'], 'usr' => $_SESSION['login']));
+            $res = $pari->fetch();
+            if ($i % 4 == 0) {?>
+            <tr>
+            <?php
+            }?>
+                <td width="20%" align="center">
+                    <font style="font-family: 'Open Sans'; font-size: 15px;"><?php echo $item['e1'] . ' — ' . $item['e2'];?></font><br/>
+                    <font style="font-family: 'Open Sans'; font-size: 10px;"><b><?php echo $item['score1'] . ' / ' . $item['score2'];?></b></font><br/>
+                    <font style="font-family: 'Open Sans'; font-size: 10px;"><?php echo $item['date'];?></font><br/>
+                    <font style="font-family: 'Open Sans'; font-size: 10px;">
+                        <?php
+                        if (!$res) {
+                            echo 'VOUS N\'AVIEZ PAS PARIÉ';
+                        } else {
+                            echo 'VOUS PRÉVOYIEZ : ' . $res['score1'] . '-' . $res['score2'];
+                        }
+                        ?>
+                    </font><br/><br/><br/>
                 </td><?php
             $i += 1;
         }

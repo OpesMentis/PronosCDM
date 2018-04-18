@@ -138,6 +138,7 @@ if (!isset($_SESSION['login'])) {
     </table>
 
     <?php
+
     /* Huitièmes de finales */
     for ($i = 0; $i < 8; $i++) {
         $win8 = $bdd->prepare("SELECT id_pari, id_e1 FROM `paris_0` WHERE grp=:groupe AND id_user=:usr");
@@ -201,6 +202,40 @@ if (!isset($_SESSION['login'])) {
                 $correc->execute(array('id' => $pari['id_pari']));
             }
         }
+    }
+
+    /* Finale */
+    $win = $bdd->prepare("SELECT id_pari, id_e1 FROM `paris_0` WHERE grp=:groupe AND id_user=:usr");
+    $win->execute(array('groupe' => 'F0', 'usr' => $id_perso));
+    $pari = $win->fetch();
+    $ok = false;
+    for ($j = 0; $j < 8; $j++) {
+        if ($winners[$j][0] == $pari['id_e1'] || $winners[$j][1] == $pari['id_e1']) {
+            $ok = true;
+            break;
+        }
+    }
+
+    if (!$ok) {
+        $correc = $bdd->prepare("DELETE FROM paris_0 WHERE id_pari=:id");
+        $correc->execute(array('id' => $pari['id_pari']));
+    }
+
+    /* Petite finale */
+    $win = $bdd->prepare("SELECT id_pari, id_e1 FROM `paris_0` WHERE grp=:groupe AND id_user=:usr");
+    $win->execute(array('groupe' => 'F1', 'usr' => $id_perso));
+    $pari = $win->fetch();
+    $ok = false;
+    for ($j = 0; $j < 8; $j++) {
+        if ($winners[$j][0] == $pari['id_e1'] || $winners[$j][1] == $pari['id_e1']) {
+            $ok = true;
+            break;
+        }
+    }
+
+    if (!$ok) {
+        $correc = $bdd->prepare("DELETE FROM paris_0 WHERE id_pari=:id");
+        $correc->execute(array('id' => $pari['id_pari']));
     }
 
     ?>

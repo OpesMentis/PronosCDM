@@ -112,6 +112,13 @@ if (!isset($_SESSION['login'])) {
                 <font style="font-family: 'Open Sans'; font-size: 35px;"><?php echo $match['e1'] . ' — ' . $match['e2'];?><br/></font>
                 <form method="post" action=<?php echo '"match.php?id=' . $_GET['id'] . '"';?>>
                     <input type="text" name="score1" size="2" value=<?php echo '"' . $s1 . '"';?>/> <input type="text" name="score2" size="2" value=<?php echo '"' . $s2 . '"';?>/><br/>
+                    <?php
+                    if (strlen($grp) > 1) {?>
+                        <font style="font-family: 'Open Sans'; font-size: 15px;"><?php echo 'Vainqueur des t.a.b. si égalité :';?></font><br/>
+                        <input type="radio" id="e1" checked><input type="radio" id="e2"><br/><br/>
+                        <?php
+                    }
+                    ?>
                     <input type="submit" value="Telle est mon opinion"/>
                 </form><br/>
                 <font style="font-family: 'Open Sans'; font-size: 20px;"><?php echo $msg;?></font>

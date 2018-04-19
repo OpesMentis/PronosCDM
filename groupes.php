@@ -42,7 +42,7 @@ if (!isset($_SESSION['login'])) {
                 <font style="font-family: 'Open Sans'; font-size: 15px;"><b>Toute la compétition</b></font><br/>
             </td>
             <td width="20%" align="center">
-                <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="">Paris divers</a></font><br/>
+                <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="divers.php">Paris divers</a></font><br/>
             </td>
         </tr>
     </table>

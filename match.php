@@ -84,8 +84,31 @@ if (!isset($_SESSION['login'])) {
                     $s1 = $res['score1'];
                     $s2 = $res['score2'];
                 }
+
+                $grp = $match['groupe'];
+                if (strlen($grp) == 1) {
+                    $entete = 'GROUPE ' . $grp;
+                } else {
+                    $n = (int)$grp[1];
+                    if ($n <= 4) {
+                        $nb = (string)(2*$n-1);
+                    } else {
+                        $nb = (string)(2*($n-4));
+                    }
+                    if ($grp[0] == 'H') {
+                        $entete = 'HUITIÈME DE FINALE N°' . $nb;
+                    } elseif ($grp[0] == 'Q') {
+                        $entete = 'QUART DE FINALE N°' . $nb;
+                    } elseif ($grp[0] == 'D') {
+                        $entete = 'DEMI-FINALE N°' . $nb;
+                    } elseif ($grp == 'F0') {
+                        $entete = 'FINALE';
+                    } elseif ($grp == 'F1') {
+                        $entete = 'PETITE FINALE';
+                    }
+                }
                 ?>
-                <font style="font-family: 'Open Sans'; font-size: 20px;"><?php echo 'GROUPE ' . $match['groupe'] . ' ⋅ ' . $match['date'];?><br/><br/></font>
+                <font style="font-family: 'Open Sans'; font-size: 20px;"><?php echo $entete . ' ⋅ ' . $match['date'];?><br/><br/></font>
                 <font style="font-family: 'Open Sans'; font-size: 35px;"><?php echo $match['e1'] . ' — ' . $match['e2'];?><br/></font>
                 <form method="post" action=<?php echo '"match.php?id=' . $_GET['id'] . '"';?>>
                     <input type="text" name="score1" size="2" value=<?php echo '"' . $s1 . '"';?>/> <input type="text" name="score2" size="2" value=<?php echo '"' . $s2 . '"';?>/><br/>

@@ -45,7 +45,7 @@ if (!isset($_SESSION['login'])) {
                 <font style="font-family: 'Open Sans'; font-size: 20px;"><a href="predictions.php">Je prédis l'avenir</a></font>
             </td>
             <td width="33%" align="center">
-                <font style="font-family: 'Open Sans'; font-size: 20px;">Mon profil</font>
+                <font style="font-family: 'Open Sans'; font-size: 20px;"><a href="divers.php">Mon profil</a></font>
             </td>
         </tr>
     </table>

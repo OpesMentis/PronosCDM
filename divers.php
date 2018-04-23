@@ -8,7 +8,7 @@ if (!isset($_SESSION['login'])) {
 
 <html>
 <head>
-<title>Les matchs | Pronostics coupe du monde 2018</title>
+<title>Paris divers | Pronostics coupe du monde 2018</title>
     <link href='https://fonts.googleapis.com/css?family=Mina'
     rel='stylesheet'>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans'
@@ -26,7 +26,7 @@ if (!isset($_SESSION['login'])) {
         <?php
         include('connect.php');
         ?>
-        <font style="font-family: 'Open Sans'; font-size: 30px;"><b>Entre les matchs</b><br/><br/></font>
+        <font style="font-family: 'Open Sans'; font-size: 30px;"><b>Considérations sportives autres</b><br/><br/></font>
     </div>
     <table width="100%" align="center">
         <tr>
@@ -39,6 +39,27 @@ if (!isset($_SESSION['login'])) {
             <td width="20%" align="center">
                 <font style="font-family: 'Open Sans'; font-size: 15px;"><b>Paris divers</b></font><br/><br/>
             </td>
+        </tr>
+    </table>
+    <table width="100%" align="left">
+        <tr>
+            <form method="post" action="divers.php">
+                <td width="50%" align="right">
+                    <br/>
+                    <font style="font-family: 'Open Sans'; font-size: 20px;">Nombre de buts marqués pendant la compétition</font>
+                    <input type="text" name="buts" size="5"/><br/><br/>
+                    <font style="font-family: 'Open Sans'; font-size: 20px;">Nombre de buts marqués par la France</font>
+                    <input type="text" name="buts_fr_ok" size="5"/><br/><br/>
+                    <font style="font-family: 'Open Sans'; font-size: 20px;">Nombre de buts encaissés par la France</font>
+                    <input type="text" name="buts_fr_ko" size="5"/><br/><br/>
+                    <font style="font-family: 'Open Sans'; font-size: 20px;">Nombre de cartons pendant la compétition</font>
+                    <input type="text" name="cartons" size="5"/><br/><br/>
+                    </form>
+                </td>
+                <td width="50%" align="center">
+                    <input type="submit" value="Je valide"/>
+                </td>
+            </form>
         </tr>
     </table>
 </body>

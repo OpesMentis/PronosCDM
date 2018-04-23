@@ -43,14 +43,14 @@ if (!isset($_SESSION['login'])) {
                     if (ctype_digit($_POST['score1']) && ctype_digit(($_POST['score2']))) {
                         $req = $bdd->query("SELECT id FROM users WHERE login='" . $_SESSION['login'] . "'");
                         $id_perso = $req->fetch()['id'];
-                        $req = $bdd->prepare("SELECT id_pari FROM paris_q WHERE id_user=:usr AND id_match=:play");
+                        $req = $bdd->prepare("SELECT id_pari FROM paris_match WHERE id_user=:usr AND id_match=:play");
                         $req->execute(array(
                             'usr' => $id_perso,
                             'play' => $_GET['id']
                         ));
                         $pari = $req->fetch();
                         if (!$pari && $id_perso) {
-                            $req = $bdd->prepare("INSERT INTO paris_q(id_user, id_match, score1, score2) VALUES(:usr, :play, :s1, :s2)");
+                            $req = $bdd->prepare("INSERT INTO paris_match(id_user, id_match, score1, score2) VALUES(:usr, :play, :s1, :s2)");
                             $req->execute(array(
                                 'usr' => $id_perso,
                                 'play' => $_GET['id'],
@@ -59,7 +59,7 @@ if (!isset($_SESSION['login'])) {
                             ));
                             $msg = 'Votre pronostic a été pris en compte !';
                         } elseif ($id_perso) {
-                            $req = $bdd->prepare("UPDATE paris_q SET score1=:s1, score2=:s2 WHERE id_user=:usr AND id_match=:play");
+                            $req = $bdd->prepare("UPDATE paris_match SET score1=:s1, score2=:s2 WHERE id_user=:usr AND id_match=:play");
                             $req->execute(array(
                                 's1' => $_POST['score1'],
                                 's2' => $_POST['score2'],
@@ -74,7 +74,7 @@ if (!isset($_SESSION['login'])) {
                         $msg = 'Un problème a été détecté dans les valeurs proposées.';
                     }
                 }
-                $pari = $bdd->prepare("SELECT score1, score2 FROM paris_q JOIN users ON users.id = paris_q.id_user WHERE id_match=:play AND users.login=:usr");
+                $pari = $bdd->prepare("SELECT score1, score2 FROM paris_match JOIN users ON users.id = paris_match.id_user WHERE id_match=:play AND users.login=:usr");
                 $pari->execute(array('play' => $_GET['id'], 'usr' => $_SESSION['login']));
                 $res = $pari->fetch();
                 if (!$res) {

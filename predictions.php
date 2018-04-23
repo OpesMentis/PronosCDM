@@ -52,7 +52,7 @@ if (!isset($_SESSION['login'])) {
 
         $i = 0;
         while ($item = $req->fetch()) {
-            $pari = $bdd->prepare("SELECT score1, score2 FROM paris_q JOIN users ON users.id = paris_q.id_user WHERE id_match=:play AND users.login=:usr");
+            $pari = $bdd->prepare("SELECT score1, score2 FROM paris_match JOIN users ON users.id = paris_match.id_user WHERE id_match=:play AND users.login=:usr");
             $pari->execute(array('play' => $item['id_match'], 'usr' => $_SESSION['login']));
             $res = $pari->fetch();
             if ($i % 4 == 0) {?>
@@ -86,7 +86,7 @@ if (!isset($_SESSION['login'])) {
 
         $i = 0;
         while ($item = $req->fetch()) {
-            $pari = $bdd->prepare("SELECT score1, score2 FROM paris_q JOIN users ON users.id = paris_q.id_user WHERE id_match=:play AND users.login=:usr");
+            $pari = $bdd->prepare("SELECT score1, score2 FROM paris_match JOIN users ON users.id = paris_match.id_user WHERE id_match=:play AND users.login=:usr");
             $pari->execute(array('play' => $item['id_match'], 'usr' => $_SESSION['login']));
             $res = $pari->fetch();
             if ($i % 4 == 0) {?>
@@ -120,7 +120,7 @@ if (!isset($_SESSION['login'])) {
 
         $i = 0;
         while ($item = $req->fetch()) {
-            $pari = $bdd->prepare("SELECT score1, score2 FROM paris_q JOIN users ON users.id = paris_q.id_user WHERE id_match=:play AND users.login=:usr");
+            $pari = $bdd->prepare("SELECT score1, score2 FROM paris_match JOIN users ON users.id = paris_match.id_user WHERE id_match=:play AND users.login=:usr");
             $pari->execute(array('play' => $item['id_match'], 'usr' => $_SESSION['login']));
             $res = $pari->fetch();
             if ($i % 4 == 0) {?>

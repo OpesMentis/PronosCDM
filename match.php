@@ -48,41 +48,49 @@ if (!isset($_SESSION['login'])) {
                             'usr' => $id_perso,
                             'play' => $_GET['id']
                         ));
-                        $pari = $req->fetch();
-                        if (!$pari && $id_perso) {
-                            $req = $bdd->prepare("INSERT INTO paris_match(id_user, id_match, score1, score2) VALUES(:usr, :play, :s1, :s2)");
-                            $req->execute(array(
-                                'usr' => $id_perso,
-                                'play' => $_GET['id'],
-                                's1' => $_POST['score1'],
-                                's2' => $_POST['score2']
-                            ));
-                            $msg = 'Votre pronostic a été pris en compte !';
-                        } elseif ($id_perso) {
-                            $req = $bdd->prepare("UPDATE paris_match SET score1=:s1, score2=:s2 WHERE id_user=:usr AND id_match=:play");
-                            $req->execute(array(
-                                's1' => $_POST['score1'],
-                                's2' => $_POST['score2'],
-                                'usr' => $id_perso,
-                                'play' => $_GET['id']
-                            ));
-                            $msg = 'Votre pronostic a été pris en compte !';
-                        } else {
-                            $msg = 'Une erreur est survenu, veuillez vous déconnecter puis vous reconnecter.';
+
+                        $winner = 3;
+
+                        if ($_POST['score1'] > $_POST['score2']) {
+                            $winner = 1;
+                        } elseif ($_POST['score1'] < $_POST['score2']) {
+                            $winner = 2;
+                        } elseif ($_GET['id'] > 48) {
+                            if ($_POST['tab'] == 'e1') {
+                                $winner = 1;
+                            } else {
+                                $winner = 2;
+                            }
                         }
+                        $pari = $req->fetch();
+                        if (!$pari) {
+                            $req = $bdd->prepare("INSERT INTO paris_match(id_user, id_match, score1, score2, winner) VALUES(:usr, :play, :s1, :s2, :gagnant)");
+                        } else {
+                            $req = $bdd->prepare("UPDATE paris_match SET score1=:s1, score2=:s2, winner=:gagnant WHERE id_user=:usr AND id_match=:play");
+                        }
+                        $req->execute(array(
+                            'usr' => $id_perso,
+                            'play' => $_GET['id'],
+                            's1' => $_POST['score1'],
+                            's2' => $_POST['score2'],
+                            'gagnant' => $winner
+                        ));
+                        $msg = 'Votre pronostic a été pris en compte !';
                     } else {
                         $msg = 'Un problème a été détecté dans les valeurs proposées.';
                     }
                 }
-                $pari = $bdd->prepare("SELECT score1, score2 FROM paris_match JOIN users ON users.id = paris_match.id_user WHERE id_match=:play AND users.login=:usr");
+                $pari = $bdd->prepare("SELECT score1, score2, winner FROM paris_match JOIN users ON users.id = paris_match.id_user WHERE id_match=:play AND users.login=:usr");
                 $pari->execute(array('play' => $_GET['id'], 'usr' => $_SESSION['login']));
                 $res = $pari->fetch();
                 if (!$res) {
                     $s1 = '';
                     $s2 = '';
+                    $winner = 1;
                 } else {
                     $s1 = $res['score1'];
                     $s2 = $res['score2'];
+                    $winner = $res['winner'];
                 }
 
                 $grp = $match['groupe'];
@@ -115,7 +123,7 @@ if (!isset($_SESSION['login'])) {
                     <?php
                     if (strlen($grp) > 1) {?>
                         <font style="font-family: 'Open Sans'; font-size: 15px;"><?php echo 'Vainqueur des t.a.b. si égalité :';?></font><br/>
-                        <input type="radio" id="e1" checked><input type="radio" id="e2"><br/><br/>
+                        <input type="radio" name="tab" value="e1" <?php echo ($winner == 1 ? 'checked': ''); ?>><input type="radio" name="tab" value="e2" <?php echo ($winner == 2 ? 'checked': ''); ?>><br/><br/>
                         <?php
                     }
                     ?>

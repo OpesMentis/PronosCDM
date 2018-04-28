@@ -25,6 +25,35 @@ if (!isset($_SESSION['login'])) {
     <div align="center">
         <?php
         include('connect.php');
+
+        $req = $bdd->query("SELECT id FROM users WHERE login='" . $_SESSION['login'] . "'");
+        $id_perso = $req->fetch()['id'];
+
+        $vals = ['', '', '', ''];
+        $items = ['1', '2', '3', '4'];
+
+        for ($i = 1; $i <= 4; $i++) {
+            $req = $bdd->prepare("SELECT id_pari, val FROM paris_divers WHERE id_user=:usr AND id_obj=:item");
+            $req->execute(array('usr' => $id_perso, 'item' => $i));
+            $pari = $req->fetch();
+
+            if ($pari) {
+                $vals[$i-1] = $pari['val'];
+            }
+
+            if (isset($_POST[$items[$i-1]])) {
+                if (ctype_digit($_POST[$items[$i-1]])) {
+                    if ($pari) {
+                        $req = $bdd->prepare("UPDATE paris_divers SET val=:value WHERE id_pari=:id");
+                        $req->execute(array('value' => $_POST[$items[$i-1]], 'id' => $pari['id_pari']));
+                    } else {
+                        $req = $bdd->prepare("INSERT INTO paris_divers(id_user, id_obj, val) VALUES(:usr, :item, :value)");
+                        $req->execute(array('usr' => $id_perso, 'item' => $i, 'value' => $_POST[$items[$i-1]]));
+                    }
+                    $vals[$i-1] = $_POST[(string)($i)];
+                }
+            }
+        }
         ?>
         <font style="font-family: 'Open Sans'; font-size: 30px;"><b>Considérations sportives autres</b><br/><br/></font>
     </div>
@@ -47,14 +76,13 @@ if (!isset($_SESSION['login'])) {
                 <td width="50%" align="right">
                     <br/>
                     <font style="font-family: 'Open Sans'; font-size: 20px;">Nombre de buts marqués pendant la compétition</font>
-                    <input type="text" name="buts" size="5"/><br/><br/>
+                    <input type="text" name="1" size="5" value=<?php echo '"' . $vals[0] . '"';?>/><br/><br/>
                     <font style="font-family: 'Open Sans'; font-size: 20px;">Nombre de buts marqués par la France</font>
-                    <input type="text" name="buts_fr_ok" size="5"/><br/><br/>
+                    <input type="text" name="2" size="5" value=<?php echo '"' . $vals[1] . '"';?>/><br/><br/>
                     <font style="font-family: 'Open Sans'; font-size: 20px;">Nombre de buts encaissés par la France</font>
-                    <input type="text" name="buts_fr_ko" size="5"/><br/><br/>
+                    <input type="text" name="3" size="5" value=<?php echo '"' . $vals[2] . '"';?>/><br/><br/>
                     <font style="font-family: 'Open Sans'; font-size: 20px;">Nombre de cartons pendant la compétition</font>
-                    <input type="text" name="cartons" size="5"/><br/><br/>
-                    </form>
+                    <input type="text" name="4" size="5" value=<?php echo '"' . $vals[3] . '"';?>/><br/><br/>
                 </td>
                 <td width="50%" align="center">
                     <input type="submit" value="Je valide"/>

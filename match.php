@@ -33,8 +33,9 @@ if (!isset($_SESSION['login'])) {
         if (!isset($_GET['id'])) {
             echo 'Hum... Il semblerait que vous ayez touché à un truc que vous n\'auriez pas dû toucher...';
         } else {
+            $id_play = $_GET['id'];
             $req = $bdd->prepare("SELECT matchs_q.groupe AS groupe, eq1.pays AS e1, eq2.pays AS e2, DATE_FORMAT(date, '%d/%m, %Hh%i') AS date FROM matchs_q JOIN teams eq1 ON eq1.id = matchs_q.team1 JOIN teams eq2 ON eq2.id = matchs_q.team2 WHERE matchs_q.id=:id_match AND date > NOW()");
-            $req->execute(array('id_match' => $_GET['id']));
+            $req->execute(array('id_match' => $id_play));
             $match = $req->fetch();
             if (!$match) {
                 echo 'Alors comme ça on veut jouer les hackers ?';
@@ -46,7 +47,7 @@ if (!isset($_SESSION['login'])) {
                         $req = $bdd->prepare("SELECT id_pari FROM paris_match WHERE id_user=:usr AND id_match=:play");
                         $req->execute(array(
                             'usr' => $id_perso,
-                            'play' => $_GET['id']
+                            'play' => $id_play
                         ));
 
                         $winner = 3;
@@ -55,7 +56,7 @@ if (!isset($_SESSION['login'])) {
                             $winner = 1;
                         } elseif ($_POST['score1'] < $_POST['score2']) {
                             $winner = 2;
-                        } elseif ($_GET['id'] > 48) {
+                        } elseif ($id_play > 48) {
                             if ($_POST['tab'] == 'e1') {
                                 $winner = 1;
                             } else {
@@ -70,7 +71,7 @@ if (!isset($_SESSION['login'])) {
                         }
                         $req->execute(array(
                             'usr' => $id_perso,
-                            'play' => $_GET['id'],
+                            'play' => $id_play,
                             's1' => $_POST['score1'],
                             's2' => $_POST['score2'],
                             'gagnant' => $winner
@@ -81,7 +82,7 @@ if (!isset($_SESSION['login'])) {
                     }
                 }
                 $pari = $bdd->prepare("SELECT score1, score2, winner FROM paris_match JOIN users ON users.id = paris_match.id_user WHERE id_match=:play AND users.login=:usr");
-                $pari->execute(array('play' => $_GET['id'], 'usr' => $_SESSION['login']));
+                $pari->execute(array('play' => $id_play, 'usr' => $_SESSION['login']));
                 $res = $pari->fetch();
                 if (!$res) {
                     $s1 = '';
@@ -118,7 +119,7 @@ if (!isset($_SESSION['login'])) {
                 ?>
                 <font style="font-family: 'Open Sans'; font-size: 20px;"><?php echo $entete . ' ⋅ ' . $match['date'];?><br/><br/></font>
                 <font style="font-family: 'Open Sans'; font-size: 35px;"><?php echo $match['e1'] . ' — ' . $match['e2'];?><br/></font>
-                <form method="post" action=<?php echo '"match.php?id=' . $_GET['id'] . '"';?>>
+                <form method="post" action=<?php echo '"match.php?id=' . $id_play . '"';?>>
                     <input type="text" name="score1" size="2" value=<?php echo '"' . $s1 . '"';?>/> <input type="text" name="score2" size="2" value=<?php echo '"' . $s2 . '"';?>/><br/>
                     <?php
                     if (strlen($grp) > 1) {?>

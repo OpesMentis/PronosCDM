@@ -41,7 +41,7 @@ if (!isset($_SESSION['login'])) {
                 $vals[$i-1] = $pari['val'];
             }
 
-            if (isset($_POST[$items[$i-1]])) {
+            if (strtotime('2018-06-18 17:00:00') > strtotime('now') && isset($_POST[$items[$i-1]])) {
                 if (ctype_digit($_POST[$items[$i-1]])) {
                     if ($pari) {
                         $req = $bdd->prepare("UPDATE paris_divers SET val=:value WHERE id_pari=:id");

@@ -67,7 +67,7 @@ if (!isset($_SESSION['login'])) {
                 $winners[$i][0] = $data['id_e1'];
                 $winners[$i][1] = $data['id_e2'];
             }
-            if (isset($_POST[$grp[$i] . '1']) && isset($_POST[$grp[$i] . '2'])) {
+            if (strtotime('2018-06-14 17:00:00') > strtotime('now') && isset($_POST[$grp[$i] . '1']) && isset($_POST[$grp[$i] . '2'])) {
                 $e1 = $_POST[$grp[$i] . '1'];
                 $e2 = $_POST[$grp[$i] . '2'];
                 if ($e1 == $e2 && $e1 != '0') {
@@ -97,7 +97,7 @@ if (!isset($_SESSION['login'])) {
             <td width="20%" align="center">
                 <font style="font-family: 'Open Sans'; font-size: 20px;">Groupe <?php echo ' ' . $grp[$i];?></font><br/>
                 <font style="font-family: 'Open Sans'; font-size: 15px;">1<sup>er</sup> du groupe</font>
-                <select name=<?php echo '"' . $grp[$i] . '1"';?>>
+                <select name=<?php echo '"' . $grp[$i] . '1" ' . (strtotime('2018-06-18 17:00:00') < strtotime('now') ? 'disabled': '');?>>
                     <option value="0">--</option>
                     <?php
                     for ($j = 0; $j < 4; $j++) {
@@ -109,7 +109,7 @@ if (!isset($_SESSION['login'])) {
                     }?>
                 </select><br/>
                 <font style="font-family: 'Open Sans'; font-size: 15px;">2<sup>e</sup> du groupe</font>
-                <select name=<?php echo '"' . $grp[$i] . '2"';?>>
+                <select name=<?php echo '"' . $grp[$i] . '2" ' . (strtotime('2018-06-18 17:00:00') < strtotime('now') ? 'disabled': '');?>>
                     <option value="0">--</option>
                     <?php
                     for ($j = 0; $j < 4; $j++) {

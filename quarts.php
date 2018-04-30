@@ -75,7 +75,7 @@ if (!isset($_SESSION['login'])) {
                 $data = $prono->fetch();
                 $winners[$i] = $data['id_e1'];
 
-                if (isset($_POST[(string)($i+1)]) && $_POST[(string)($i+1)] != '0' && $j1 != '0' && $j2 != '0') {
+                if (strtotime('2018-06-14 17:00:00') > strtotime('now') && isset($_POST[(string)($i+1)]) && $_POST[(string)($i+1)] != '0' && $j1 != '0' && $j2 != '0') {
                     if ($_POST[(string)($i+1)] == $j1 || $_POST[(string)($i+1)] == $j2) {
                         if (!$data) {
                             $inser = $bdd->prepare("INSERT INTO `paris_0` (`id_user`, `grp`, `id_e1`) VALUES (:id, :grp, :id_eq);");
@@ -95,7 +95,7 @@ if (!isset($_SESSION['login'])) {
                 <td width="20%" align="center">
                     <font style="font-family: 'Open Sans'; font-size: 20px;">Quart de finale n°<?php echo ($i+1);?></font><br/>
                     <font style="font-family: 'Open Sans'; font-size: 15px;">Vainqueur</font>
-                    <select name=<?php echo '"' . ($i+1) . '" ' . ($j1 == '0' || $j2 == '0' ? 'disabled': '');?>>
+                    <select name=<?php echo '"' . ($i+1) . '" ' . (strtotime('2018-06-18 17:00:00') < strtotime('now') || $j1 == '0' || $j2 == '0' ? 'disabled': '');?>>
                         <option value="0">--</option>
                         <?php
                         if ($j1 != '0') {

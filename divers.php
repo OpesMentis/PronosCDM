@@ -76,13 +76,13 @@ if (!isset($_SESSION['login'])) {
                 <td width="50%" align="right">
                     <br/>
                     <font style="font-family: 'Open Sans'; font-size: 20px;">Nombre de buts marqués pendant la compétition</font>
-                    <input type="text" name="1" size="5" value=<?php echo '"' . $vals[0] . '"';?>/><br/><br/>
+                    <input type="text" name="1" size="5" value=<?php echo '"' . $vals[0] . '" ' . (strtotime('2018-06-18 17:00:00') < strtotime('now') ? 'disabled': '');?>/><br/><br/>
                     <font style="font-family: 'Open Sans'; font-size: 20px;">Nombre de buts marqués par la France</font>
-                    <input type="text" name="2" size="5" value=<?php echo '"' . $vals[1] . '"';?>/><br/><br/>
+                    <input type="text" name="2" size="5" value=<?php echo '"' . $vals[1] . '" ' . (strtotime('2018-06-18 17:00:00') < strtotime('now') ? 'disabled': '');?>/><br/><br/>
                     <font style="font-family: 'Open Sans'; font-size: 20px;">Nombre de buts encaissés par la France</font>
-                    <input type="text" name="3" size="5" value=<?php echo '"' . $vals[2] . '"';?>/><br/><br/>
+                    <input type="text" name="3" size="5" value=<?php echo '"' . $vals[2] . '" ' . (strtotime('2018-06-18 17:00:00') < strtotime('now') ? 'disabled': '');?>/><br/><br/>
                     <font style="font-family: 'Open Sans'; font-size: 20px;">Nombre de cartons pendant la compétition</font>
-                    <input type="text" name="4" size="5" value=<?php echo '"' . $vals[3] . '"';?>/><br/><br/>
+                    <input type="text" name="4" size="5" value=<?php echo '"' . $vals[3] . '" ' . (strtotime('2018-06-18 17:00:00') < strtotime('now') ? 'disabled': '');?>/><br/><br/>
                 </td>
                 <td width="50%" align="center">
                     <input type="submit" value="Je valide"/>

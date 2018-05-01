@@ -85,7 +85,7 @@ if (!isset($_SESSION['login'])) {
                 $data = $prono1->fetch();
                 $winners[$i] = $data['id_e1'];
 
-                if (strtotime('2018-06-14 17:00:00') > strtotime('now') && isset($_POST[(string)($i+1)]) && $_POST[(string)($i+1)] != '0' && $j11 != '0' && $j22 != '0') {
+                if (($_SESSION['login'] == 'admin' || strtotime('2018-06-14 17:00:00') > strtotime('now')) && isset($_POST[(string)($i+1)]) && $_POST[(string)($i+1)] != '0' && $j11 != '0' && $j22 != '0') {
                     if ($_POST[(string)($i+1)] == $j11 || $_POST[(string)($i+1)] == $j22) {
                         if (!$data) {
                             $inser = $bdd->prepare("INSERT INTO `paris_0` (`id_user`, `grp`, `id_e1`) VALUES (:id, :grp, :id_eq);");
@@ -107,7 +107,7 @@ if (!isset($_SESSION['login'])) {
                 $data = $prono2->fetch();
                 $winners[$i+4] = $data['id_e1'];
 
-                if (strtotime('2018-06-14 17:00:00') > strtotime('now') && isset($_POST[(string)($i+5)]) && $_POST[(string)($i+5)] != '0' && $j12 != '0' && $j21 != '0') {
+                if (($_SESSION['login'] == 'admin' || strtotime('2018-06-14 17:00:00') > strtotime('now')) && isset($_POST[(string)($i+5)]) && $_POST[(string)($i+5)] != '0' && $j12 != '0' && $j21 != '0') {
                     if ($_POST[(string)($i+5)] == $j12 || $_POST[(string)($i+5)] == $j21) {
                         if (!$data) {
                             $inser = $bdd->prepare("INSERT INTO `paris_0` (`id_user`, `grp`, `id_e1`) VALUES (:id, :grp, :id_eq);");
@@ -127,7 +127,7 @@ if (!isset($_SESSION['login'])) {
                 <td width="20%" align="center">
                     <font style="font-family: 'Open Sans'; font-size: 20px;">Huitième de finale n°<?php echo (2*$i+1);?></font><br/>
                     <font style="font-family: 'Open Sans'; font-size: 15px;">Vainqueur</font>
-                    <select name=<?php echo '"' . ($i+1) . '" ' . ($j11 == '0' || $j22 == '0' ? 'disabled': '');?>>
+                    <select name=<?php echo '"' . ($i+1) . '" ' . ($_SESSION['login'] != 'admin' && strtotime('2018-06-18 17:00:00') < strtotime('now') || $j11 == '0' || $j22 == '0' ? 'disabled': '');?>>
                         <option value="0">--</option>
                         <?php
                         if ($j11 != '0') {
@@ -143,7 +143,7 @@ if (!isset($_SESSION['login'])) {
                 <td width="20%" align="center">
                     <font style="font-family: 'Open Sans'; font-size: 20px;">Huitième de finale n°<?php echo (2*$i+2);?></font><br/>
                     <font style="font-family: 'Open Sans'; font-size: 15px;">Vainqueur</font>
-                    <select name=<?php echo '"' . ($i+5) . '" ' . (strtotime('2018-06-18 17:00:00') < strtotime('now') || $j12 == '0' || $j21 == '0' ? 'disabled': '');?>>
+                    <select name=<?php echo '"' . ($i+5) . '" ' . ($_SESSION['login'] !='admin' && strtotime('2018-06-18 17:00:00') < strtotime('now') || $j12 == '0' || $j21 == '0' ? 'disabled': '');?>>
                         <option value="0">--</option>
                         <?php
                         if ($j21 != '0') {

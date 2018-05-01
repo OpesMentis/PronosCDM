@@ -80,7 +80,7 @@ if (!isset($_SESSION['login'])) {
                 }
             }
 
-            if (strtotime('2018-06-14 17:00:00') > strtotime('now') && isset($_POST['1']) && $_POST['1'] != '0' && $j1 != '0' && $j2 != '0') {
+            if (($_SESSION['login'] == 'admin' || strtotime('2018-06-14 17:00:00') > strtotime('now')) && isset($_POST['1']) && $_POST['1'] != '0' && $j1 != '0' && $j2 != '0') {
                 if ($_POST['1'] == $j1 || $_POST['1'] == $j2) {
                     $slc = $_POST['1'];
                     $msg = 'Votre choix a été pris en compte.';
@@ -100,7 +100,7 @@ if (!isset($_SESSION['login'])) {
             <td width="20%" align="center">
                 <font style="font-family: 'Open Sans'; font-size: 20px;">Petite finale</font><br/>
                 <font style="font-family: 'Open Sans'; font-size: 15px;">Vainqueur</font>
-                <select name=<?php echo '"1" ' . (strtotime('2018-06-18 17:00:00') < strtotime('now') || $j1 == '0' || $j2 == '0' ? 'disabled': '');?>>
+                <select name=<?php echo '"1" ' . ($_SESSION['login'] != 'admin' && strtotime('2018-06-18 17:00:00') < strtotime('now') || $j1 == '0' || $j2 == '0' ? 'disabled': '');?>>
                     <option value="0">--</option>
                     <?php
                     if ($j1 != '0') {

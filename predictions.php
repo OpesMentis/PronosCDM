@@ -65,10 +65,14 @@ if (!isset($_SESSION['login'])) {
                     <font style="font-family: 'Open Sans'; font-size: 10px;"><?php echo $item['date'];?></font><br/>
                     <font style="font-family: 'Open Sans'; font-size: 10px;"><b>
                         <?php
-                        if (!$res) {
-                            echo '<a href="match.php?id=' . $item['id_match'] . '">AUCUN PARI POUR L\'INSTANT</a>';
+                        if ($_SESSION['login'] == 'admin') {
+                            echo 'LE MATCH N\'EST PAS ENCORE PASSÉ';
                         } else {
-                            echo '<a href="match.php?id=' . $item['id_match'] . '">VOUS PRÉVOYEZ : ' . $res['score1'] . '-' . $res['score2'] . '</a>';
+                            if (!$res) {
+                                echo '<a href="match.php?id=' . $item['id_match'] . '">AUCUN PARI POUR L\'INSTANT</a>';
+                            } else {
+                                echo '<a href="match.php?id=' . $item['id_match'] . '">VOUS PRÉVOYEZ : ' . $res['score1'] . '-' . $res['score2'] . '</a>';
+                            }
                         }
                         ?>
                     </b></font><br/><br/>
@@ -99,10 +103,14 @@ if (!isset($_SESSION['login'])) {
                     <font style="font-family: 'Open Sans'; font-size: 10px;"><?php echo $item['date'];?></font><br/>
                     <font style="font-family: 'Open Sans'; font-size: 10px;"><b>
                         <?php
-                        if (!$res) {
-                            echo 'TROP TARD POUR PARIER';
+                        if ($_SESSION['login'] == 'admin') {
+                            echo '<a href="match.php?id=' . $item['id_match'] . '">RENSEIGNER LE RÉSULTAT DU MATCH</a>';
                         } else {
-                            echo 'VOUS PRÉVOYEZ : ' . $res['score1'] . '-' . $res['score2'];
+                            if (!$res) {
+                                echo 'TROP TARD POUR PARIER';
+                            } else {
+                                echo 'VOUS PRÉVOYEZ : ' . $res['score1'] . '-' . $res['score2'];
+                            }
                         }
                         ?>
                     </b></font><br/><br/>

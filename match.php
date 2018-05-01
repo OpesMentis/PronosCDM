@@ -34,11 +34,13 @@ if (!isset($_SESSION['login'])) {
             echo 'Hum... Il semblerait que vous ayez touché à un truc que vous n\'auriez pas dû toucher...';
         } else {
             $id_play = $_GET['id'];
-            $req = $bdd->prepare("SELECT matchs_q.groupe AS groupe, eq1.pays AS e1, eq2.pays AS e2, DATE_FORMAT(date, '%d/%m, %Hh%i') AS date FROM matchs_q JOIN teams eq1 ON eq1.id = matchs_q.team1 JOIN teams eq2 ON eq2.id = matchs_q.team2 WHERE matchs_q.id=:id_match AND date > NOW()");
+            $req = $bdd->prepare("SELECT matchs_q.groupe AS groupe, eq1.pays AS e1, eq2.pays AS e2, DATE_FORMAT(date, '%d/%m, %Hh%i') AS date, date AS dt FROM matchs_q JOIN teams eq1 ON eq1.id = matchs_q.team1 JOIN teams eq2 ON eq2.id = matchs_q.team2 WHERE matchs_q.id=:id_match");
             $req->execute(array('id_match' => $id_play));
             $match = $req->fetch();
             if (!$match) {
-                echo 'Alors comme ça on veut jouer les hackers ?';
+                echo 'Ce match n\'existe pas.';
+            } elseif (strtotime($match['dt']) < strtotime('now') && $_SESSION['login'] != 'admin') {
+                echo 'Ce match est passé.';
             } else {
                 if (isset($_POST['score1']) && isset($_POST['score2'])) {
                     if (ctype_digit($_POST['score1']) && ctype_digit(($_POST['score2']))) {

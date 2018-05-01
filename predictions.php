@@ -41,14 +41,14 @@ if (!isset($_SESSION['login'])) {
             </td>
         </tr>
     </table>
-    <table width="90%" align="center">
+    <table width="90%" align="center" style="border-spacing: 10px;">
         <tr>
             <td width="20%" align="left">
                 <font style="font-family: 'Open Sans'; font-size: 25px;">Les matchs à venir</font><br/><br/>
             </td>
         </tr>
         <?php
-        $req = $bdd->query("SELECT matchs_q.id AS id_match, DATE_FORMAT(date, '%d/%m, %Hh%i') AS date, matchs_q.groupe, eq1.pays AS e1, eq2.pays AS e2 FROM matchs_q JOIN teams eq1 ON eq1.id = matchs_q.team1 JOIN teams eq2 ON eq2.id = matchs_q.team2 WHERE date > NOW() ORDER BY date ASC");
+        $req = $bdd->query("SELECT matchs_q.id AS id_match, DATE_FORMAT(date, '%d/%m, %Hh%i') AS date, date AS dt, matchs_q.groupe, eq1.pays AS e1, eq2.pays AS e2 FROM matchs_q JOIN teams eq1 ON eq1.id = matchs_q.team1 JOIN teams eq2 ON eq2.id = matchs_q.team2 WHERE date > NOW() ORDER BY date ASC");
 
         $i = 0;
         while ($item = $req->fetch()) {
@@ -59,7 +59,7 @@ if (!isset($_SESSION['login'])) {
             <tr>
             <?php
             }?>
-                <td width="20%" align="center">
+                <td width="20%" align="center" style="border: 1px solid black;"><br/>
                     <font style="font-family: 'Open Sans'; font-size: 15px;"><?php echo $item['e1'] . ' — ' . $item['e2'];?></font><br/>
                     <font style="font-family: 'Open Sans'; font-size: 10px;">-- / --</font><br/>
                     <font style="font-family: 'Open Sans'; font-size: 10px;"><?php echo $item['date'];?></font><br/>
@@ -71,7 +71,7 @@ if (!isset($_SESSION['login'])) {
                             echo '<a href="match.php?id=' . $item['id_match'] . '">VOUS PRÉVOYEZ : ' . $res['score1'] . '-' . $res['score2'] . '</a>';
                         }
                         ?>
-                    </b></font><br/><br/><br/>
+                    </b></font><br/><br/>
                 </td><?php
             $i += 1;
         }
@@ -93,7 +93,7 @@ if (!isset($_SESSION['login'])) {
             <tr>
             <?php
             }?>
-                <td width="20%" align="center">
+                <td width="20%" align="center" style="border: 1px solid black;"><br/>
                     <font style="font-family: 'Open Sans'; font-size: 15px;"><?php echo $item['e1'] . ' — ' . $item['e2'];?></font><br/>
                     <font style="font-family: 'Open Sans'; font-size: 10px;">-- / --</font><br/>
                     <font style="font-family: 'Open Sans'; font-size: 10px;"><?php echo $item['date'];?></font><br/>
@@ -105,7 +105,7 @@ if (!isset($_SESSION['login'])) {
                             echo 'VOUS PRÉVOYEZ : ' . $res['score1'] . '-' . $res['score2'];
                         }
                         ?>
-                    </b></font><br/><br/><br/>
+                    </b></font><br/><br/>
                 </td><?php
             $i += 1;
         }
@@ -127,7 +127,7 @@ if (!isset($_SESSION['login'])) {
             <tr>
             <?php
             }?>
-                <td width="20%" align="center">
+                <td width="20%" align="center" style="border: 1px solid black;"><br/>
                     <font style="font-family: 'Open Sans'; font-size: 15px;"><?php echo $item['e1'] . ' — ' . $item['e2'];?></font><br/>
                     <font style="font-family: 'Open Sans'; font-size: 10px;"><b><?php echo $item['score1'] . ' / ' . $item['score2'];?></b></font><br/>
                     <font style="font-family: 'Open Sans'; font-size: 10px;"><?php echo $item['date'];?></font><br/>
@@ -139,7 +139,7 @@ if (!isset($_SESSION['login'])) {
                             echo 'VOUS PRÉVOYIEZ : ' . $res['score1'] . '-' . $res['score2'];
                         }
                         ?>
-                    </font><br/><br/><br/>
+                    </font><br/><br/>
                 </td><?php
             $i += 1;
         }

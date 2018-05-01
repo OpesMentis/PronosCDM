@@ -49,8 +49,14 @@ if (!isset($_SESSION['login'])) {
         <form action="finale.php" method="post">
             <tr>
             <?php
-            $fin_1 = $bdd->query("SELECT id_e1, eq1.pays AS e1 FROM paris_0 JOIN teams eq1 ON paris_0.id_e1 = eq1.id WHERE grp='D1'")->fetch();
-            $fin_2 = $bdd->query("SELECT id_e1, eq1.pays AS e1 FROM paris_0 JOIN teams eq1 ON paris_0.id_e1 = eq1.id WHERE grp='D2'")->fetch();
+            $fin_1q = $bdd->prepare("SELECT id_e1, eq1.pays AS e1 FROM paris_0 JOIN teams eq1 ON paris_0.id_e1 = eq1.id WHERE id_user=:usr AND grp='D1'");
+            $fin_2q = $bdd->prepare("SELECT id_e1, eq1.pays AS e1 FROM paris_0 JOIN teams eq1 ON paris_0.id_e1 = eq1.id WHERE id_user=:usr AND grp='D2'");
+
+            $fin_1q->execute(array('usr' => $id_perso));
+            $fin_2q->execute(array('usr' => $id_perso));
+
+            $fin_1 = $fin_1q->fetch();
+            $fin_2 = $fin_2q->fetch();
 
             if (!$fin_1) {
                 $j1 = '0';

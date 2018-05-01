@@ -54,8 +54,13 @@ if (!isset($_SESSION['login'])) {
                 if ($i == 0 || $i == 2) {
                     echo '<tr>';
                 }
-                $fin8_1 = $bdd->query("SELECT id_e1, eq1.pays AS e1, id_e2, eq2.pays AS e2 FROM paris_0 JOIN teams eq1 ON paris_0.id_e1 = eq1.id JOIN teams eq2 ON paris_0.id_e2 = eq2.id WHERE grp='" . $grp[2*$i] . "'")->fetch();
-                $fin8_2 = $bdd->query("SELECT id_e1, eq1.pays AS e1, id_e2, eq2.pays AS e2 FROM paris_0 JOIN teams eq1 ON paris_0.id_e1 = eq1.id JOIN teams eq2 ON paris_0.id_e2 = eq2.id WHERE grp='" . $grp[2*$i+1] . "'")->fetch();
+                $fin8_1q = $bdd->prepare("SELECT id_e1, eq1.pays AS e1, id_e2, eq2.pays AS e2 FROM paris_0 JOIN teams eq1 ON paris_0.id_e1 = eq1.id JOIN teams eq2 ON paris_0.id_e2 = eq2.id WHERE id_user=:usr AND grp=:groupe");
+                $fin8_2q = $bdd->prepare("SELECT id_e1, eq1.pays AS e1, id_e2, eq2.pays AS e2 FROM paris_0 JOIN teams eq1 ON paris_0.id_e1 = eq1.id JOIN teams eq2 ON paris_0.id_e2 = eq2.id WHERE id_user=:usr AND grp=:groupe");
+
+                $fin8_1q->execute(array('usr' => $id_perso, 'groupe' => $grp[2*$i]));
+                $fin8_1 = $fin8_1q->fetch();
+                $fin8_2q->execute(array('usr' => $id_perso, 'groupe' => $grp[2*$i+1]));
+                $fin8_2 = $fin8_2q->fetch();
 
                 if (!$fin8_1) {
                     $j11 = '0';

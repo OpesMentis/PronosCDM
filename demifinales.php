@@ -52,8 +52,13 @@ if (!isset($_SESSION['login'])) {
             $winners = [[0, 0], [0, 0]];
             for ($i = 0; $i < 2; $i+=1) {
 
-                $fin2_1 = $bdd->query("SELECT id_e1, eq1.pays AS e1 FROM paris_0 JOIN teams eq1 ON paris_0.id_e1 = eq1.id WHERE grp='Q" . (string)(2*$i+1) . "'")->fetch();
-                $fin2_2 = $bdd->query("SELECT id_e1, eq1.pays AS e1 FROM paris_0 JOIN teams eq1 ON paris_0.id_e1 = eq1.id WHERE grp='Q" . (string)(2*$i+2) . "'")->fetch();
+                $fin2_1q = $bdd->prepare("SELECT id_e1, eq1.pays AS e1 FROM paris_0 JOIN teams eq1 ON paris_0.id_e1 = eq1.id WHERE id_user=:usr AND grp=:groupe");
+                $fin2_2q = $bdd->prepare("SELECT id_e1, eq1.pays AS e1 FROM paris_0 JOIN teams eq1 ON paris_0.id_e1 = eq1.id WHERE id_user=:usr AND grp=:groupe");
+
+                $fin2_1q->execute(array('usr' => $id_perso, 'groupe' => 'Q' . (string)(2*$i+1)));
+                $fin2_1 = $fin2_1q->fetch();
+                $fin2_2q->execute(array('usr' => $id_perso, 'groupe' => 'Q' . (string)(2*$i+2)));
+                $fin2_2 = $fin2_2q->fetch();
 
                 if (!$fin2_1) {
                     $j1 = '0';

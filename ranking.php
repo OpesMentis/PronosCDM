@@ -26,27 +26,29 @@ if (!isset($_SESSION['login'])) {
             <?php
             include('connect.php');
 
-            $req = $bdd->query("SELECT login, points FROM `users` ORDER BY points DESC");
+            $req = $bdd->query("SELECT login, points FROM users WHERE login!='admin' ORDER BY points DESC");
             ?>
             <font style="font-family: 'Open Sans'; font-size: 30px;"><b>Tableau d'honneur</b><br/><br/></font>
         </div>
-    <table width="50%" align="center">
+    <table width="50%" align="center" style='border-collapse: collapse;'>
         <?php
-        $i = 1;
-        while ($item = $req->fetch()) {?>
-            <tr>
-                <td width="33%" align="left">
+        $i = 0;
+        $pts = -1;
+        while ($item = $req->fetch()) {
+            if ($pts != $item['points']) {
+                $i = $i + 1;
+                $pts = $item['points'];
+            }?>
+            <tr <?php echo ($item['login'] == $_SESSION['login'] ? 'style="border: 1px solid black;"': '')?>>
+                <td width="33%" align="center">
                     <font style="font-family: 'Open Sans'; font-size: 25px;"><?php echo $i . '.'?></font>
                 </td>
-                <td width="33%" align="left">
+                <td width="33%" align="center">
                     <font style="font-family: 'Open Sans'; font-size: 25px;"><?php echo $item['login']?></font>
                 </td>
                 <td width="33%" align="center">
                     <font style="font-family: 'Open Sans'; font-size: 25px;"><?php echo $item['points']?></font>
                 </td>
-                <?php
-                $i = $i + 1;
-                ?>
             </tr>
         <?php
         }

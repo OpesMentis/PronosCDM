@@ -73,6 +73,17 @@ $e2->execute(array('usr' => $id_perso));
 $maj = $bdd->prepare("UPDATE matchs_q SET team1=:e1, team2=:e2 WHERE groupe='F1'");
 $maj->execute(array('e1' => $e1->fetch()['id_e2'], 'e2' => $e2->fetch()['id_e2']));
 
+/* Enregistrement du résultat des matchs */
+
+$matchs = $bdd->prepare("SELECT id_match, score1, score2, winner FROM paris_match WHERE id_user=:usr");
+$matchs->execute(array('usr' => $id_perso));
+
+while ($match = $matchs->fetch()) {
+    $maj = $bdd->prepare("UPDATE matchs_q SET score1=:s1, score2=:s2, winner=:win, played=1 WHERE id=:id_m");
+    $maj->execute(array('s1' => $match['score1'], 's2' => $match['score2'], 'win' => $match['winner'], 'id_m' => $match['id_match']));
+}
+
 header('Location: index.php');
 exit();
+
 ?>

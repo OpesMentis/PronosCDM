@@ -48,7 +48,7 @@ if (!isset($_SESSION['login'])) {
             </td>
         </tr>
         <?php
-        $req = $bdd->query("SELECT matchs_q.id AS id_match, DATE_FORMAT(date, '%d/%m, %Hh%i') AS date, date AS dt, matchs_q.groupe, eq1.pays AS e1, eq2.pays AS e2 FROM matchs_q JOIN teams eq1 ON eq1.id = matchs_q.team1 JOIN teams eq2 ON eq2.id = matchs_q.team2 WHERE date > NOW() ORDER BY date ASC");
+        $req = $bdd->query("SELECT matchs_q.id AS id_match, DATE_FORMAT(date, '%d/%m, %Hh%i') AS date, date AS dt, matchs_q.groupe, eq1.pays AS e1, eq2.pays AS e2 FROM matchs_q JOIN teams eq1 ON eq1.id = matchs_q.team1 JOIN teams eq2 ON eq2.id = matchs_q.team2 WHERE date > NOW() AND played = 0 ORDER BY date ASC");
 
         $i = 0;
         while ($item = $req->fetch()) {
@@ -124,7 +124,7 @@ if (!isset($_SESSION['login'])) {
             </td>
         </tr>
         <?php
-        $req = $bdd->query("SELECT matchs_q.id AS id_match, DATE_FORMAT(date, '%d/%m, %Hh%i') AS date, matchs_q.groupe, eq1.pays AS e1, eq2.pays AS e2, score1, score2 FROM matchs_q JOIN teams eq1 ON eq1.id = matchs_q.team1 JOIN teams eq2 ON eq2.id = matchs_q.team2 WHERE date < NOW() AND played = 1 ORDER BY date ASC");
+        $req = $bdd->query("SELECT matchs_q.id AS id_match, DATE_FORMAT(date, '%d/%m, %Hh%i') AS date, matchs_q.groupe, eq1.pays AS e1, eq2.pays AS e2, score1, score2 FROM matchs_q JOIN teams eq1 ON eq1.id = matchs_q.team1 JOIN teams eq2 ON eq2.id = matchs_q.team2 WHERE played = 1 ORDER BY date ASC");
 
         $i = 0;
         while ($item = $req->fetch()) {

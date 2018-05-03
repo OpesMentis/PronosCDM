@@ -48,6 +48,16 @@ if (!isset($_SESSION['login'])) {
                 <font style="font-family: 'Open Sans'; font-size: 20px;"><a href="">Mon profil</a></font>
             </td>
         </tr>
+        <?php
+        if ($_SESSION['login'] == 'admin') {?>
+        <tr>
+            <td></td>
+            <td width="33%" align="center">
+                <br/><br/>
+                <font style="font-family: 'Open Sans'; font-size: 30px;"><a href="calcul.php">Mise à jour des matchs et des points</a></font>
+            </td>
+        </tr><?php
+        }?>
     </table>
 </body>
 </html>

@@ -25,9 +25,9 @@ if (isset($_SESSION['login'])) {
             <td width="300">
                 <font style="font-family: 'Open Sans'; font-size: 20px;">
                     <font style="font-size: 30px;"><b>Connexion</b></font><br/><br/>
-                    <form method="post" action="index.php" onsubmit="return checkAll();">
-                        Nom d'utilisateur<br/><input type="text" name="pseudo" id="pseudo" onchange="checkPseudo()" /><br/><br/>
-                        Mot de passe<br/><input type="password" name="mdp" id="mdp" onchange="checkPassword()"/><br/><br/>
+                    <form method="post" action="index.php">
+                        Nom d'utilisateur<br/><input type="text" name="pseudo" <?php echo (isset($_POST['pseudo']) ? 'value="' . $_POST['pseudo'] . '"': '')?>/><br/><br/>
+                        Mot de passe<br/><input type="password" name="mdp"/><br/><br/>
                         <input type="submit" value="Connexion"/>
                     </form>
                 </font>

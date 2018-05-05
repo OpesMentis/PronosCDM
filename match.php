@@ -34,7 +34,7 @@ if (!isset($_SESSION['login'])) {
             echo 'Hum... Il semblerait que vous ayez touché à un truc que vous n\'auriez pas dû toucher...';
         } else {
             $id_play = $_GET['id'];
-            $req = $bdd->prepare("SELECT matchs_q.groupe AS groupe, eq1.pays AS e1, eq2.pays AS e2, DATE_FORMAT(date, '%d/%m, %Hh%i') AS date, date AS dt FROM matchs_q JOIN teams eq1 ON eq1.id = matchs_q.team1 JOIN teams eq2 ON eq2.id = matchs_q.team2 WHERE matchs_q.id=:id_match");
+            $req = $bdd->prepare("SELECT matchs.groupe AS groupe, eq1.pays AS e1, eq2.pays AS e2, DATE_FORMAT(date, '%d/%m, %Hh%i') AS date, date AS dt FROM matchs JOIN teams eq1 ON eq1.id = matchs.team1 JOIN teams eq2 ON eq2.id = matchs.team2 WHERE matchs.id=:id_match");
             $req->execute(array('id_match' => $id_play));
             $match = $req->fetch();
             if (!$match) {

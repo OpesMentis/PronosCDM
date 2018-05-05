@@ -83,6 +83,38 @@ while ($match = $matchs->fetch()) {
     $maj->execute(array('s1' => $match['score1'], 's2' => $match['score2'], 'win' => $match['winner'], 'id_m' => $match['id_match']));
 }
 
+/* Points des utilisateurs */
+
+$users = $bdd->query("SELECT id FROM users WHERE login != 'admin'");
+
+while ($usr = $users->fetch()) {
+    $pts = 0;
+
+    /* Points des matchs */
+    $p_matchs = $bdd->prepare("SELECT id_match, score1, score2, winner FROM paris_match WHERE id_user=:usr");
+    $p_matchs->execute(array('usr' => $usr['id']));
+
+    while ($p = $p_matchs->fetch()) {
+        $r_m = $bdd->prepare("SELECT score1, score2, winner, played FROM matchs_q WHERE id=:id_m");
+        $r_m->execute(array('id_m' => $p['id_match']));
+
+        $m = $r_m->fetch();
+
+        if ($m['played'] == 1) {
+            if ($p['winner'] == $m['winner'] && $p['score1'] == $m['score1'] && $p['score2'] == $p['score2']) {
+                $pts += 5;
+            } elseif ($p['winner'] == $m['winner'] && $p['score1'] - $p['score2'] && $m['score1'] == $m['score2']) {
+                $pts += 3;
+            } elseif ($p['winner'] == $m['winner']) {
+                $pts += 1;
+            }
+        }
+    }
+
+    $maj = $bdd->prepare("UPDATE users SET points=:pts WHERE id=:usr");
+    $maj->execute(array('pts' => $pts, 'usr' => $usr['id']));
+}
+
 header('Location: index.php');
 exit();
 

@@ -103,7 +103,7 @@ while ($usr = $users->fetch()) {
         if ($m['played'] == 1) {
             if ($p['winner'] == $m['winner'] && $p['score1'] == $m['score1'] && $p['score2'] == $p['score2']) {
                 $pts += 5;
-            } elseif ($p['winner'] == $m['winner'] && $p['score1'] - $p['score2'] && $m['score1'] == $m['score2']) {
+            } elseif ($p['winner'] == $m['winner'] && $p['score1'] - $p['score2'] == $m['score1'] - $m['score2']) {
                 $pts += 3;
             } elseif ($p['winner'] == $m['winner']) {
                 $pts += 1;

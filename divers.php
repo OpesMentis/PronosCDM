@@ -30,27 +30,27 @@ if (!isset($_SESSION['login'])) {
         $id_perso = $req->fetch()['id'];
 
         $vals = ['', '', '', ''];
-        $items = ['1', '2', '3', '4'];
+        $items = ['a', 'b', 'c', 'd'];
 
-        for ($i = 1; $i <= 4; $i++) {
+        for ($i = 0; $i < 4; $i++) {
             $req = $bdd->prepare("SELECT id_pari, val FROM paris_divers WHERE id_user=:usr AND id_obj=:item");
-            $req->execute(array('usr' => $id_perso, 'item' => $i));
+            $req->execute(array('usr' => $id_perso, 'item' => $items[$i]));
             $pari = $req->fetch();
 
             if ($pari) {
-                $vals[$i-1] = $pari['val'];
+                $vals[$i] = $pari['val'];
             }
 
-            if (($_SESSION['login'] == 'admin' || strtotime('2018-06-18 17:00:00') > strtotime('now')) && isset($_POST[$items[$i-1]])) {
-                if (ctype_digit($_POST[$items[$i-1]])) {
+            if (($_SESSION['login'] == 'admin' || strtotime('2018-06-18 17:00:00') > strtotime('now')) && isset($_POST[$items[$i]])) {
+                if (ctype_digit($_POST[$items[$i]])) {
                     if ($pari) {
                         $req = $bdd->prepare("UPDATE paris_divers SET val=:value WHERE id_pari=:id");
-                        $req->execute(array('value' => $_POST[$items[$i-1]], 'id' => $pari['id_pari']));
+                        $req->execute(array('value' => $_POST[$items[$i]], 'id' => $pari['id_pari']));
                     } else {
                         $req = $bdd->prepare("INSERT INTO paris_divers(id_user, id_obj, val) VALUES(:usr, :item, :value)");
-                        $req->execute(array('usr' => $id_perso, 'item' => $i, 'value' => $_POST[$items[$i-1]]));
+                        $req->execute(array('usr' => $id_perso, 'item' => $items[$i], 'value' => $_POST[$items[$i]]));
                     }
-                    $vals[$i-1] = $_POST[(string)($i)];
+                    $vals[$i] = $_POST[$items[$i]];
                 }
             }
         }
@@ -76,13 +76,13 @@ if (!isset($_SESSION['login'])) {
                 <td width="50%" align="right">
                     <br/>
                     <font style="font-family: 'Open Sans'; font-size: 20px;">Nombre de buts marqués pendant la compétition</font>
-                    <input type="text" name="1" size="5" value=<?php echo '"' . $vals[0] . '" ' . ($_SESSION['login'] != 'admin' && strtotime('2018-06-18 17:00:00') < strtotime('now') ? 'disabled': '');?>/><br/><br/>
+                    <input type="text" name="a" size="5" value=<?php echo '"' . $vals[0] . '" ' . ($_SESSION['login'] != 'admin' && strtotime('2018-06-18 17:00:00') < strtotime('now') ? 'disabled': '');?>/><br/><br/>
                     <font style="font-family: 'Open Sans'; font-size: 20px;">Nombre de buts marqués par la France</font>
-                    <input type="text" name="2" size="5" value=<?php echo '"' . $vals[1] . '" ' . ($_SESSION['login'] != 'admin' && strtotime('2018-06-18 17:00:00') < strtotime('now') ? 'disabled': '');?>/><br/><br/>
+                    <input type="text" name="b" size="5" value=<?php echo '"' . $vals[1] . '" ' . ($_SESSION['login'] != 'admin' && strtotime('2018-06-18 17:00:00') < strtotime('now') ? 'disabled': '');?>/><br/><br/>
                     <font style="font-family: 'Open Sans'; font-size: 20px;">Nombre de buts encaissés par la France</font>
-                    <input type="text" name="3" size="5" value=<?php echo '"' . $vals[2] . '" ' . ($_SESSION['login'] != 'admin' && strtotime('2018-06-18 17:00:00') < strtotime('now') ? 'disabled': '');?>/><br/><br/>
+                    <input type="text" name="c" size="5" value=<?php echo '"' . $vals[2] . '" ' . ($_SESSION['login'] != 'admin' && strtotime('2018-06-18 17:00:00') < strtotime('now') ? 'disabled': '');?>/><br/><br/>
                     <font style="font-family: 'Open Sans'; font-size: 20px;">Nombre de cartons pendant la compétition</font>
-                    <input type="text" name="4" size="5" value=<?php echo '"' . $vals[3] . '" ' . ($_SESSION['login'] != 'admin' && strtotime('2018-06-18 17:00:00') < strtotime('now') ? 'disabled': '');?>/><br/><br/>
+                    <input type="text" name="d" size="5" value=<?php echo '"' . $vals[3] . '" ' . ($_SESSION['login'] != 'admin' && strtotime('2018-06-18 17:00:00') < strtotime('now') ? 'disabled': '');?>/><br/><br/>
                 </td>
                 <td width="50%" align="center">
                     <input type="submit" value="Je valide"/>

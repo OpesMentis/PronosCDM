@@ -24,7 +24,7 @@ if (isset($_SESSION['login'])) {
             <td width="300">
                 <font style="font-family: 'Open Sans'; font-size: 20px;">
                     <font style="font-size: 30px;"><b>Inscription</b></font><br/><br/>
-                    <form method="post" action="inscription.php" onsubmit="return checkAll();">
+                    <form method="post" action="inscription.php">
                         Pseudo<br/><input type="text" name="pseudo"
                         <?php
                         if (isset($_POST['pseudo'])) {
@@ -32,6 +32,7 @@ if (isset($_SESSION['login'])) {
                         }
                         ?>/><br/><br/>
                         Mot de passe<br/><input type="password" name="mdp"/><br/><br/>
+                        Confirmation<br/><input type="password" name="mdp2"/><br/><br/>
                         <input type="submit" value="C'est parti !"/>
                     </form>
                 </font>
@@ -44,6 +45,9 @@ if (isset($_SESSION['login'])) {
     if (isset($_POST['pseudo']) and isset($_POST['mdp'])) {
         if (!ctype_alnum($_POST['pseudo'])) {?>
             <center><font style="font-size: 20px;">Seuls les caractères alphanumériques sont autorisés dans le nom d'utilisateur !</font></center>
+            <?php
+        } elseif ($_POST['mdp'] != $_POST['mdp2']) {?>
+            <center><font style="font-size: 20px;">Les deux mots de passe diffèrent !</font></center>
             <?php
         } elseif (strlen($_POST['mdp']) < 8) {?>
             <center><font style="font-size: 20px;">Le mot de passe doit faire 8 caractères minimum !</font></center>

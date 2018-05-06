@@ -85,6 +85,35 @@ while ($match = $matchs->fetch()) {
 
 /* Points des utilisateurs */
 
+$l_ht = [];
+$ht = $bdd->query("SELECT id_e1, id_e2 FROM paris_0 JOIN users ON paris_0.id_user = users.id WHERE users.login='admin' AND LENGTH(grp)=1");
+
+while ($eq = $ht->fetch()) {
+    $l_ht[] = $eq['id_e1'];
+    $l_ht[] = $eq['id_e2'];
+}
+
+$l_qr = [];
+$qr = $bdd->query("SELECT id_e1 FROM paris_0 JOIN users ON paris_0.id_user = users.id WHERE users.login='admin' AND LENGTH(grp)=2 AND SUBSTR(grp,1,1)='H'");
+
+while ($eq = $qr->fetch()) {
+    $l_qr[] = $eq['id_e1'];
+}
+
+$l_dm = [];
+$dm = $bdd->query("SELECT id_e1 FROM paris_0 JOIN users ON paris_0.id_user = users.id WHERE users.login='admin' AND LENGTH(grp)=2 AND SUBSTR(grp,1,1)='Q'");
+
+while ($eq = $dm->fetch()) {
+    $l_dm[] = $eq['id_e1'];
+}
+
+$l_fn = [];
+$fn = $bdd->query("SELECT id_e1 FROM paris_0 JOIN users ON paris_0.id_user = users.id WHERE users.login='admin' AND LENGTH(grp)=2 AND SUBSTR(grp,1,1)='D'");
+
+while ($fn = $fn->fetch()) {
+    $l_fn[] = $fn['id_e1'];
+}
+
 $users = $bdd->query("SELECT id FROM users WHERE login != 'admin'");
 
 while ($usr = $users->fetch()) {
@@ -108,6 +137,48 @@ while ($usr = $users->fetch()) {
             } elseif ($p['winner'] == $m['winner']) {
                 $pts += 1;
             }
+        }
+    }
+
+    /* Points sur toute la compétition */
+
+    $ht_u = $bdd->prepare("SELECT id_e1, id_e2 FROM paris_0 WHERE id_user=:usr AND LENGTH(grp)=1");
+    $ht_u->execute(array('usr' => $usr['id']));
+
+    while ($eq = $ht_u->fetch()) {
+        if ($eq['id_e1'] != 0 && in_array($eq['id_e1'], $l_ht)) {
+            $pts += 1;
+        }
+
+        if ($eq['id_e2'] != 0 && in_array($eq['id_e2'], $l_ht)) {
+            $pts += 1;
+        }
+    }
+
+    $qr_u = $bdd->prepare("SELECT id_e1 FROM paris_0 WHERE id_user=:usr AND LENGTH(grp)=2 AND SUBSTR(grp,1,1)='H'");
+    $qr_u->execute(array('usr' => $usr['id']));
+
+    while ($eq = $qr_u->fetch()) {
+        if ($eq['id_e1'] && in_array($eq['id_e1'], $l_qr)) {
+            $pts += 2;
+        }
+    }
+
+    $dm_u = $bdd->prepare("SELECT id_e1 FROM paris_0 WHERE id_user=:usr AND LENGTH(grp)=2 AND SUBSTR(grp,1,1)='Q'");
+    $dm_u->execute(array('usr' => $usr['id']));
+
+    while ($eq = $dm_u->fetch()) {
+        if ($eq['id_e1'] && in_array($eq['id_e1'], $l_dm)) {
+            $pts += 4;
+        }
+    }
+
+    $fn_u = $bdd->prepare("SELECT id_e1 FROM paris_0 WHERE id_user=:usr AND LENGTH(grp)=2 AND SUBSTR(grp,1,1)='D'");
+    $fn_u->execute(array('usr' => $usr['id']));
+
+    while ($eq = $fn_u->fetch()) {
+        if ($eq['id_e1'] && in_array($eq['id_e1'], $l_fn)) {
+            $pts += 8;
         }
     }
 

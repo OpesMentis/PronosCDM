@@ -74,7 +74,6 @@ $maj = $bdd->prepare("UPDATE matchs SET team1=:e1, team2=:e2 WHERE groupe='F1'")
 $maj->execute(array('e1' => $e1->fetch()['id_e2'], 'e2' => $e2->fetch()['id_e2']));
 
 /* Enregistrement du résultat des matchs */
-
 $matchs = $bdd->prepare("SELECT id_match, score1, score2, winner FROM paris_match WHERE id_user=:usr");
 $matchs->execute(array('usr' => $id_perso));
 
@@ -84,7 +83,6 @@ while ($match = $matchs->fetch()) {
 }
 
 /* Points des utilisateurs */
-
 $l_ht = [];
 $ht = $bdd->query("SELECT id_e1, id_e2 FROM paris_0 JOIN users ON paris_0.id_user = users.id WHERE users.login='admin' AND LENGTH(grp)=1");
 
@@ -110,8 +108,15 @@ while ($eq = $dm->fetch()) {
 $l_fn = [];
 $fn = $bdd->query("SELECT id_e1 FROM paris_0 JOIN users ON paris_0.id_user = users.id WHERE users.login='admin' AND LENGTH(grp)=2 AND SUBSTR(grp,1,1)='D'");
 
-while ($fn = $fn->fetch()) {
+while ($eq = $fn->fetch()) {
     $l_fn[] = $fn['id_e1'];
+}
+
+$l_divers = [];
+$divers = $bdd->query("SELECT id_obj, val FROM paris_divers JOIN users ON paris_divers.id_user = users.id WHERE users.login='admin'");
+
+while ($p = $divers->fetch()) {
+    $l_divers[$p['id_obj']] = $p['val'];
 }
 
 $users = $bdd->query("SELECT id FROM users WHERE login != 'admin'");
@@ -141,7 +146,6 @@ while ($usr = $users->fetch()) {
     }
 
     /* Points sur toute la compétition */
-
     $ht_u = $bdd->prepare("SELECT id_e1, id_e2 FROM paris_0 WHERE id_user=:usr AND LENGTH(grp)=1");
     $ht_u->execute(array('usr' => $usr['id']));
 
@@ -179,6 +183,18 @@ while ($usr = $users->fetch()) {
     while ($eq = $fn_u->fetch()) {
         if ($eq['id_e1'] && in_array($eq['id_e1'], $l_fn)) {
             $pts += 8;
+        }
+    }
+
+    /* Les paris divers */
+    $p_divers = $bdd->prepare("SELECT id_obj, val FROM paris_divers WHERE id_user=:usr");
+    $p_divers->execute(array('usr' => $usr['id']));
+
+    while ($p = $p_divers->fetch()) {
+        $delta = abs($l_divers[$p['id_obj']] - $p['val']) / $l_divers[$p['id_obj']];
+
+        if ($delta <= 1) {
+            $pts += floor(10 * (1 - $delta));
         }
     }
 

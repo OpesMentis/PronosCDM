@@ -17,7 +17,7 @@ if (isset($_SESSION['login'])) {
 </head>
 <body>
     <div align="left">
-        <font style="font-family: 'Mina'; font-size: 20px;"><b><a href="index.php"><b>Pronostics CDM 2018</b></a></font>
+        <font style="font-family: 'Mina'; font-size: 20px;"><b><a href="index.php"><b>PRONOSTICS COUPE DU MONDE 2018</b></a></font>
     </div><br/><br/>
     <table border="0" align="center">
         <tr>

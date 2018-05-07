@@ -27,7 +27,7 @@ if (!isset($_SESSION['login'])) {
         include('connect.php');
 
         $req = $bdd->prepare("SELECT id FROM users WHERE login=:pseudo");
-        $req->execute('pseudo' => $_SESSION['login']);
+        $req->execute(array('pseudo' => $_SESSION['login']));
         $id_perso = $req->fetch()['id'];
 
         $vals = ['', '', '', ''];

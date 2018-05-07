@@ -45,7 +45,7 @@ if (!isset($_SESSION['login'])) {
                 if (isset($_POST['score1']) && isset($_POST['score2'])) {
                     if (ctype_digit($_POST['score1']) && ctype_digit(($_POST['score2']))) {
                         $req = $bdd->prepare("SELECT id FROM users WHERE login=:pseudo");
-                        $req->execute('pseudo' => $_SESSION['login']);
+                        $req->execute(array('pseudo' => $_SESSION['login']));
                         $id_perso = $req->fetch()['id'];
                         $req = $bdd->prepare("SELECT id_pari FROM paris_match WHERE id_user=:usr AND id_match=:play");
                         $req->execute(array(

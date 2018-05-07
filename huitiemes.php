@@ -31,7 +31,7 @@ if (!isset($_SESSION['login'])) {
     <?php
     $grp = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H');
     $req = $bdd->prepare("SELECT id FROM users WHERE login=:pseudo");
-    $req->execute('pseudo' => $_SESSION['login']);
+    $req->execute(array('pseudo' => $_SESSION['login']));
     $id_perso = $req->fetch()['id'];
     ?>
     <table width="100%" align="center">

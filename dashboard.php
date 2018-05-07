@@ -21,21 +21,21 @@ if (!isset($_SESSION['login'])) {
     </div>
     <div align="right">
         <font style="font-family: 'Open Sans'; font-size: 20px;"><a href="logout.php">Déconnexion</a></font>
-    </div><br/><br/>
+    </div><br/>
     <div align="center">
-            <?php
-            include('connect.php');
+        <?php
+        include('connect.php');
 
-            $req = $bdd->prepare("SELECT points FROM `users` WHERE login=:pseudo");
-            $req->execute(array(
-                'pseudo' => $_SESSION['login']
-            ));
-            $data = $req->fetch();
-            $pts = $data['points']
+        $req = $bdd->prepare("SELECT points FROM `users` WHERE login=:pseudo");
+        $req->execute(array(
+            'pseudo' => $_SESSION['login']
+        ));
+        $data = $req->fetch();
+        $pts = $data['points']
 
-            ?>
-            <font style="font-family: 'Open Sans'; font-size: 30px;"><b>Tableau de bord de <?php echo $_SESSION['login'] . '</b> <i>(' . $pts . ')</i>'?><br/><br/></font>
-        </div>
+        ?>
+        <font style="font-family: 'Open Sans'; font-size: 30px;"><b>Tableau de bord de <?php echo $_SESSION['login'] . '</b> <i>(' . $pts . ')</i>'?><br/><br/></font>
+    </div>
     <table width="100%" align="center">
         <tr>
             <td width="33%" align="center">

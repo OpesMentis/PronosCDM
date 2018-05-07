@@ -29,7 +29,8 @@ if (!isset($_SESSION['login'])) {
         <font style="font-family: 'Open Sans'; font-size: 30px;"><b>Voilà ce qui va se passer...</b><br/><br/></font>
     </div>
     <?php
-    $req = $bdd->query("SELECT id FROM users WHERE login='" . $_SESSION['login'] . "'");
+    $req = $bdd->prepare("SELECT id FROM users WHERE login=:pseudo");
+    $req->execute('pseudo' => $_SESSION['login']);
     $id_perso = $req->fetch()['id'];
     ?>
     <table width="100%" align="center">

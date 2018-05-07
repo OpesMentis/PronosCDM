@@ -23,7 +23,7 @@ if (isset($_SESSION['login'])) {
     <table align="center" border="0">
         <tr>
             <td width="300">
-                <font style="font-family: 'Open Sans'; font-size: 20px;">
+                <font style="font-size: 20px;">
                     <font style="font-size: 30px;"><b>Connexion</b></font><br/><br/>
                     <form method="post" action="index.php">
                         Nom d'utilisateur<br/><input type="text" name="pseudo" <?php echo (isset($_POST['pseudo']) ? 'value="' . $_POST['pseudo'] . '"': '')?>/><br/><br/>
@@ -74,7 +74,7 @@ if (isset($_SESSION['login'])) {
     ?>
         <tr>
             <td align="center">
-                <font style="font-family: 'Open Sans'; font-size: 20px;">
+                <font style="font-size: 20px;">
                     <br/><br/><br/>
                     <a href="inscription.php">Pas encore inscrit ?</a>
                 </font>

@@ -20,13 +20,13 @@ if (!isset($_SESSION['login'])) {
         <font style="font-family: 'Mina'; font-size: 20px;"><a href="index.php"><b>PRONOSTICS COUPE DU MONDE 2018</b></a></font>
     </div>
     <div align="right">
-        <font style="font-family: 'Open Sans'; font-size: 20px;"><a href="logout.php">Déconnexion</a></font>
+        <font style="font-size: 20px;"><a href="logout.php">Déconnexion</a></font>
     </div><br/>
     <div align="center">
         <?php
         include('connect.php');
         ?>
-        <font style="font-family: 'Open Sans'; font-size: 30px;"><b>Voilà ce qui va se passer...</b><br/><br/></font>
+        <font style="font-size: 30px;"><b>Voilà ce qui va se passer...</b><br/><br/></font>
     </div>
     <?php
     $grp = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H');
@@ -37,13 +37,13 @@ if (!isset($_SESSION['login'])) {
     <table width="100%" align="center">
         <tr>
             <td width="20%" align="center">
-                <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="predictions.php">Matchs individuels</a></font><br/>
+                <font style="font-size: 15px;"><a href="predictions.php">Matchs individuels</a></font><br/>
             </td>
             <td width="20%" align="center">
-                <font style="font-family: 'Open Sans'; font-size: 15px;"><b>Toute la compétition</b></font><br/>
+                <font style="font-size: 15px;"><b>Toute la compétition</b></font><br/>
             </td>
             <td width="20%" align="center">
-                <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="divers.php">Paris divers</a></font><br/>
+                <font style="font-size: 15px;"><a href="divers.php">Paris divers</a></font><br/>
             </td>
         </tr>
     </table>
@@ -96,8 +96,8 @@ if (!isset($_SESSION['login'])) {
             }
             ?>
             <td width="20%" align="center">
-                <font style="font-family: 'Open Sans'; font-size: 20px;">Groupe <?php echo ' ' . $grp[$i];?></font><br/>
-                <font style="font-family: 'Open Sans'; font-size: 15px;">1<sup>er</sup> du groupe</font>
+                <font style="font-size: 20px;">Groupe <?php echo ' ' . $grp[$i];?></font><br/>
+                <font style="font-size: 15px;">1<sup>er</sup> du groupe</font>
                 <select name=<?php echo '"' . $grp[$i] . '1" ' . ($_SESSION['login'] != 'admin' && strtotime('2018-06-18 17:00:00') < strtotime('now') ? 'disabled': '');?>>
                     <option value="0">--</option>
                     <?php
@@ -109,7 +109,7 @@ if (!isset($_SESSION['login'])) {
                         }
                     }?>
                 </select><br/>
-                <font style="font-family: 'Open Sans'; font-size: 15px;">2<sup>e</sup> du groupe</font>
+                <font style="font-size: 15px;">2<sup>e</sup> du groupe</font>
                 <select name=<?php echo '"' . $grp[$i] . '2" ' . ($_SESSION['login'] != 'admin' && strtotime('2018-06-18 17:00:00') < strtotime('now') ? 'disabled': '');?>>
                     <option value="0">--</option>
                     <?php
@@ -121,7 +121,7 @@ if (!isset($_SESSION['login'])) {
                         }
                     }?>
                 </select><br/>
-                <font style="font-family: 'Open Sans'; font-size: 10px;"><?php echo $msg;?></font>
+                <font style="font-size: 10px;"><?php echo $msg;?></font>
             </td>
             <?php
             if ($i == 3 || $i == 7) {
@@ -245,22 +245,22 @@ if (!isset($_SESSION['login'])) {
     <table width="90%" align="center">
         <tr>
             <td width="15%" align="center">
-                <font style="font-family: 'Open Sans'; font-size: 15px;"><b>La phase de groupes</b></font><br/>
+                <font style="font-size: 15px;"><b>La phase de groupes</b></font><br/>
             </td>
             <td width="15%" align="center">
-                <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="huitiemes.php">Les huitièmes de finale</a></font><br/>
+                <font style="font-size: 15px;"><a href="huitiemes.php">Les huitièmes de finale</a></font><br/>
             </td>
             <td width="15%" align="center">
-                <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="quarts.php">Les quarts de finale</a></font><br/>
+                <font style="font-size: 15px;"><a href="quarts.php">Les quarts de finale</a></font><br/>
             </td>
             <td width="15%" align="center">
-                <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="demifinales.php">Les demi-finales</a></font><br/>
+                <font style="font-size: 15px;"><a href="demifinales.php">Les demi-finales</a></font><br/>
             </td>
             <td width="15%" align="center">
-                <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="petitefinale.php">La petite finale</b></font><br/>
+                <font style="font-size: 15px;"><a href="petitefinale.php">La petite finale</b></font><br/>
             </td>
             <td width="15%" align="center">
-                <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="finale.php">La finale</a></font><br/>
+                <font style="font-size: 15px;"><a href="finale.php">La finale</a></font><br/>
             </td>
 </body>
 </html>

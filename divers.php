@@ -20,7 +20,7 @@ if (!isset($_SESSION['login'])) {
         <font style="font-family: 'Mina'; font-size: 20px;"><a href="index.php"><b>PRONOSTICS COUPE DU MONDE 2018</b></a></font>
     </div>
     <div align="right">
-        <font style="font-family: 'Open Sans'; font-size: 20px;"><a href="logout.php">Déconnexion</a></font>
+        <font style="font-size: 20px;"><a href="logout.php">Déconnexion</a></font>
     </div><br/>
     <div align="center">
         <?php
@@ -56,18 +56,18 @@ if (!isset($_SESSION['login'])) {
             }
         }
         ?>
-        <font style="font-family: 'Open Sans'; font-size: 30px;"><b>Considérations sportives autres</b><br/><br/></font>
+        <font style="font-size: 30px;"><b>Considérations sportives autres</b><br/><br/></font>
     </div>
     <table width="100%" align="center">
         <tr>
             <td width="20%" align="center">
-                <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="predictions.php">Matchs individuels</a></font><br/><br/>
+                <font style="font-size: 15px;"><a href="predictions.php">Matchs individuels</a></font><br/><br/>
             </td>
             <td width="20%" align="center">
-                <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="groupes.php">Toute la compétition</a></font><br/><br/>
+                <font style="font-size: 15px;"><a href="groupes.php">Toute la compétition</a></font><br/><br/>
             </td>
             <td width="20%" align="center">
-                <font style="font-family: 'Open Sans'; font-size: 15px;"><b>Paris divers</b></font><br/><br/>
+                <font style="font-size: 15px;"><b>Paris divers</b></font><br/><br/>
             </td>
         </tr>
     </table>
@@ -76,13 +76,13 @@ if (!isset($_SESSION['login'])) {
             <form method="post" action="divers.php">
                 <td width="50%" align="right">
                     <br/>
-                    <font style="font-family: 'Open Sans'; font-size: 20px;">Nombre de buts marqués pendant la compétition</font>
+                    <font style="font-size: 20px;">Nombre de buts marqués pendant la compétition</font>
                     <input type="text" name="a" size="5" value=<?php echo '"' . $vals[0] . '" ' . ($_SESSION['login'] != 'admin' && strtotime('2018-06-18 17:00:00') < strtotime('now') ? 'disabled': '');?>/><br/><br/>
-                    <font style="font-family: 'Open Sans'; font-size: 20px;">Nombre de buts marqués par la France</font>
+                    <font style="font-size: 20px;">Nombre de buts marqués par la France</font>
                     <input type="text" name="b" size="5" value=<?php echo '"' . $vals[1] . '" ' . ($_SESSION['login'] != 'admin' && strtotime('2018-06-18 17:00:00') < strtotime('now') ? 'disabled': '');?>/><br/><br/>
-                    <font style="font-family: 'Open Sans'; font-size: 20px;">Nombre de buts encaissés par la France</font>
+                    <font style="font-size: 20px;">Nombre de buts encaissés par la France</font>
                     <input type="text" name="c" size="5" value=<?php echo '"' . $vals[2] . '" ' . ($_SESSION['login'] != 'admin' && strtotime('2018-06-18 17:00:00') < strtotime('now') ? 'disabled': '');?>/><br/><br/>
-                    <font style="font-family: 'Open Sans'; font-size: 20px;">Nombre de cartons pendant la compétition</font>
+                    <font style="font-size: 20px;">Nombre de cartons pendant la compétition</font>
                     <input type="text" name="d" size="5" value=<?php echo '"' . $vals[3] . '" ' . ($_SESSION['login'] != 'admin' && strtotime('2018-06-18 17:00:00') < strtotime('now') ? 'disabled': '');?>/><br/><br/>
                 </td>
                 <td width="50%" align="center">

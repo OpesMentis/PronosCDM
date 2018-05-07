@@ -20,7 +20,7 @@ if (!isset($_SESSION['login'])) {
         <font style="font-family: 'Mina'; font-size: 20px;"><a href="index.php"><b>PRONOSTICS COUPE DU MONDE 2018</b></a></font>
     </div>
     <div align="right">
-        <font style="font-family: 'Open Sans'; font-size: 20px;"><a href="logout.php">Déconnexion</a></font>
+        <font style="font-size: 20px;"><a href="logout.php">Déconnexion</a></font>
     </div><br/><br/>
     <div align="center">
             <?php
@@ -28,7 +28,7 @@ if (!isset($_SESSION['login'])) {
 
             $req = $bdd->query("SELECT login, points FROM users WHERE login!='admin' ORDER BY points DESC");
             ?>
-            <font style="font-family: 'Open Sans'; font-size: 30px;"><b>Tableau d'honneur</b><br/><br/></font>
+            <font style="font-size: 30px;"><b>Tableau d'honneur</b><br/><br/></font>
         </div>
     <table width="50%" align="center" style='border-collapse: collapse;'>
         <?php
@@ -41,13 +41,13 @@ if (!isset($_SESSION['login'])) {
             }?>
             <tr <?php echo ($item['login'] == $_SESSION['login'] ? 'style="border: 1px solid black;"': '')?>>
                 <td width="33%" align="center">
-                    <font style="font-family: 'Open Sans'; font-size: 25px;"><?php echo $i . '.'?></font>
+                    <font style="font-size: 25px;"><?php echo $i . '.'?></font>
                 </td>
                 <td width="33%" align="center">
-                    <font style="font-family: 'Open Sans'; font-size: 25px;"><?php echo $item['login']?></font>
+                    <font style="font-size: 25px;"><?php echo $item['login']?></font>
                 </td>
                 <td width="33%" align="center">
-                    <font style="font-family: 'Open Sans'; font-size: 25px;"><?php echo $item['points']?></font>
+                    <font style="font-size: 25px;"><?php echo $item['points']?></font>
                 </td>
             </tr>
         <?php

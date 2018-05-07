@@ -20,7 +20,7 @@ if (!isset($_SESSION['login'])) {
         <font style="font-family: 'Mina'; font-size: 20px;"><a href="index.php"><b>PRONOSTICS COUPE DU MONDE 2018</b></a></font>
     </div>
     <div align="right">
-        <font style="font-family: 'Open Sans'; font-size: 20px;"><a href="logout.php">Déconnexion</a></font>
+        <font style="font-size: 20px;"><a href="logout.php">Déconnexion</a></font>
     </div><br/>
     <div align="center">
         <?php
@@ -34,18 +34,18 @@ if (!isset($_SESSION['login'])) {
         $pts = $data['points']
 
         ?>
-        <font style="font-family: 'Open Sans'; font-size: 30px;"><b>Tableau de bord de <?php echo $_SESSION['login'] . '</b> <i>(' . $pts . ')</i>'?><br/><br/></font>
+        <font style="font-size: 30px;"><b>Tableau de bord de <?php echo $_SESSION['login'] . '</b> <i>(' . $pts . ')</i>'?><br/><br/></font>
     </div>
     <table width="100%" align="center">
         <tr>
             <td width="33%" align="center">
-                <font style="font-family: 'Open Sans'; font-size: 20px;"><a href="ranking.php">Le classement</a></font>
+                <font style="font-size: 20px;"><a href="ranking.php">Le classement</a></font>
             </td>
             <td width="33%" align="center">
-                <font style="font-family: 'Open Sans'; font-size: 20px;"><a href="predictions.php">Je prédis l'avenir</a></font>
+                <font style="font-size: 20px;"><a href="predictions.php">Je prédis l'avenir</a></font>
             </td>
             <td width="33%" align="center">
-                <font style="font-family: 'Open Sans'; font-size: 20px;"><a href="">Mon profil</a></font>
+                <font style="font-size: 20px;"><a href="settings.php">Paramètres de compte</a></font>
             </td>
         </tr>
         <?php
@@ -54,7 +54,7 @@ if (!isset($_SESSION['login'])) {
             <td></td>
             <td width="33%" align="center">
                 <br/><br/>
-                <font style="font-family: 'Open Sans'; font-size: 30px;"><a href="calcul.php">Mise à jour des matchs et des points</a></font>
+                <font style="font-size: 30px;"><a href="calcul.php">Mise à jour des matchs et des points</a></font>
             </td>
         </tr><?php
         }?>

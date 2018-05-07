@@ -22,7 +22,7 @@ if (isset($_SESSION['login'])) {
     <table border="0" align="center">
         <tr>
             <td width="300">
-                <font style="font-family: 'Open Sans'; font-size: 20px;">
+                <font style="font-size: 20px;">
                     <font style="font-size: 30px;"><b>Inscription</b></font><br/><br/>
                     <form method="post" action="inscription.php">
                         Pseudo<br/><input type="text" name="pseudo"

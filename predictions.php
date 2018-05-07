@@ -20,31 +20,31 @@ if (!isset($_SESSION['login'])) {
         <font style="font-family: 'Mina'; font-size: 20px;"><a href="index.php"><b>PRONOSTICS COUPE DU MONDE 2018</b></a></font>
     </div>
     <div align="right">
-        <font style="font-family: 'Open Sans'; font-size: 20px;"><a href="logout.php">Déconnexion</a></font>
+        <font style="font-size: 20px;"><a href="logout.php">Déconnexion</a></font>
     </div><br/>
     <div align="center">
         <?php
         include('connect.php');
         ?>
-        <font style="font-family: 'Open Sans'; font-size: 30px;"><b>Dans la cabane de Madame Irma</b><br/><br/></font>
+        <font style="font-size: 30px;"><b>Dans la cabane de Madame Irma</b><br/><br/></font>
     </div>
     <table width="100%" align="center">
         <tr>
             <td width="20%" align="center">
-                <font style="font-family: 'Open Sans'; font-size: 15px;"><b>Matchs individuels</b></font><br/><br/>
+                <font style="font-size: 15px;"><b>Matchs individuels</b></font><br/><br/>
             </td>
             <td width="20%" align="center">
-                <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="groupes.php">Toute la compétition</a></font><br/><br/>
+                <font style="font-size: 15px;"><a href="groupes.php">Toute la compétition</a></font><br/><br/>
             </td>
             <td width="20%" align="center">
-                <font style="font-family: 'Open Sans'; font-size: 15px;"><a href="divers.php">Paris divers</a></font><br/><br/>
+                <font style="font-size: 15px;"><a href="divers.php">Paris divers</a></font><br/><br/>
             </td>
         </tr>
     </table>
     <table width="90%" align="center" style="border-spacing: 10px;">
         <tr>
             <td width="20%" align="left">
-                <font style="font-family: 'Open Sans'; font-size: 25px;">Les matchs à venir</font><br/><br/>
+                <font style="font-size: 25px;">Les matchs à venir</font><br/><br/>
             </td>
         </tr>
         <?php
@@ -60,10 +60,10 @@ if (!isset($_SESSION['login'])) {
             <?php
             }?>
                 <td width="20%" align="center" style="border: 1px solid black;"><br/>
-                    <font style="font-family: 'Open Sans'; font-size: 15px;"><?php echo $item['e1'] . ' — ' . $item['e2'];?></font><br/>
-                    <font style="font-family: 'Open Sans'; font-size: 10px;">-- / --</font><br/>
-                    <font style="font-family: 'Open Sans'; font-size: 10px;"><?php echo $item['date'];?></font><br/>
-                    <font style="font-family: 'Open Sans'; font-size: 10px;"><b>
+                    <font style="font-size: 15px;"><?php echo $item['e1'] . ' — ' . $item['e2'];?></font><br/>
+                    <font style="font-size: 10px;">-- / --</font><br/>
+                    <font style="font-size: 10px;"><?php echo $item['date'];?></font><br/>
+                    <font style="font-size: 10px;"><b>
                         <?php
                         if ($_SESSION['login'] == 'admin') {
                             echo 'LE MATCH N\'EST PAS ENCORE PASSÉ';
@@ -82,7 +82,7 @@ if (!isset($_SESSION['login'])) {
         ?>
         <tr>
             <td width="20%" align="left">
-                <font style="font-family: 'Open Sans'; font-size: 25px;">Les matchs en attente du résultat</font><br/><br/>
+                <font style="font-size: 25px;">Les matchs en attente du résultat</font><br/><br/>
             </td>
         </tr>
         <?php
@@ -98,10 +98,10 @@ if (!isset($_SESSION['login'])) {
             <?php
             }?>
                 <td width="20%" align="center" style="border: 1px solid black;"><br/>
-                    <font style="font-family: 'Open Sans'; font-size: 15px;"><?php echo $item['e1'] . ' — ' . $item['e2'];?></font><br/>
-                    <font style="font-family: 'Open Sans'; font-size: 10px;">-- / --</font><br/>
-                    <font style="font-family: 'Open Sans'; font-size: 10px;"><?php echo $item['date'];?></font><br/>
-                    <font style="font-family: 'Open Sans'; font-size: 10px;"><b>
+                    <font style="font-size: 15px;"><?php echo $item['e1'] . ' — ' . $item['e2'];?></font><br/>
+                    <font style="font-size: 10px;">-- / --</font><br/>
+                    <font style="font-size: 10px;"><?php echo $item['date'];?></font><br/>
+                    <font style="font-size: 10px;"><b>
                         <?php
                         if ($_SESSION['login'] == 'admin') {
                             echo '<a href="match.php?id=' . $item['id_match'] . '">RENSEIGNER LE RÉSULTAT DU MATCH</a>';
@@ -120,7 +120,7 @@ if (!isset($_SESSION['login'])) {
         ?>
         <tr>
             <td width="20%" align="left">
-                <font style="font-family: 'Open Sans'; font-size: 25px;">Les matchs passés</font><br/><br/>
+                <font style="font-size: 25px;">Les matchs passés</font><br/><br/>
             </td>
         </tr>
         <?php
@@ -136,10 +136,10 @@ if (!isset($_SESSION['login'])) {
             <?php
             }?>
                 <td width="20%" align="center" style="border: 1px solid black;"><br/>
-                    <font style="font-family: 'Open Sans'; font-size: 15px;"><?php echo $item['e1'] . ' — ' . $item['e2'];?></font><br/>
-                    <font style="font-family: 'Open Sans'; font-size: 10px;"><b><?php echo $item['score1'] . ' / ' . $item['score2'];?></b></font><br/>
-                    <font style="font-family: 'Open Sans'; font-size: 10px;"><?php echo $item['date'];?></font><br/>
-                    <font style="font-family: 'Open Sans'; font-size: 10px;">
+                    <font style="font-size: 15px;"><?php echo $item['e1'] . ' — ' . $item['e2'];?></font><br/>
+                    <font style="font-size: 10px;"><b><?php echo $item['score1'] . ' / ' . $item['score2'];?></b></font><br/>
+                    <font style="font-size: 10px;"><?php echo $item['date'];?></font><br/>
+                    <font style="font-size: 10px;">
                         <?php
                         if (!$res) {
                             echo 'VOUS N\'AVIEZ PAS PARIÉ';

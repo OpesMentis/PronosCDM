@@ -45,10 +45,20 @@ if (!isset($_SESSION['login'])) {
                 $req = $bdd->prepare("SELECT id FROM commus WHERE nom=:name");
                 $req->execute(array('name' => $_POST['new_commu']));
 
+                $old_com = $num_com;
                 $num_com = $req->fetch()['id'];
 
                 $req = $bdd->prepare("UPDATE users SET id_commu=:id_c WHERE id=:id_u");
                 $req->execute(array('id_c' => $num_com, 'id_u' => $id_perso));
+
+                $mem_commu = $bdd->prepare("SELECT COUNT(*) AS cnt FROM users WHERE id_commu=:comm");
+                $mem_commu->execute(array('comm' => $old_com));
+                $nb_mem = $mem_commu->fetch()['cnt'];
+
+                if ($nb_mem == 0) {
+                    $req = $bdd->prepare("DELETE FROM commus WHERE id=:comm");
+                    $req->execute(array('comm' => $old_com));
+                }
             }
         } elseif (isset($_POST['set_commu'])) {
             if ($_POST['set_commu'] != 0) {
@@ -60,14 +70,34 @@ if (!isset($_SESSION['login'])) {
                 if (!$com) {
                     $msg = 'Une erreur a été rencontré.';
                 } else {
+                    $old_com = $num_com;
                     $num_com = $com['id'];
                     $req = $bdd->prepare("UPDATE users SET id_commu=:id_c WHERE id=:id_u");
                     $req->execute(array('id_c' => $num_com, 'id_u' => $id_perso));
+
+                    $mem_commu = $bdd->prepare("SELECT COUNT(*) AS cnt FROM users WHERE id_commu=:comm");
+                    $mem_commu->execute(array('comm' => $old_com));
+                    $nb_mem = $mem_commu->fetch()['cnt'];
+
+                    if ($nb_mem == 0) {
+                        $req = $bdd->prepare("DELETE FROM commus WHERE id=:comm");
+                        $req->execute(array('comm' => $old_com));
+                    }
                 }
             } else {
                 $req = $bdd->prepare("UPDATE users SET id_commu=0 WHERE id=:id_u");
                 $req->execute(array('id_u' => $id_perso));
+                $old_com = $num_com;
                 $num_com = 0;
+
+                $mem_commu = $bdd->prepare("SELECT COUNT(*) AS cnt FROM users WHERE id_commu=:comm");
+                $mem_commu->execute(array('comm' => $old_com));
+                $nb_mem = $mem_commu->fetch()['cnt'];
+
+                if ($nb_mem == 0) {
+                    $req = $bdd->prepare("DELETE FROM commus WHERE id=:comm");
+                    $req->execute(array('comm' => $old_com));
+                }
             }
         }
         ?>
@@ -94,7 +124,7 @@ if (!isset($_SESSION['login'])) {
                     <input type="text" name="new_commu"/>
                     <input type="submit" value="Créer et rejoindre une communauté"/>
                 </form>
-                <?php echo $msg ?><br/>
+                <?php echo $msg . ($msg != ''? '<br/>': ''); ?><br/>
 
                 <?php
                 $commus = $bdd->query("SELECT * FROM commus");

@@ -26,19 +26,21 @@ if (!isset($_SESSION['login'])) {
         <?php
         include('connect.php');
 
-        $req = $bdd->prepare("SELECT id, id_commu FROM users WHERE login=:pseudo");
+        $req = $bdd->prepare("SELECT id, id_commu, mdp FROM users WHERE login=:pseudo");
         $req->execute(array('pseudo' => $_SESSION['login']));
         $data = $req->fetch();
         $id_perso = $data['id'];
         $num_com = $data['id_commu'];
 
-        $msg = '';
+        $msg1 = '';
+        $msg2 = '';
+        $msg3 = '';
 
         if (isset($_POST['new_commu'])) {
             $req = $bdd->prepare("SELECT id FROM commus WHERE nom=:name");
             $req->execute(array('name' => $_POST['new_commu']));
             if ($req->fetch()) {
-                $msg = 'Une communauté porte déjà ce nom.';
+                $msg2 = 'Une communauté porte déjà ce nom.';
             } else {
                 $req = $bdd->prepare("INSERT INTO commus(nom) VALUES(:name)");
                 $req->execute(array('name' => $_POST['new_commu']));
@@ -68,7 +70,7 @@ if (!isset($_SESSION['login'])) {
                 $com = $req->fetch();
 
                 if (!$com) {
-                    $msg = 'Une erreur a été rencontré.';
+                    $msg1 = 'Une erreur a été rencontré.';
                 } else {
                     $old_com = $num_com;
                     $num_com = $com['id'];
@@ -99,13 +101,38 @@ if (!isset($_SESSION['login'])) {
                     $req->execute(array('comm' => $old_com));
                 }
             }
+        } elseif (isset($_POST['old_mdp']) && isset($_POST['new_mdp']) && isset($_POST['new_mdp2'])) {
+            if (password_verify($_POST['old_mdp'], $data['mdp'])) {
+                if ($_POST['new_mdp'] != $_POST['new_mdp2']) {
+                    $msg2 = 'Les deux mots de passe diffèrent !';
+                } elseif (strlen($_POST['new_mdp']) < 8) {
+                    $msg2 = 'Le mot de passe doit faire 8 caractères minimum !';
+                } else {
+                    $maj_mdp = $bdd->prepare("UPDATE users SET mdp=:password WHERE id=:id_u");
+                    $maj_mdp->execute(array('password' => password_hash($_POST['new_mdp'], PASSWORD_DEFAULT), 'id_u' => $id_perso));
+                    $msg2 = 'Votre mot de passe a été changé avec succès !';
+                }
+            } else {
+                $msg2 = 'Mot de passe incorrect';
+            }
+        } elseif (isset($_POST['mdp'])) {
+            if (password_verify($_POST['mdp'], $data['mdp'])) {
+                if (isset($_POST['ok'])) {
+                    $req = $bdd->prepare("DELETE FROM users WHERE id=:id_u");
+                    $req->execute(array('id_u' => $id_perso));
+                } else {
+                    $msg3 = 'Vous devez cocher la case afin de confirmer que vous avez compris les conséquences de la suppression de votre compte.';
+                }
+            } else {
+                $msg3 = 'Le mot de passe est incorrect.';
+            }
         }
         ?>
         <font style="font-size: 30px;"><b>L'arrière-boutique</b><br/><br/></font>
     </div>
     <table width="90%" align="center" style="border-spacing: 10px;">
         <tr>
-            <td width="100%" align="left">
+            <td id="commu" width="100%" align="left">
                 <font style="font-size: 25px;">Rejoindre une communauté</font><br/>
                 <font style="font-size: 15px;">En vous rassemblant avec vos proches au sein d'une même communauté, vous apparaîtrez ensemble dans un classement spécifique où il n'y aura que vous. Vous apparaîtrez par ailleurs toujours dans le classement général.</font><br/><br/>
                 <?php
@@ -120,17 +147,17 @@ if (!isset($_SESSION['login'])) {
                     <?php
                 }
                 ?>
-                <form method="post" action="settings.php">
+                <form method="post" action="settings.php#commu">
                     <input type="text" name="new_commu"/>
                     <input type="submit" value="Créer et rejoindre une communauté"/>
                 </form>
-                <?php echo $msg . ($msg != ''? '<br/>': ''); ?><br/>
+                <i><?php echo $msg1 . ($msg1 != ''? '<br/>': ''); ?></i><br/>
 
                 <?php
                 $commus = $bdd->query("SELECT * FROM commus");
                 ?>
             
-                <form method="post" action="settings.php">
+                <form method="post" action="settings.php#commu">
                     <select name="set_commu">
                         <option value=0>--</option>
                         <?php
@@ -139,18 +166,31 @@ if (!isset($_SESSION['login'])) {
                         }
                         ?>
                     </select>
-                    <input type="submit" value="Changer de crémerie"/>
+                    <input type="submit" value="Rejoindre une communauté existante"/>
                 </form>
             </td>
         </tr>
         <tr>
-            <td width="100%" align="left">
+            <td id="mdp" width="100%" align="left">
                 <font style="font-size: 25px;">Changer de mot de passe</font><br/><br/>
+                <form method="post" action="settings.php#mdp">
+                    Ancien mot de passe<br/><input type="password" name="old_mdp"><br/><br/>
+                    Nouveau mot de passe<br/><input type="password" name="new_mdp"/><br/><br/>
+                    Confirmation<br/><input type="password" name="new_mdp2"/><br/><br/>
+                    <input type="submit" value="Valider"/>
+                </form>
+                <i><?php echo $msg2 . ($msg2 != ''? '<br/>': ''); ?></i><br/>
             </td>
         </tr>
         <tr>
-            <td width="100%" align="left">
+            <td id="delete" width="100%" align="left">
                 <font style="font-size: 25px;">Supprimer mon compte</font><br/><br/>
+                <form method="post" action="settings.php#delete">
+                    Mot de passe<br/><input type="password" name="mdp"><br/><br/>
+                    <input type="checkbox" name="ok" value="0"> La suppression de mon compte est irréversible et entraîne la suppression de toutes mes données.<br/><br/>
+                    <input type="submit" value="Supprimer mon compte"/>
+                </form>
+                <i><?php echo $msg3 . ($msg3 != ''? '<br/>': ''); ?></i><br/>
             </td>
         </tr>
     </table>

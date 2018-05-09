@@ -26,7 +26,7 @@ if (!isset($_SESSION['login'])) {
         <?php
         include('connect.php');
         ?>
-        <font style="font-size: 30px;"><b>Dans la cabane de Madame Irma</b><br/><br/></font>
+        <font style="font-size: 30px;"><b>Là où on va on n'a pas besoin... de route</b><br/><br/></font>
     </div>
     <table width="100%" align="center">
         <tr>

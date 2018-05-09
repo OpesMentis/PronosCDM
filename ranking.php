@@ -33,10 +33,12 @@ if (!isset($_SESSION['login'])) {
     <table width="50%" align="center" style='border-collapse: collapse;'>
         <?php
         $i = 0;
+        $j = 0;
         $pts = -1;
         while ($item = $req->fetch()) {
+            $j += 1;
             if ($pts != $item['points']) {
-                $i = $i + 1;
+                $i = $j;
                 $pts = $item['points'];
             }?>
             <tr <?php echo ($item['login'] == $_SESSION['login'] ? 'style="border: 1px solid black;"': '')?>>

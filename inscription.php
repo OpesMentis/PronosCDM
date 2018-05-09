@@ -19,26 +19,6 @@ if (isset($_SESSION['login'])) {
     <div align="left">
         <font style="font-family: 'Mina'; font-size: 20px;"><b><a href="index.php"><b>PRONOSTICS COUPE DU MONDE 2018</b></a></font>
     </div><br/><br/>
-    <table border="0" align="center">
-        <tr>
-            <td width="300">
-                <font style="font-size: 20px;">
-                    <font style="font-size: 30px;"><b>Inscription</b></font><br/><br/>
-                    <form method="post" action="inscription.php">
-                        Pseudo<br/><input type="text" name="pseudo"
-                        <?php
-                        if (isset($_POST['pseudo'])) {
-                            echo 'value="' . $_POST['pseudo'] . '" ';
-                        }
-                        ?>/><br/><br/>
-                        Mot de passe<br/><input type="password" name="mdp"/><br/><br/>
-                        Confirmation<br/><input type="password" name="mdp2"/><br/><br/>
-                        <input type="submit" value="C'est parti !"/>
-                    </form>
-                </font>
-            </td>
-        </tr>
-    </table>
     <?php
     include('connect.php');
 
@@ -51,6 +31,9 @@ if (isset($_SESSION['login'])) {
             <?php
         } elseif (strlen($_POST['mdp']) < 8) {?>
             <center><font style="font-size: 20px;">Le mot de passe doit faire 8 caractères minimum !</font></center>
+            <?php
+        } elseif (!isset($_POST['captcha']) || !isset($_SESSION['captcha']) || !ctype_digit($_POST['captcha'])  || (int)$_POST['captcha'] != $_SESSION['captcha']) {?>
+            <center><font style="font-size: 20px;">Le résultat du test anti-robot n'est pas concluant...</font></center>
             <?php
         } else {
             $req = $bdd->prepare("SELECT COUNT(*) AS cnt FROM `users` WHERE login=:pseudo");
@@ -76,5 +59,41 @@ if (isset($_SESSION['login'])) {
         }
     }
     ?>
+    <table border="0" align="center">
+        <tr>
+            <td width="350">
+                <font style="font-size: 20px;">
+                    <font style="font-size: 30px;"><b>Inscription</b></font><br/><br/>
+                    <form method="post" action="inscription.php">
+                        Pseudo<br/><input type="text" name="pseudo"
+                        <?php
+                        if (isset($_POST['pseudo'])) {
+                            echo 'value="' . $_POST['pseudo'] . '" ';
+                        }
+                        ?>/><br/><br/>
+                        Mot de passe<br/><input type="password" name="mdp"/><br/><br/>
+                        Confirmation<br/><input type="password" name="mdp2"/><br/><br/>
+                        Test anti-robot<br/>
+                        <?php
+                        $nb = ['un', 'deux', 'trois', 'quatre', 'cinq', 'six', 'sept', 'huit', 'neuf'];
+                        $op = ['plus', 'fois'];
+                        $a = rand(1, 9);
+                        $b = rand(1, 9);
+                        $sgn = rand(0, 1);
+
+                        if ($sgn == 0) {
+                            $_SESSION['captcha'] = $a + $b;
+                        } else {
+                            $_SESSION['captcha'] = $a * $b;
+                        }
+                        ?>
+                        <font style="font-size: 15px;"><i>Donnez le résultat en chiffres de <?php echo $nb[$a-1] . ' ' . $op[$sgn] . ' ' . $nb[$b-1];?></i></font><br/>
+                        <input type="text" name="captcha"/><br/><br/>
+                        <input type="submit" value="C'est parti !"/>
+                    </form>
+                </font>
+            </td>
+        </tr>
+    </table>
 </body>
 </html>

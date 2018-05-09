@@ -26,17 +26,17 @@ if (!isset($_SESSION['login'])) {
         <?php
         include('connect.php');
 
-        $req = $bdd->prepare("SELECT points FROM `users` WHERE login=:pseudo");
+        $req = $bdd->prepare("SELECT points, id_commu FROM users WHERE login=:pseudo");
         $req->execute(array(
             'pseudo' => $_SESSION['login']
         ));
         $data = $req->fetch();
-        $pts = $data['points']
+        $pts = $data['points'];
 
         ?>
         <font style="font-size: 30px;"><b>Tableau de bord de <?php echo $_SESSION['login'] . '</b> <i>(' . $pts . ')</i>'?><br/><br/></font>
     </div>
-    <table width="100%" align="center">
+    <table width="100%" align="center" style="border-spacing: 50px;">
         <tr>
             <td width="33%" align="center">
                 <font style="font-size: 20px;"><a href="ranking.php">Le classement</a></font>
@@ -48,10 +48,21 @@ if (!isset($_SESSION['login'])) {
                 <font style="font-size: 20px;"><a href="settings.php">Paramètres de compte</a></font>
             </td>
         </tr>
-        <?php
-        if ($_SESSION['login'] == 'admin') {?>
         <tr>
             <td></td>
+            <td width="33%" align="center">
+                <?php
+                if ($data['id_commu'] != 0) {?>
+                    <font style="font-size: 20px;"><a href="communaute.php">Ma communauté</a></font>
+                <?php
+                }?>
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+        <?php
+        if ($_SESSION['login'] == 'admin') {?>
             <td width="33%" align="center">
                 <br/><br/>
                 <font style="font-size: 30px;"><a href="calcul.php">Mise à jour des matchs et des points</a></font>

@@ -8,7 +8,7 @@ if (!isset($_SESSION['login'])) {
 
 <html>
 <head>
-<title>Classement | Pronostics coupe du monde 2018</title>
+<title>Ma communauté | Pronostics coupe du monde 2018</title>
     <link href='https://fonts.googleapis.com/css?family=Mina'
     rel='stylesheet'>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans'
@@ -25,10 +25,24 @@ if (!isset($_SESSION['login'])) {
     <div align="center">
             <?php
             include('connect.php');
+            $commu = $bdd->prepare("SELECT id_commu, nom FROM users JOIN commus ON users.id_commu=commus.id WHERE login=:pseudo");
+            $commu->execute(array('pseudo' => $_SESSION['login']));
+            $data = $commu->fetch();
 
-            $req = $bdd->query("SELECT login, points FROM users WHERE login!='admin' ORDER BY points DESC");
+            if (!$data) {
+                header('Location: index.php');
+                exit();
+            }
+
+            $num_commu = $data['id_commu'];
+            $nom_commu = $data['nom'];
+
+            $req = $bdd->prepare("SELECT login, points FROM users WHERE login!='admin' AND id_commu=:com ORDER BY points DESC");
+            $req->execute(array('com' => $num_commu));
+
             ?>
-            <font style="font-size: 30px;"><b>Tableau d'honneur</b><br/><br/></font>
+            <font style="font-size: 30px;"><b>Toute la tribu s'est réunie autour de grands menhirs</b><br/><br/></font>
+            <font style="font-size: 25px;"><i>Classement de la communauté <b><?php echo $nom_commu;?></b></i><br/><br/></font>
         </div>
     <table width="50%" align="center" style='border-collapse: collapse;'>
         <?php

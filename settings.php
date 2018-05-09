@@ -120,6 +120,8 @@ if (!isset($_SESSION['login'])) {
                 if (isset($_POST['ok'])) {
                     $req = $bdd->prepare("DELETE FROM users WHERE id=:id_u");
                     $req->execute(array('id_u' => $id_perso));
+                    header('Location: logout.php');
+                    exit();
                 } else {
                     $msg3 = 'Vous devez cocher la case afin de confirmer que vous avez compris les conséquences de la suppression de votre compte.';
                 }

@@ -51,7 +51,7 @@ if (!isset($_SESSION['login'])) {
         <form action="groupes.php" method="post">
         <?php
         $winners = [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]];
-        $pays = $bdd->query("SELECT pays FROM teams ORDER BY groupe, id");
+        $pays = $bdd->query("SELECT pays FROM teams WHERE id>=1 AND id<=32 ORDER BY groupe, id");
         for ($i = 0; $i < count($grp); $i++) {
             $msg = '';
             $eq = array();

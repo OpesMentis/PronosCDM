@@ -39,13 +39,13 @@ if (!isset($_SESSION['login'])) {
     <table width="100%" align="center" style="border-spacing: 50px;">
         <tr>
             <td width="33%" align="center">
-                <font style="font-size: 20px;"><a href="ranking.php">Le classement</a></font>
+                <font style="font-size: 20px;"><a href="ranking.php">Classement</a></font>
             </td>
             <td width="33%" align="center">
-                <font style="font-size: 20px;"><a href="predictions.php">Je prédis l'avenir</a></font>
+                <font style="font-size: 20px;"><a href="predictions.php">Prédictions</a></font>
             </td>
             <td width="33%" align="center">
-                <font style="font-size: 20px;"><a href="settings.php">Paramètres de compte</a></font>
+                <font style="font-size: 20px;"><a href="settings.php">Paramètres</a></font>
             </td>
         </tr>
         <tr>
@@ -53,7 +53,7 @@ if (!isset($_SESSION['login'])) {
             <td width="33%" align="center">
                 <?php
                 if ($data['id_commu'] != 0) {?>
-                    <font style="font-size: 20px;"><a href="communaute.php">Ma communauté</a></font>
+                    <font style="font-size: 20px;"><a href="communaute.php">Communauté</a></font>
                 <?php
                 }?>
             </td>

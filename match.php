@@ -43,7 +43,7 @@ if (!isset($_SESSION['login'])) {
                 echo 'Ce match est passé.';
             } else {
                 if (isset($_POST['score1']) && isset($_POST['score2'])) {
-                    if (ctype_digit($_POST['score1']) && ctype_digit(($_POST['score2']))) {
+                    if (ctype_digit($_POST['score1']) && ctype_digit(($_POST['score2'])) && strlen($_POST['score1']) <= 2 && strlen($_POST['score2']) <= 2) {
                         $req = $bdd->prepare("SELECT id FROM users WHERE login=:pseudo");
                         $req->execute(array('pseudo' => $_SESSION['login']));
                         $id_perso = $req->fetch()['id'];
@@ -79,9 +79,10 @@ if (!isset($_SESSION['login'])) {
                             's2' => $_POST['score2'],
                             'gagnant' => $winner
                         ));
-                        $msg = 'Votre pronostic a été pris en compte !';
+                        header('Location: predictions.php#' . $id_play);
+                        exit();
                     } else {
-                        $msg = 'Un problème a été détecté dans les valeurs proposées.';
+                        $msg = 'Un problème a été détecté dans les valeurs proposées. Seuls les valeurs inférieures à 99 sont acceptées.';
                     }
                 }
                 $pari = $bdd->prepare("SELECT score1, score2, winner FROM paris_match JOIN users ON users.id = paris_match.id_user WHERE id_match=:play AND users.login=:usr");
@@ -123,7 +124,7 @@ if (!isset($_SESSION['login'])) {
                 <font style="font-size: 20px;"><?php echo $entete . ' ⋅ ' . $match['date'];?><br/><br/></font>
                 <font style="font-size: 35px;"><?php echo $match['e1'] . ' — ' . $match['e2'];?><br/></font>
                 <form method="post" action=<?php echo '"match.php?id=' . $id_play . '"';?>>
-                    <input type="text" name="score1" size="2" value=<?php echo '"' . $s1 . '"';?>/> <input type="text" name="score2" size="2" value=<?php echo '"' . $s2 . '"';?>/><br/>
+                    <input type="text" name="score1" size="2" maxlength="2" value=<?php echo '"' . $s1 . '"';?>/> <input type="text" name="score2" size="2" maxlength="2" value=<?php echo '"' . $s2 . '"';?>/><br/>
                     <?php
                     if (strlen($grp) > 1) {?>
                         <font style="font-size: 15px;"><?php echo 'Vainqueur des t.a.b. si égalité :';?></font><br/>

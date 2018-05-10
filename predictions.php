@@ -59,7 +59,7 @@ if (!isset($_SESSION['login'])) {
             <tr>
             <?php
             }?>
-                <td width="20%" align="center" style="border: 1px solid black;"><br/>
+                <td width="20%" align="center" id=<?php echo '"' . $item['id_match'] . '"';?> style="border: 1px solid black;"><br/>
                     <font style="font-size: 15px;"><?php echo $item['e1'] . ' — ' . $item['e2'];?></font><br/>
                     <font style="font-size: 10px;">-- / --</font><br/>
                     <font style="font-size: 10px;"><?php echo $item['date'];?></font><br/>

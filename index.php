@@ -37,7 +37,7 @@ if (isset($_SESSION['login'])) {
     include('connect.php');
 
     if (isset($_POST['pseudo']) and isset($_POST['mdp'])) {
-        $req = $bdd->prepare("SELECT login, mdp FROM `users` WHERE login=:pseudo");
+        $req = $bdd->prepare("SELECT login, mdp FROM users WHERE LOWER(login)=LOWER(:pseudo)");
         $req->execute(array(
             'pseudo' => $_POST['pseudo']
         ));
@@ -54,7 +54,7 @@ if (isset($_SESSION['login'])) {
                 <tr>
                     <td align="center">
                         <font style="font-size: 15px;">Connexion réussie !<br/>Redirection en cours</font><?php
-                        $_SESSION['login'] = $_POST['pseudo'];
+                        $_SESSION['login'] = $data['login'];
                         header('Location: dashboard.php');
                         exit();
                         ?>

@@ -18,7 +18,7 @@ if (isset($_SESSION['login'])) {
 <body>
     <div align="left">
         <font style="font-family: 'Mina'; font-size: 20px;"><b><a href="index.php"><b>PRONOSTICS COUPE DU MONDE 2018</b></a></font>
-    </div><br/><br/>
+    </div><br/>
     <?php
     include('connect.php');
 
@@ -36,7 +36,7 @@ if (isset($_SESSION['login'])) {
             <center><font style="font-size: 20px;">Le résultat du test anti-robot n'est pas concluant...</font></center>
             <?php
         } else {
-            $req = $bdd->prepare("SELECT COUNT(*) AS cnt FROM `users` WHERE login=:pseudo");
+            $req = $bdd->prepare("SELECT COUNT(*) AS cnt FROM users WHERE LOWER(login)=LOWER(:pseudo)");
             $req->execute(array(
                 'pseudo' => $_POST['pseudo']
             ));

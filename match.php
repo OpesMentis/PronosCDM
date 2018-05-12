@@ -23,7 +23,7 @@ if (!isset($_SESSION['login'])) {
         <font style="font-size: 20px;"><a href="logout.php">Déconnexion</a></font>
     </div><br/>
     <div align="center">
-        <font style="font-size: 15px;"><a href="predictions.php">Revenir à la liste des matchs</a></font><br/><br/>
+        <font style="font-size: 15px;"><a href=<?php echo "predictions.php#" . $_GET['id']?>>Revenir à la liste des matchs</a></font><br/><br/>
 
         <?php
         include('connect.php');

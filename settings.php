@@ -40,7 +40,7 @@ if (!isset($_SESSION['login'])) {
             $req = $bdd->prepare("SELECT id FROM commus WHERE nom=:name");
             $req->execute(array('name' => $_POST['new_commu']));
             if ($req->fetch()) {
-                $msg2 = 'Une communauté porte déjà ce nom.';
+                $msg1 = 'Une communauté porte déjà ce nom.';
             } else {
                 $req = $bdd->prepare("INSERT INTO commus(nom) VALUES(:name)");
                 $req->execute(array('name' => $_POST['new_commu']));
@@ -61,6 +61,8 @@ if (!isset($_SESSION['login'])) {
                     $req = $bdd->prepare("DELETE FROM commus WHERE id=:comm");
                     $req->execute(array('comm' => $old_com));
                 }
+
+                $msg1 = 'Vous avez créé et rejoint une nouvelle communauté !';
             }
         } elseif (isset($_POST['set_commu'])) {
             if ($_POST['set_commu'] != 0) {
@@ -85,6 +87,8 @@ if (!isset($_SESSION['login'])) {
                         $req = $bdd->prepare("DELETE FROM commus WHERE id=:comm");
                         $req->execute(array('comm' => $old_com));
                     }
+
+                    $msg1 = 'Vous avez rejoint une nouvelle communauté !';
                 }
             } else {
                 $req = $bdd->prepare("UPDATE users SET id_commu=0 WHERE id=:id_u");
@@ -100,6 +104,8 @@ if (!isset($_SESSION['login'])) {
                     $req = $bdd->prepare("DELETE FROM commus WHERE id=:comm");
                     $req->execute(array('comm' => $old_com));
                 }
+
+                $msg1 = 'Vous avez quitté votre communauté !';
             }
         } elseif (isset($_POST['old_mdp']) && isset($_POST['new_mdp']) && isset($_POST['new_mdp2'])) {
             if (password_verify($_POST['old_mdp'], $data['mdp'])) {
@@ -153,8 +159,6 @@ if (!isset($_SESSION['login'])) {
                     <input type="text" name="new_commu"/>
                     <input type="submit" value="Créer et rejoindre une communauté"/>
                 </form>
-                <i><?php echo $msg1 . ($msg1 != ''? '<br/>': ''); ?></i><br/>
-
                 <?php
                 $commus = $bdd->query("SELECT * FROM commus");
                 ?>
@@ -170,6 +174,7 @@ if (!isset($_SESSION['login'])) {
                     </select>
                     <input type="submit" value="Rejoindre une communauté existante"/>
                 </form>
+                <i><?php echo $msg1 . ($msg1 != ''? '<br/>': ''); ?></i><br/>
             </td>
         </tr>
         <tr>

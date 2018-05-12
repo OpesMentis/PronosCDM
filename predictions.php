@@ -136,10 +136,10 @@ if (!isset($_SESSION['login'])) {
             <?php
             }?>
                 <td width="20%" align="center" style="border: 1px solid black;"><br/>
-                    <font style="font-size: 15px;"><?php echo $item['e1'] . ' — ' . $item['e2'];?></font><br/>
-                    <font style="font-size: 10px;">-- / --</font><br/>
-                    <font style="font-size: 10px;"><?php echo $item['date'];?></font><br/>
-                    <font style="font-size: 10px;"><b>
+                    <font style="font-size: 20px;"><?php echo $item['e1'] . ' — ' . $item['e2'];?></font><br/>
+                    <font style="font-size: 15px;">-- / --</font><br/>
+                    <font style="font-size: 15px;"><?php echo $item['date'];?></font><br/>
+                    <font style="font-size: 15px;"><b>
                         <?php
                         if ($_SESSION['login'] == 'admin') {
                             echo '<a href="match.php?id=' . $item['id_match'] . '">RENSEIGNER LE RÉSULTAT DU MATCH</a>';
@@ -182,10 +182,10 @@ if (!isset($_SESSION['login'])) {
             <?php
             }?>
                 <td width="20%" align="center" style="border: 1px solid black;"><br/>
-                    <font style="font-size: 15px;"><?php echo $item['e1'] . ' — ' . $item['e2'];?></font><br/>
-                    <font style="font-size: 10px;"><b><?php echo $item['score1'] . ' / ' . $item['score2'];?></b></font><br/>
-                    <font style="font-size: 10px;"><?php echo $item['date'];?></font><br/>
-                    <font style="font-size: 10px;">
+                    <font style="font-size: 20px;"><?php echo $item['e1'] . ' — ' . $item['e2'];?></font><br/>
+                    <font style="font-size: 15px;"><b><?php echo $item['score1'] . ' / ' . $item['score2'];?></b></font><br/>
+                    <font style="font-size: 15px;"><?php echo $item['date'];?></font><br/>
+                    <font style="font-size: 15px;">
                         <?php
                         if (!$res) {
                             echo 'VOUS N\'AVIEZ PAS PARIÉ';

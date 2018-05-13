@@ -84,10 +84,10 @@ if (!isset($_SESSION['login'])) {
                 if (($_SESSION['login'] == 'admin' || strtotime('2018-06-14 17:00:00') > strtotime('now')) && isset($_POST[(string)($i+1)]) && $_POST[(string)($i+1)] != '0' && $j1 != '0' && $j2 != '0') {
                     if ($_POST[(string)($i+1)] == $j1 || $_POST[(string)($i+1)] == $j2) {
                         if (!$data) {
-                            $inser = $bdd->prepare("INSERT INTO `paris_0` (`id_user`, `grp`, `id_e1`) VALUES (:id, :grp, :id_eq);");
+                            $inser = $bdd->prepare("INSERT INTO paris_0 (id_user, grp, id_e1) VALUES (:id, :grp, :id_eq);");
                             $inser->execute(array('id' => $id_perso, 'grp' => 'Q' . (string)($i+1), 'id_eq' => $_POST[(string)($i+1)]));
                         } else {
-                            $maj = $bdd->prepare("UPDATE `paris_0` SET `id_e1` = :id_eq WHERE id_pari=:id;");
+                            $maj = $bdd->prepare("UPDATE paris_0 SET id_e1 = :id_eq WHERE id_pari=:id;");
                             $maj->execute(array('id_eq' => $_POST[(string)($i+1)], 'id' => $data['id_pari']));
                         }
                         $msg = 'Votre choix a été pris en compte.';
@@ -128,7 +128,7 @@ if (!isset($_SESSION['login'])) {
     <?php
     /* Demi-finales */
     for ($i = 0; $i < 2; $i++) {
-        $win = $bdd->prepare("SELECT id_pari, id_e1 FROM `paris_0` WHERE grp=:groupe AND id_user=:usr");
+        $win = $bdd->prepare("SELECT id_pari, id_e1 FROM paris_0 WHERE grp=:groupe AND id_user=:usr");
         $win->execute(array('groupe' => 'D' . (string)($i+1), 'usr' => $id_perso));
         $pari = $win->fetch();
 
@@ -139,7 +139,7 @@ if (!isset($_SESSION['login'])) {
     }
 
     /* Finale */
-    $win = $bdd->prepare("SELECT id_pari, id_e1 FROM `paris_0` WHERE grp=:groupe AND id_user=:usr");
+    $win = $bdd->prepare("SELECT id_pari, id_e1 FROM paris_0 WHERE grp=:groupe AND id_user=:usr");
     $win->execute(array('groupe' => 'F0', 'usr' => $id_perso));
     $pari = $win->fetch();
     $ok = false;
@@ -156,7 +156,7 @@ if (!isset($_SESSION['login'])) {
     }
 
     /* Petite finale */
-    $win = $bdd->prepare("SELECT id_pari, id_e1 FROM `paris_0` WHERE grp=:groupe AND id_user=:usr");
+    $win = $bdd->prepare("SELECT id_pari, id_e1 FROM paris_0 WHERE grp=:groupe AND id_user=:usr");
     $win->execute(array('groupe' => 'F1', 'usr' => $id_perso));
     $pari = $win->fetch();
     $ok = false;

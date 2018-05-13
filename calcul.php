@@ -25,8 +25,13 @@ for ($i = 0; $i < 8; $i++) {
         $e2->execute(array('usr' => $id_perso, 'groupe' => $grp[2*($i-4)]));
     }
 
-    $maj = $bdd->prepare("UPDATE matchs SET team1=:e1, team2=:e2 WHERE groupe=:grp");
-    $maj->execute(array('e1' => $e1->fetch()['id_e1'], 'e2' => $e2->fetch()['id_e2'], 'grp' => 'H' . (string)($i+1)));
+    $eq1 = $e1->fetch();
+    $eq2 = $e2->fetch();
+
+    if ($eq1 && $eq2) {
+        $maj = $bdd->prepare("UPDATE matchs SET team1=:e1, team2=:e2 WHERE groupe=:grp");
+        $maj->execute(array('e1' => $eq1['id_e1'], 'e2' => $eq2['id_e2'], 'grp' => 'H' . (string)($i+1)));
+    }
 }
 
 /* Peuplement des 1/4 de finale */
@@ -37,8 +42,13 @@ for ($i = 0; $i < 4; $i++) {
     $e1->execute(array('usr' => $id_perso, 'groupe' => 'H' . (string)(2*$i+1)));
     $e2->execute(array('usr' => $id_perso, 'groupe' => 'H' . (string)(2*$i+2)));
 
-    $maj = $bdd->prepare("UPDATE matchs SET team1=:e1, team2=:e2 WHERE groupe=:grp");
-    $maj->execute(array('e1' => $e1->fetch()['id_e1'], 'e2' => $e2->fetch()['id_e1'], 'grp' => 'Q' . (string)($i+1)));
+    $eq1 = $e1->fetch();
+    $eq2 = $e2->fetch();
+
+    if ($eq1 && $eq2) {
+        $maj = $bdd->prepare("UPDATE matchs SET team1=:e1, team2=:e2 WHERE groupe=:grp");
+        $maj->execute(array('e1' => $eq1['id_e1'], 'e2' => $eq2['id_e1'], 'grp' => 'Q' . (string)($i+1)));
+    }
 }
 
 /* Peuplement des 1/2 finales */
@@ -49,8 +59,13 @@ for ($i = 0; $i < 2; $i++) {
     $e1->execute(array('usr' => $id_perso, 'groupe' => 'Q' . (string)(2*$i+1)));
     $e2->execute(array('usr' => $id_perso, 'groupe' => 'Q' . (string)(2*$i+2)));
 
-    $maj = $bdd->prepare("UPDATE matchs SET team1=:e1, team2=:e2 WHERE groupe=:grp");
-    $maj->execute(array('e1' => $e1->fetch()['id_e1'], 'e2' => $e2->fetch()['id_e1'], 'grp' => 'D' . (string)($i+1)));
+    $eq1 = $e1->fetch();
+    $eq2 = $e2->fetch();
+
+    if ($eq1 && $eq2) {
+        $maj = $bdd->prepare("UPDATE matchs SET team1=:e1, team2=:e2 WHERE groupe=:grp");
+        $maj->execute(array('e1' => $eq1['id_e1'], 'e2' => $eq2['id_e1'], 'grp' => 'D' . (string)($i+1)));
+    }
 }
 
 /* Peuplement de la finale */
@@ -60,8 +75,13 @@ $e2 = $bdd->prepare("SELECT id_e1 FROM paris_0 WHERE id_user=:usr AND grp='D2';"
 $e1->execute(array('usr' => $id_perso));
 $e2->execute(array('usr' => $id_perso));
 
-$maj = $bdd->prepare("UPDATE matchs SET team1=:e1, team2=:e2 WHERE groupe='F0'");
-$maj->execute(array('e1' => $e1->fetch()['id_e1'], 'e2' => $e2->fetch()['id_e1']));
+$eq1 = $e1->fetch();
+$eq2 = $e2->fetch();
+
+if ($eq1 && $eq2) {
+    $maj = $bdd->prepare("UPDATE matchs SET team1=:e1, team2=:e2 WHERE groupe='F0'");
+    $maj->execute(array('e1' => $eq1['id_e1'], 'e2' => $eq2['id_e1']));
+}
 
 /* Peuplement de la petite finale */
 $e1 = $bdd->prepare("SELECT id_e2 FROM paris_0 WHERE id_user=:usr AND grp='D1';");
@@ -70,8 +90,13 @@ $e2 = $bdd->prepare("SELECT id_e2 FROM paris_0 WHERE id_user=:usr AND grp='D2';"
 $e1->execute(array('usr' => $id_perso));
 $e2->execute(array('usr' => $id_perso));
 
-$maj = $bdd->prepare("UPDATE matchs SET team1=:e1, team2=:e2 WHERE groupe='F1'");
-$maj->execute(array('e1' => $e1->fetch()['id_e2'], 'e2' => $e2->fetch()['id_e2']));
+$eq1 = $e1->fetch();
+$eq2 = $e2->fetch();
+
+if ($eq1 && $eq2) {
+    $maj = $bdd->prepare("UPDATE matchs SET team1=:e1, team2=:e2 WHERE groupe='F1'");
+    $maj->execute(array('e1' => $eq1['id_e2'], 'e2' => $eq2['id_e2']));
+}
 
 /* Enregistrement du résultat des matchs */
 $matchs = $bdd->prepare("SELECT id_match, score1, score2, winner FROM paris_match WHERE id_user=:usr");
@@ -109,7 +134,22 @@ $l_fn = [];
 $fn = $bdd->query("SELECT id_e1 FROM paris_0 JOIN users ON paris_0.id_user = users.id WHERE users.login='admin' AND LENGTH(grp)=2 AND SUBSTR(grp,1,1)='D'");
 
 while ($eq = $fn->fetch()) {
-    $l_fn[] = $fn['id_e1'];
+    $l_fn[] = $eq['id_e1'];
+}
+
+$win123 = [];
+
+$win12_q = $bdd->query("SELECT id_e1, id_e2 FROM paris_0 JOIN users ON paris_0.id_user = users.id WHERE users.login='admin' AND grp='F0'");
+$win12 = $win12_q->fetch();
+if ($win12) {
+    $win123['1'] = $win12['id_e1'];
+    $win123['2'] = $win12['id_e2'];
+}
+
+$win3_q = $bdd->query("SELECT id_e1 FROM paris_0 JOIN users ON paris_0.id_user = users.id WHERE users.login='admin' AND grp='F1'");
+$win3 = $win3_q->fetch();
+if ($win3) {
+    $win123['3'] = $win3['id_e1'];
 }
 
 $l_divers = [];
@@ -151,11 +191,11 @@ while ($usr = $users->fetch()) {
 
     while ($eq = $ht_u->fetch()) {
         if ($eq['id_e1'] != 0 && in_array($eq['id_e1'], $l_ht)) {
-            $pts += 1;
+            $pts += 2;
         }
 
         if ($eq['id_e2'] != 0 && in_array($eq['id_e2'], $l_ht)) {
-            $pts += 1;
+            $pts += 2;
         }
     }
 
@@ -164,7 +204,7 @@ while ($usr = $users->fetch()) {
 
     while ($eq = $qr_u->fetch()) {
         if ($eq['id_e1'] && in_array($eq['id_e1'], $l_qr)) {
-            $pts += 2;
+            $pts += 5;
         }
     }
 
@@ -173,7 +213,7 @@ while ($usr = $users->fetch()) {
 
     while ($eq = $dm_u->fetch()) {
         if ($eq['id_e1'] && in_array($eq['id_e1'], $l_dm)) {
-            $pts += 4;
+            $pts += 10;
         }
     }
 
@@ -182,8 +222,37 @@ while ($usr = $users->fetch()) {
 
     while ($eq = $fn_u->fetch()) {
         if ($eq['id_e1'] && in_array($eq['id_e1'], $l_fn)) {
-            $pts += 8;
+            $pts += 15;
         }
+    }
+
+    $win123_u = [];
+
+    $win_u = $bdd->prepare("SELECT id_e1, id_e2 FROM paris_0 WHERE id_user=:usr AND grp='F0'");
+    $win_u->execute(array('usr' => $usr['id']));
+
+    if ($eq = $win_u->fetch()) {
+        $win123_u['1'] = $eq['id_e1'];
+        $win123_u['2'] = $eq['id_e2'];
+    }
+
+    $win3_u = $bdd->prepare("SELECT id_e1 FROM paris_0 WHERE id_user=:usr AND grp='F1'");
+    $win3_u->execute(array('usr' => $usr['id']));
+
+    if ($eq = $win_u->fetch()) {
+        $win123_u['3'] = $eq['id_e1'];
+    }
+
+    if (array_key_exists('1', $win123) && array_key_exists('1', $win123_u) && $win123_u['1'] == $win123['1']) {
+        $pts += 20;
+    }
+
+    if (count($win123) == 3 && count($win123_u) == 3 && sort($win123) == sort($win123_u)) {
+        $pts += 20;
+    }
+
+    if (count($win123) == 3 && count($win123_u) == 3 && $win123 == $win123_u) {
+        $pts += 5;
     }
 
     /* Les paris divers */
@@ -191,7 +260,11 @@ while ($usr = $users->fetch()) {
     $p_divers->execute(array('usr' => $usr['id']));
 
     while ($p = $p_divers->fetch()) {
-        $delta = abs($l_divers[$p['id_obj']] - $p['val']) / $l_divers[$p['id_obj']];
+        if (!array_key_exists($p['id_obj'], $l_divers)) {
+            $delta = 2;
+        } else {
+            $delta = abs($l_divers[$p['id_obj']] - $p['val']) / $l_divers[$p['id_obj']];
+        }
 
         if ($delta <= 1) {
             $pts += floor(10 * (1 - $delta));

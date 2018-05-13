@@ -49,7 +49,9 @@ if (!isset($_SESSION['login'])) {
             </td>
         </tr>
         <tr>
-            <td></td>
+            <td width="33%" align="center">
+                <font style="font-size: 20px;"><a href="apropos.php">À propos</a></font>
+            </td>
             <td width="33%" align="center">
                 <?php
                 if ($data['id_commu'] != 0) {?>
@@ -57,7 +59,9 @@ if (!isset($_SESSION['login'])) {
                 <?php
                 }?>
             </td>
-            <td></td>
+            <td width="33%" align="center">
+                <font style="font-size: 20px;"><a href="faq.php">Foire aux questions</a></font>
+            </td>
         </tr>
         <tr>
             <td></td>

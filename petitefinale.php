@@ -92,10 +92,10 @@ if (!isset($_SESSION['login'])) {
                     $slc = $_POST['1'];
                     $msg = 'Votre choix a été pris en compte.';
                     if (!$data) {
-                        $inser = $bdd->prepare("INSERT INTO `paris_0` (`id_user`, `grp`, `id_e1`) VALUES (:id, :grp, :id_eq);");
+                        $inser = $bdd->prepare("INSERT INTO paris_0 (id_user, grp, id_e1) VALUES (:id, :grp, :id_eq);");
                         $inser->execute(array('id' => $id_perso, 'grp' => 'F1', 'id_eq' => $_POST['1']));
                     } else {
-                        $maj = $bdd->prepare("UPDATE `paris_0` SET `id_e1` = :id_eq WHERE id_pari=:id;");
+                        $maj = $bdd->prepare("UPDATE paris_0 SET id_e1 = :id_eq WHERE id_pari=:id;");
                         $maj->execute(array('id_eq' => $_POST['1'], 'id' => $data['id_pari']));
                     }
                 } else {

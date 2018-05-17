@@ -39,28 +39,34 @@ if (!isset($_SESSION['login'])) {
     <table width="100%" align="center" style="border-spacing: 50px;">
         <tr>
             <td width="33%" align="center">
-                <font style="font-size: 20px;"><a href="ranking.php">Classement</a></font>
+                <a href="ranking.php"><img src="img/rank.svg" alt="Classement" style="height:100px;"><br/>
+                <font style="font-size: 20px;">Classement</font></a>
             </td>
             <td width="33%" align="center">
-                <font style="font-size: 20px;"><a href="predictions.php">Prédictions</a></font>
+                <a href="predictions.php"><img src="img/crystal-ball.svg" alt="Prédictions" style="height:100px;"><br/>
+                <font style="font-size: 20px;">Prédictions</font></a>
             </td>
             <td width="33%" align="center">
-                <font style="font-size: 20px;"><a href="settings.php">Paramètres</a></font>
+                <a href="settings.php"><img src="img/parameters.svg" alt="Paramètres" style="height:100px;"><br/>
+                <font style="font-size: 20px;">Paramètres</font></a>
             </td>
         </tr>
         <tr>
             <td width="33%" align="center">
-                <font style="font-size: 20px;"><a href="apropos.php">À propos</a></font>
+                <a href="apropos.php"><img src="img/icon.svg" alt="À propos" style="height:100px;"><br/>
+                <font style="font-size: 20px;">À propos</font></a>
             </td>
             <td width="33%" align="center">
                 <?php
                 if ($data['id_commu'] != 0) {?>
-                    <font style="font-size: 20px;"><a href="communaute.php">Communauté</a></font>
+                    <a href="communaute.php"><img src="img/network.svg" alt="Communauté" style="height:100px;"><br/>
+                    <font style="font-size: 20px;">Communauté</font></a>
                 <?php
                 }?>
             </td>
             <td width="33%" align="center">
-                <font style="font-size: 20px;"><a href="faq.php">Foire aux questions</a></font>
+                <a href="faq.php"><img src="img/question.svg" alt="Foire aux questions" style="height:100px;"><br/>
+                <font style="font-size: 20px;">Foire aux questions</font></a>
             </td>
         </tr>
         <tr>
@@ -74,5 +80,11 @@ if (!isset($_SESSION['login'])) {
         </tr><?php
         }?>
     </table>
+
+    <div align="center">
+        <font style="font-size: 15px;">
+            Les icônes sont issues du site <i><a href="https://flaticon.com">Flaticon</a></i>, distribuées sous licence libre, et ont été réalisées par <a href="https://www.flaticon.com/authors/freepik">Freepik</a>, <a href="https://www.flaticon.com/authors/smashicons">Smashicons</a> et <a href="https://www.flaticon.com/authors/designmodo">Designmodo</a>.
+        </font>
+    </div>
 </body>
 </html>

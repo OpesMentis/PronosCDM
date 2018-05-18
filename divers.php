@@ -32,6 +32,7 @@ if (!isset($_SESSION['login'])) {
 
         $vals = ['', '', '', ''];
         $items = ['a', 'b', 'c', 'd'];
+        $msg = [' ', ' ', ' ', ' '];
 
         for ($i = 0; $i < 4; $i++) {
             $req = $bdd->prepare("SELECT id_pari, val FROM paris_divers WHERE id_user=:usr AND id_obj=:item");
@@ -44,19 +45,21 @@ if (!isset($_SESSION['login'])) {
 
             if (($_SESSION['login'] == 'admin' || strtotime('2018-06-18 17:00:00') > strtotime('now')) && isset($_POST[$items[$i]])) {
                 if (ctype_digit($_POST[$items[$i]])) {
-                    if ($pari) {
+                    if ($pari && $vals[$i] != $_POST[$items[$i]]) {
                         $req = $bdd->prepare("UPDATE paris_divers SET val=:value WHERE id_pari=:id");
                         $req->execute(array('value' => $_POST[$items[$i]], 'id' => $pari['id_pari']));
-                    } else {
+                        $msg[$i] = 'Votre pari a été enregistré';
+                    } elseif (!$pari) {
                         $req = $bdd->prepare("INSERT INTO paris_divers(id_user, id_obj, val) VALUES(:usr, :item, :value)");
                         $req->execute(array('usr' => $id_perso, 'item' => $items[$i], 'value' => $_POST[$items[$i]]));
+                        $msg[$i] = 'Votre pari a été enregistré';
                     }
                     $vals[$i] = $_POST[$items[$i]];
                 }
             }
         }
         ?>
-        <font style="font-size: 30px;"><b>Considérations sportives autres</b><br/><br/></font>
+        <font style="font-size: 30px;"><b><i>« Sarah Connor ? »</i></b><br/><br/></font>
     </div>
     <table width="100%" align="center">
         <tr>
@@ -77,13 +80,13 @@ if (!isset($_SESSION['login'])) {
                 <td width="50%" align="right">
                     <br/>
                     <font style="font-size: 20px;">Nombre de buts marqués pendant la compétition</font>
-                    <input type="text" name="a" size="5" value=<?php echo '"' . $vals[0] . '" ' . ($_SESSION['login'] != 'admin' && strtotime('2018-06-18 17:00:00') < strtotime('now') ? 'disabled': '');?>/><br/><br/>
+                    <input type="text" name="a" size="5" value=<?php echo '"' . $vals[0] . '" ' . ($_SESSION['login'] != 'admin' && strtotime('2018-06-18 17:00:00') < strtotime('now') ? 'disabled': '');?>/><br/><i><font style="font-size: 15px;"><?php echo $msg[0];?></font></i><br/><br/>
                     <font style="font-size: 20px;">Nombre de buts marqués par la France</font>
-                    <input type="text" name="b" size="5" value=<?php echo '"' . $vals[1] . '" ' . ($_SESSION['login'] != 'admin' && strtotime('2018-06-18 17:00:00') < strtotime('now') ? 'disabled': '');?>/><br/><br/>
+                    <input type="text" name="b" size="5" value=<?php echo '"' . $vals[1] . '" ' . ($_SESSION['login'] != 'admin' && strtotime('2018-06-18 17:00:00') < strtotime('now') ? 'disabled': '');?>/><br/><i><font style="font-size: 15px;"><?php echo $msg[1];?></font></i><br/><br/>
                     <font style="font-size: 20px;">Nombre de buts encaissés par la France</font>
-                    <input type="text" name="c" size="5" value=<?php echo '"' . $vals[2] . '" ' . ($_SESSION['login'] != 'admin' && strtotime('2018-06-18 17:00:00') < strtotime('now') ? 'disabled': '');?>/><br/><br/>
+                    <input type="text" name="c" size="5" value=<?php echo '"' . $vals[2] . '" ' . ($_SESSION['login'] != 'admin' && strtotime('2018-06-18 17:00:00') < strtotime('now') ? 'disabled': '');?>/><br/><i><font style="font-size: 15px;"><?php echo $msg[2];?></font></i><br/><br/>
                     <font style="font-size: 20px;">Nombre de cartons pendant la compétition</font>
-                    <input type="text" name="d" size="5" value=<?php echo '"' . $vals[3] . '" ' . ($_SESSION['login'] != 'admin' && strtotime('2018-06-18 17:00:00') < strtotime('now') ? 'disabled': '');?>/><br/><br/>
+                    <input type="text" name="d" size="5" value=<?php echo '"' . $vals[3] . '" ' . ($_SESSION['login'] != 'admin' && strtotime('2018-06-18 17:00:00') < strtotime('now') ? 'disabled': '');?>/><br/><i><font style="font-size: 15px;"><?php echo $msg[3];?></font></i><br/><br/>
                 </td>
                 <td width="50%" align="center">
                     <input type="submit" value="Je valide"/>
@@ -91,5 +94,47 @@ if (!isset($_SESSION['login'])) {
             </form>
         </tr>
     </table>
+    <table width="90%" align = "center" border="1">
+        <tr>
+            <td width="40%" align="center"><b>RAPPEL DES ÉDITIONS PRÉCÉDENTES</b></td>
+            <td width="12%" align="center"><i>2014</i></td>
+            <td width="12%" align="center"><i>2010</i></td>
+            <td width="12%" align="center"><i>2006</i></td>
+            <td width="12%" align="center"><i>2002</i></td>
+            <td width="12%" align="center"><i>1998</i></td>
+        </tr>
+        <tr>
+            <td width="35%" align="center"><i>Nombre de buts marqués pendant la compétition</i></td>
+            <td width="12%" align="center">171</td>
+            <td width="12%" align="center">143</td>
+            <td width="12%" align="center">147</td>
+            <td width="12%" align="center">161</td>
+            <td width="12%" align="center">171</td>
+        </tr>
+        <tr>
+            <td width="35%" align="center"><i>Nombre de buts marqués par la France</i></td>
+            <td width="12%" align="center">10</td>
+            <td width="12%" align="center">1</td>
+            <td width="12%" align="center">9</td>
+            <td width="12%" align="center">0</td>
+            <td width="12%" align="center">15</td>
+        </tr>
+        <tr>
+            <td width="35%" align="center"><i>Nombre de buts encaissés par la France</i></td>
+            <td width="12%" align="center">3</td>
+            <td width="12%" align="center">4</td>
+            <td width="12%" align="center">3</td>
+            <td width="12%" align="center">3</td>
+            <td width="12%" align="center">2</td>
+        </tr>
+        <tr>
+            <td width="35%" align="center"><i>Nombre de cartons pendant la compétition</i></td>
+            <td width="12%" align="center">188</td>
+            <td width="12%" align="center">270</td>
+            <td width="12%" align="center">373</td>
+            <td width="12%" align="center">289</td>
+            <td width="12%" align="center">280</td>
+        </tr>
+    </table><br/>
 </body>
 </html>

@@ -26,7 +26,7 @@ if (!isset($_SESSION['login'])) {
         <?php
         include('connect.php');
         ?>
-        <font style="font-size: 30px;"><b>Voilà ce qui va se passer...</b><br/><br/></font>
+        <font style="font-size: 30px;"><b><i>« Miss Granger, trois tours devraient suffire. Bonne chance. »</i></b><br/><br/></font>
     </div>
     <?php
     $grp = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H');
@@ -43,7 +43,7 @@ if (!isset($_SESSION['login'])) {
                 <font style="font-size: 15px;"><b>Toute la compétition</b></font><br/>
             </td>
             <td width="20%" align="center">
-                <font style="font-size: 15px;"><a href="">Paris divers</a></font><br/>
+                <font style="font-size: 15px;"><a href="divers.php">Paris divers</a></font><br/>
             </td>
         </tr>
     </table>

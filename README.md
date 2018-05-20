@@ -7,3 +7,7 @@ Plusieurs sortes de pronostics sont possibles :
 * Et d'autres paris divers sur des données comme le nombre de buts marqués, le nombre de cartons, etc
 
 Un système de points permet aux personnes de se comparer les unes avec les autres.
+
+L'administration du site se fait par l'utilisateur 'admin', qui doit être créé au préalable comme un utilisateur normal.
+
+Site accessible à antoineplanchot.eu/cdm2018.

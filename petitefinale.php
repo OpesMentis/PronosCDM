@@ -87,19 +87,23 @@ if (!isset($_SESSION['login'])) {
                 }
             }
 
-            if (($_SESSION['login'] == 'admin' || strtotime('2018-06-14 17:00:00') > strtotime('now')) && isset($_POST['1']) && $_POST['1'] != '0' && $j1 != '0' && $j2 != '0') {
+            if (($_SESSION['login'] == 'admin' || strtotime('2018-06-14 17:00:00') > strtotime('now')) && isset($_POST['1']) && $j1 != '0' && $j2 != '0') {
                 if ($_POST['1'] == $j1 || $_POST['1'] == $j2) {
                     $slc = $_POST['1'];
-                    $msg = 'Votre choix a été pris en compte.';
                     if (!$data) {
                         $inser = $bdd->prepare("INSERT INTO paris_0 (id_user, grp, id_e1) VALUES (:id, :grp, :id_eq);");
                         $inser->execute(array('id' => $id_perso, 'grp' => 'F1', 'id_eq' => $_POST['1']));
-                    } else {
+                        $msg = 'Votre choix a été pris en compte.';
+                    } elseif ($data['id_e1'] != $_POST['1']) {
                         $maj = $bdd->prepare("UPDATE paris_0 SET id_e1 = :id_eq WHERE id_pari=:id;");
                         $maj->execute(array('id_eq' => $_POST['1'], 'id' => $data['id_pari']));
+                        $msg = 'Votre choix a été pris en compte.';
                     }
-                } else {
-                    $msg = 'Un problème a été rencontré.';
+                } elseif ($data && $_POST['1'] == '0') {
+                    $req = $bdd->prepare("DELETE FROM paris_0 WHERE id_pari=:id");
+                    $req->execute(array('id' => $data['id_pari']));
+                    $msg = 'Votre pronostic a été supprimé';
+                    $slc = '0';
                 }
             }
 

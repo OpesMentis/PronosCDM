@@ -73,6 +73,12 @@ if (!isset($_SESSION['login'])) {
                 $e2 = $_POST[$grp[$i] . '2'];
                 if ($e1 == $e2 && $e1 != '0') {
                     $msg = 'Attention ! Les deux équipes doivent être différentes.';
+                } elseif ($e1 == '0' && $e2 == '0' && $data) {
+                    $req = $bdd->prepare("DELETE FROM paris_0 WHERE id_pari=:id");
+                    $req->execute(array('id' => $data['id_pari']));
+                    $msg = 'Votre pronostic a été supprimé';
+                    $winners[$i][0] = '0';
+                    $winners[$i][1] = '0';
                 } else {
                     $arr = array();
                     for ($j = 0; $j < 4; $j++) {
@@ -82,15 +88,15 @@ if (!isset($_SESSION['login'])) {
                     if (in_array($e1, $arr) && in_array($e2, $arr)) {
                         if (!$data) {
                             $req = $bdd->prepare("INSERT INTO paris_0(id_user, grp, id_e1, id_e2) VALUES(:usr, :groupe, :eq1, :eq2)");
-                        } else {
+                            $req->execute(array('eq1' => $e1, 'eq2' => $e2, 'usr' => $id_perso, 'groupe' => $grp[$i]));
+                            $msg = 'Votre choix a été pris en compte.';
+                        } elseif ($e1 != $data['id_e1'] || $e2 != $data['id_e2']) {
                             $req = $bdd->prepare("UPDATE paris_0 SET id_e1=:eq1, id_e2=:eq2 WHERE id_user=:usr AND grp=:groupe");
+                            $req->execute(array('eq1' => $e1, 'eq2' => $e2, 'usr' => $id_perso, 'groupe' => $grp[$i]));
+                            $msg = 'Votre choix a été pris en compte.';
                         }
-                        $req->execute(array('eq1' => $e1, 'eq2' => $e2, 'usr' => $id_perso, 'groupe' => $grp[$i]));
-                        $msg = 'Votre choix a été pris en compte.';
                         $winners[$i][0] = $e1;
                         $winners[$i][1] = $e2;
-                    } else {
-                        $msg = 'Un problème a été rencontré.';
                     }
                 }
             }

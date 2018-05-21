@@ -31,6 +31,9 @@ for ($i = 0; $i < 8; $i++) {
     if ($eq1 && $eq2) {
         $maj = $bdd->prepare("UPDATE matchs SET team1=:e1, team2=:e2 WHERE groupe=:grp");
         $maj->execute(array('e1' => $eq1['id_e1'], 'e2' => $eq2['id_e2'], 'grp' => 'H' . (string)($i+1)));
+    } else {
+        $maj = $bdd->prepare("UPDATE matchs SET team1=:e1, team2=:e2 WHERE groupe=:grp");
+        $maj->execute(array('e1' => 0, 'e2' => 0, 'grp' => 'H' . (string)($i+1)));
     }
 }
 
@@ -48,6 +51,9 @@ for ($i = 0; $i < 4; $i++) {
     if ($eq1 && $eq2) {
         $maj = $bdd->prepare("UPDATE matchs SET team1=:e1, team2=:e2 WHERE groupe=:grp");
         $maj->execute(array('e1' => $eq1['id_e1'], 'e2' => $eq2['id_e1'], 'grp' => 'Q' . (string)($i+1)));
+    } else {
+        $maj = $bdd->prepare("UPDATE matchs SET team1=:e1, team2=:e2 WHERE groupe=:grp");
+        $maj->execute(array('e1' => 0, 'e2' => 0, 'grp' => 'Q' . (string)($i+1)));
     }
 }
 
@@ -65,6 +71,9 @@ for ($i = 0; $i < 2; $i++) {
     if ($eq1 && $eq2) {
         $maj = $bdd->prepare("UPDATE matchs SET team1=:e1, team2=:e2 WHERE groupe=:grp");
         $maj->execute(array('e1' => $eq1['id_e1'], 'e2' => $eq2['id_e1'], 'grp' => 'D' . (string)($i+1)));
+    } else {
+        $maj = $bdd->prepare("UPDATE matchs SET team1=:e1, team2=:e2 WHERE groupe=:grp");
+        $maj->execute(array('e1' => 0, 'e2' => 0, 'grp' => 'D' . (string)($i+1)));
     }
 }
 
@@ -81,6 +90,9 @@ $eq2 = $e2->fetch();
 if ($eq1 && $eq2) {
     $maj = $bdd->prepare("UPDATE matchs SET team1=:e1, team2=:e2 WHERE groupe='F0'");
     $maj->execute(array('e1' => $eq1['id_e1'], 'e2' => $eq2['id_e1']));
+} else {
+    $maj = $bdd->prepare("UPDATE matchs SET team1=:e1, team2=:e2 WHERE groupe='F0'");
+    $maj->execute(array('e1' => 0, 'e2' => 0);
 }
 
 /* Peuplement de la petite finale */
@@ -96,6 +108,9 @@ $eq2 = $e2->fetch();
 if ($eq1 && $eq2) {
     $maj = $bdd->prepare("UPDATE matchs SET team1=:e1, team2=:e2 WHERE groupe='F1'");
     $maj->execute(array('e1' => $eq1['id_e2'], 'e2' => $eq2['id_e2']));
+} else {
+    $maj = $bdd->prepare("UPDATE matchs SET team1=:e1, team2=:e2 WHERE groupe='F1'");
+    $maj->execute(array('e1' => 0, 'e2' => 0);
 }
 
 /* Enregistrement du résultat des matchs */

@@ -85,27 +85,21 @@ if (!isset($_SESSION['login'])) {
                 if ($_POST['1'] == $j1 || $_POST['1'] == $j2) {
                     $slc = $_POST['1'];
                     if (!$data) {
-                        $inser = $bdd->prepare("INSERT INTO paris_0 (id_user, grp, id_e1) VALUES (:id, :grp, :id_eq);");
-                        $inser->execute(array('id' => $id_perso, 'grp' => 'F0', 'id_eq' => $_POST['1']));
-
                         if ($j1 == $_POST['1']) {
-                            $inser = $bdd->prepare("INSERT INTO paris_0 (id_user, grp, id_e2) VALUES (:id, :grp, :id_eq);");
-                            $inser->execute(array('id' => $id_perso, 'grp' => 'F0', 'id_eq' => $j2));
+                            $inser = $bdd->prepare("INSERT INTO paris_0 (id_user, grp, id_e1, id_e2) VALUES (:id, :grp, :eq1, :eq2);");
+                            $inser->execute(array('id' => $id_perso, 'grp' => 'F0', 'eq1' => $j1, 'eq2' => $j2));
                         } else {
-                            $inser = $bdd->prepare("INSERT INTO paris_0 (id_user, grp, id_e2) VALUES (:id, :grp, :id_eq);");
-                            $inser->execute(array('id' => $id_perso, 'grp' => 'F0', 'id_eq' => $j1));
+                            $inser = $bdd->prepare("INSERT INTO paris_0 (id_user, grp, id_e1, id_e2) VALUES (:id, :grp, :eq1, :eq2);");
+                            $inser->execute(array('id' => $id_perso, 'grp' => 'F0', 'eq1' => $j2, 'eq2' => $j1));
                         }
                         $msg = 'Votre choix a été pris en compte.';
                     } elseif ($data['id_e1'] != $_POST['1']) {
-                        $maj = $bdd->prepare("UPDATE paris_0 SET id_e1 = :id_eq WHERE id_pari=:id;");
-                        $maj->execute(array('id_eq' => $_POST['1'], 'id' => $data['id_pari']));
-
                         if ($j1 == $_POST['1']) {
-                            $maj = $bdd->prepare("UPDATE paris_0 SET id_e2 = :id_eq WHERE id_pari=:id;");
-                            $maj->execute(array('id_eq' => $j2, 'id' => $data['id_pari']));
+                            $maj = $bdd->prepare("UPDATE paris_0 SET id_e1 = :eq1, id_e2 = :eq2 WHERE id_pari=:id;");
+                            $maj->execute(array('eq1' => $j1, 'eq2' => $j2, 'id' => $data['id_pari']));
                         } else {
-                            $maj = $bdd->prepare("UPDATE paris_0 SET id_e2 = :id_eq WHERE id_pari=:id;");
-                            $maj->execute(array('id_eq' => $j1, 'id' => $data['id_pari']));
+                            $maj = $bdd->prepare("UPDATE paris_0 SET id_e1 = :eq1, id_e2 = :eq2 WHERE id_pari=:id;");
+                            $maj->execute(array('eq1' => $j2, 'eq2' => $j1, 'id' => $data['id_pari']));
                         }
                         $msg = 'Votre choix a été pris en compte.';
                     }

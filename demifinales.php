@@ -96,7 +96,7 @@ if (!isset($_SESSION['login'])) {
                                 $winners[$i][1] = $j1;
                             }
                             $msg = 'Votre choix a été pris en compte.';
-                        } elseif ($data['id_e1'] != $_POST[(string)($i+1)] || $data['id_e2'] != $j1 && $data['id_e2'] != $j2) {
+                        } elseif ($data['id_e1'] != $_POST[(string)($i+1)]) {
                             $maj = $bdd->prepare("UPDATE paris_0 SET id_e1 = :eq1 WHERE id_pari=:id;");
                             $maj->execute(array('eq1' => $_POST[(string)($i+1)], 'id' => $data['id_pari']));
 
@@ -150,37 +150,45 @@ if (!isset($_SESSION['login'])) {
     <?php
 
     /* Finale */
-    $win = $bdd->prepare("SELECT id_pari, id_e1 FROM paris_0 WHERE grp=:groupe AND id_user=:usr");
+    $win = $bdd->prepare("SELECT id_pari, id_e1, id_e2 FROM paris_0 WHERE grp=:groupe AND id_user=:usr");
     $win->execute(array('groupe' => 'F0', 'usr' => $id_perso));
     $pari = $win->fetch();
-    $ok = false;
-    for ($j = 0; $j < 2; $j++) {
-        if ($winners[$j][0] == $pari['id_e1']) {
-            $ok = true;
-            break;
-        }
-    }
 
-    if (!$ok) {
-        $correc = $bdd->prepare("DELETE FROM paris_0 WHERE id_pari=:id");
-        $correc->execute(array('id' => $pari['id_pari']));
+    if ($pari) {
+        $ok1 = false;
+        $ok2 = false;
+        for ($j = 0; $j < 2; $j++) {
+            if ($winners[$j][0] == $pari['id_e1']) {
+                $ok1 = true;
+            } elseif ($winners[$j][0] == $pari['id_e2']) {
+                $ok2 = true;
+            }
+        }
+
+        if (!$ok1 || !$ok2) {
+            $correc = $bdd->prepare("DELETE FROM paris_0 WHERE id_pari=:id");
+            $correc->execute(array('id' => $pari['id_pari']));
+        }
     }
 
     /* Petite finale */
     $win = $bdd->prepare("SELECT id_pari, id_e1 FROM paris_0 WHERE grp=:groupe AND id_user=:usr");
     $win->execute(array('groupe' => 'F1', 'usr' => $id_perso));
     $pari = $win->fetch();
-    $ok = false;
-    for ($j = 0; $j < 2; $j++) {
-        if ($winners[$j][1] == $pari['id_e1']) {
-            $ok = true;
-            break;
-        }
-    }
 
-    if (!$ok) {
-        $correc = $bdd->prepare("DELETE FROM paris_0 WHERE id_pari=:id");
-        $correc->execute(array('id' => $pari['id_pari']));
+    if ($pari) {
+        $ok = false;
+        for ($j = 0; $j < 2; $j++) {
+            if ($winners[$j][1] == $pari['id_e1']) {
+                $ok = true;
+                break;
+            }
+        }
+
+        if (!$ok) {
+            $correc = $bdd->prepare("DELETE FROM paris_0 WHERE id_pari=:id");
+            $correc->execute(array('id' => $pari['id_pari']));
+        }
     }
 
     ?>

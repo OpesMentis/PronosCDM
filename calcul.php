@@ -92,7 +92,7 @@ if ($eq1 && $eq2) {
     $maj->execute(array('e1' => $eq1['id_e1'], 'e2' => $eq2['id_e1']));
 } else {
     $maj = $bdd->prepare("UPDATE matchs SET team1=:e1, team2=:e2 WHERE groupe='F0'");
-    $maj->execute(array('e1' => 0, 'e2' => 0);
+    $maj->execute(array('e1' => 0, 'e2' => 0));
 }
 
 /* Peuplement de la petite finale */
@@ -110,7 +110,7 @@ if ($eq1 && $eq2) {
     $maj->execute(array('e1' => $eq1['id_e2'], 'e2' => $eq2['id_e2']));
 } else {
     $maj = $bdd->prepare("UPDATE matchs SET team1=:e1, team2=:e2 WHERE groupe='F1'");
-    $maj->execute(array('e1' => 0, 'e2' => 0);
+    $maj->execute(array('e1' => 0, 'e2' => 0));
 }
 
 /* Enregistrement du résultat des matchs */

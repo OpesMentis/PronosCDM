@@ -48,13 +48,18 @@ if (!isset($_SESSION['login'])) {
                     if ($pari && $vals[$i] != $_POST[$items[$i]]) {
                         $req = $bdd->prepare("UPDATE paris_divers SET val=:value WHERE id_pari=:id");
                         $req->execute(array('value' => $_POST[$items[$i]], 'id' => $pari['id_pari']));
-                        $msg[$i] = 'Votre pari a été enregistré';
+                        $msg[$i] = 'Votre choix a été pris en compte.';
                     } elseif (!$pari) {
                         $req = $bdd->prepare("INSERT INTO paris_divers(id_user, id_obj, val) VALUES(:usr, :item, :value)");
                         $req->execute(array('usr' => $id_perso, 'item' => $items[$i], 'value' => $_POST[$items[$i]]));
-                        $msg[$i] = 'Votre pari a été enregistré';
+                        $msg[$i] = 'Votre choix a été pris en compte.';
                     }
                     $vals[$i] = $_POST[$items[$i]];
+                } elseif ($pari) {
+                    $req = $bdd->prepare("DELETE FROM paris_divers WHERE id_pari=:id");
+                    $req->execute(array('id' => $pari['id_pari']));
+                    $msg[$i] = 'Votre pronostic a été supprimé';
+                    $vals[$i] = '';
                 }
             }
         }

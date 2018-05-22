@@ -43,8 +43,8 @@ if (!isset($_SESSION['login'])) {
                 $vals[$i] = $pari['val'];
             }
 
-            if (($_SESSION['login'] == 'admin' || strtotime('2018-06-18 17:00:00') > strtotime('now')) && isset($_POST[$items[$i]])) {
-                if (ctype_digit($_POST[$items[$i]])) {
+            if (($_SESSION['login'] == 'admin' || strtotime('2018-06-18 17:00:00') > strtotime('now'))) {
+                if (isset($_POST[$items[$i]]) && ctype_digit($_POST[$items[$i]]) && strlen($_POST[$items[$i]]) <= 5) {
                     if ($pari && $vals[$i] != $_POST[$items[$i]]) {
                         $req = $bdd->prepare("UPDATE paris_divers SET val=:value WHERE id_pari=:id");
                         $req->execute(array('value' => $_POST[$items[$i]], 'id' => $pari['id_pari']));
@@ -55,11 +55,13 @@ if (!isset($_SESSION['login'])) {
                         $msg[$i] = 'Votre choix a été pris en compte.';
                     }
                     $vals[$i] = $_POST[$items[$i]];
-                } elseif ($pari) {
+                } elseif (isset($_POST[$items[$i]]) && $_POST[$items[$i]] == '' && $pari) {
                     $req = $bdd->prepare("DELETE FROM paris_divers WHERE id_pari=:id");
                     $req->execute(array('id' => $pari['id_pari']));
                     $msg[$i] = 'Votre pronostic a été supprimé';
                     $vals[$i] = '';
+                } elseif (isset($_POST[$items[$i]])) {
+                    $msg[$i] = 'Un problème a été détecté, seules les valeurs inférieures ou égales à 99999 sont acceptées.';
                 }
             }
         }

@@ -28,6 +28,10 @@ if (!isset($_SESSION['login'])) {
         <?php
         include('connect.php');
 
+        $req = $bdd->prepare("SELECT id FROM users WHERE login=:pseudo");
+        $req->execute(array('pseudo' => $_SESSION['login']));
+        $id_perso = $req->fetch()['id'];
+
         $msg = '';
 
         if (!isset($_GET['id'])) {
@@ -42,16 +46,11 @@ if (!isset($_SESSION['login'])) {
             } elseif (strtotime($match['dt']) < strtotime('now') && $_SESSION['login'] != 'admin') {
                 echo 'Ce match est passé.';
             } else {
-                if (isset($_POST['score1']) && isset($_POST['score2'])) {
-                    if (ctype_digit($_POST['score1']) && ctype_digit(($_POST['score2'])) && strlen($_POST['score1']) <= 2 && strlen($_POST['score2']) <= 2) {
-                        $req = $bdd->prepare("SELECT id FROM users WHERE login=:pseudo");
-                        $req->execute(array('pseudo' => $_SESSION['login']));
-                        $id_perso = $req->fetch()['id'];
-                        $req = $bdd->prepare("SELECT id_pari FROM paris_match WHERE id_user=:usr AND id_match=:play");
-                        $req->execute(array(
-                            'usr' => $id_perso,
-                            'play' => $id_play
-                        ));
+                $req = $bdd->prepare("SELECT id_pari FROM paris_match WHERE id_user=:usr AND id_match=:play");
+                $req->execute(array('usr' => $id_perso, 'play' => $id_play));
+                $pari = $req->fetch();
+                if (isset($_POST['score1']) && isset($_POST['score2']) && ctype_digit($_POST['score1']) && ctype_digit(($_POST['score2']))) {
+                    if (strlen($_POST['score1']) <= 2 && strlen($_POST['score2']) <= 2) {
 
                         $winner = 3;
 
@@ -66,24 +65,25 @@ if (!isset($_SESSION['login'])) {
                                 $winner = 2;
                             }
                         }
-                        $pari = $req->fetch();
                         if (!$pari) {
                             $req = $bdd->prepare("INSERT INTO paris_match(id_user, id_match, score1, score2, winner) VALUES(:usr, :play, :s1, :s2, :gagnant)");
+                            $req->execute(array('usr' => $id_perso, 'play' => $id_play, 's1' => $_POST['score1'], 's2' => $_POST['score2'], 'gagnant' => $winner));
                         } else {
-                            $req = $bdd->prepare("UPDATE paris_match SET score1=:s1, score2=:s2, winner=:gagnant WHERE id_user=:usr AND id_match=:play");
+                            $req = $bdd->prepare("UPDATE paris_match SET score1=:s1, score2=:s2, winner=:gagnant WHERE id_pari=:id");
+                            $req->execute(array('id' => $pari['id_pari'], 's1' => $_POST['score1'], 's2' => $_POST['score2'], 'gagnant' => $winner));
                         }
-                        $req->execute(array(
-                            'usr' => $id_perso,
-                            'play' => $id_play,
-                            's1' => $_POST['score1'],
-                            's2' => $_POST['score2'],
-                            'gagnant' => $winner
-                        ));
                         header('Location: predictions.php#' . $id_play);
                         exit();
                     } else {
-                        $msg = 'Un problème a été détecté dans les valeurs proposées. Seuls les valeurs inférieures à 99 sont acceptées.';
+                        $msg = 'Un problème a été détecté dans les valeurs proposées. Seules les valeurs inférieures ou égales à 99 sont acceptées.';
                     }
+                } elseif (isset($_POST['score1']) && isset($_POST['score2']) && $_POST['score1'] == '' && $_POST['score2'] == '' && $pari) {
+                    $req = $bdd->prepare("DELETE FROM paris_match WHERE id_pari=:id");
+                    $req->execute(array('id' => $pari['id_pari']));
+                    header('Location: predictions.php#' . $id_play);
+                    exit();
+                } elseif (isset($_POST['score1']) && isset($_POST['score2'])) {
+                    $msg = 'Un problème a été détecté dans les valeurs proposées. Seuls les valeurs inférieures à 99 sont acceptées.';
                 }
                 $pari = $bdd->prepare("SELECT score1, score2, winner FROM paris_match JOIN users ON users.id = paris_match.id_user WHERE id_match=:play AND users.login=:usr");
                 $pari->execute(array('play' => $id_play, 'usr' => $_SESSION['login']));

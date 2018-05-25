@@ -22,9 +22,12 @@ if (isset($_SESSION['login'])) {
     <?php
     include('connect.php');
 
-    if (isset($_POST['pseudo']) and isset($_POST['mdp'])) {
+    if (isset($_POST['pseudo']) and isset($_POST['email']) && isset($_POST['mdp'])) {
         if (!ctype_alnum($_POST['pseudo'])) {?>
             <center><font style="font-size: 20px;">Seuls les caractères alphanumériques sont autorisés dans le nom d'utilisateur !</font></center>
+            <?php
+        } elseif (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {?>
+            <center><font style="font-size: 20px;">L'adresse email renseignée est incorrecte !</font></center>
             <?php
         } elseif ($_POST['mdp'] != $_POST['mdp2']) {?>
             <center><font style="font-size: 20px;">Les deux mots de passe diffèrent !</font></center>
@@ -36,25 +39,51 @@ if (isset($_SESSION['login'])) {
             <center><font style="font-size: 20px;">Le résultat du test anti-robot n'est pas concluant...</font></center>
             <?php
         } else {
-            $req = $bdd->prepare("SELECT COUNT(*) AS cnt FROM users WHERE LOWER(login)=LOWER(:pseudo)");
+            $req = $bdd->prepare("SELECT COUNT(*) AS cnt FROM users WHERE LOWER(login)=LOWER(:pseudo) OR email=:mail");
             $req->execute(array(
-                'pseudo' => $_POST['pseudo']
+                'pseudo' => $_POST['pseudo'],
+                'mail' => $_POST['email']
             ));
-            $num = $req->fetch();
-            if ($num['cnt'] != '0') {?>
+            $num_name = $req->fetch();
+
+            $req = $bdd->prepare("SELECT COUNT(*) AS cnt FROM users WHERE email=:mail");
+            $req->execute(array(
+                'mail' => $_POST['email']
+            ));
+            $num_mail = $req->fetch();
+
+            if ($num_name['cnt'] != '0') {?>
                 <center><font style="font-size: 20px;">Nom d'utilisateur déjà pris !</font></center>
                 <?php
+            } elseif ($num_mail['cnt'] != '0') {?>
+                <center><font style="font-size: 20px;">Adresse email déjà utilisée !</font></center>
+                <?php
             } else {
-                $req = $bdd->prepare("INSERT INTO users(login, mdp) VALUES(:pseudo, :mdp)");
+                $clef = md5(microtime(TRUE) * 100000);
+                $req = $bdd->prepare("INSERT INTO users(login, mdp, email, clef) VALUES(:pseudo, :mdp, :mail, :key)");
                 $req->execute(array(
                     'pseudo' => $_POST['pseudo'],
-                    'mdp' => password_hash($_POST['mdp'], PASSWORD_DEFAULT)
-                ));?>
-                <center><font style="font-size: 20px;">Inscription réussie !<br/>Redirection en cours</font></center>
-                <?php
-                $_SESSION['login'] = $_POST['pseudo'];
-                header('Location: dashboard.php');
-                exit();
+                    'mdp' => password_hash($_POST['mdp'], PASSWORD_DEFAULT),
+                    'email' => $_POST['email'],
+                    'clef' => $clef
+                ));
+
+                $destinataire = $_POST['email'];
+                $sujet = 'Activation de votre compte';
+                $header = 'From: "Pronostics CDM2018"<noreply@antoineplanchot.eu>';
+                $message = 'Bonjour ' . $_POST['pseudo'] . '.
+
+Votre inscription est presque finalisée, il ne vous reste plus qu\'à activer votre compte en cliquant sur le lien ci-dessous ou le copiant dans la barre d\'adresse de votre navigateur.
+
+' . 'https://lab.antoineplanchot.eu/cdm2018/activation.php?log=' . urlencode($_POST['pseudo']) . '&clef=' . urlencode($clef) . '
+
+----
+Cet email a été envoyé automatiquement, merci de ne pas y répondre.';
+
+                mail($destinataire, $sujet, $message, $header);
+
+                ?>
+                <center><font style="font-size: 20px;">Inscription réussie !<br/>Pour activer votre compte, cliquez sur le lien contenu dans le mail qui vient de vous être envoyé.</font></center><?php
             }
         }
     }
@@ -69,6 +98,12 @@ if (isset($_SESSION['login'])) {
                         <?php
                         if (isset($_POST['pseudo'])) {
                             echo 'value="' . $_POST['pseudo'] . '" ';
+                        }
+                        ?>/><br/><br/>
+                        Adresse e-mail<br/><input type="text" name="email"
+                        <?php
+                        if (isset($_POST['email'])) {
+                            echo 'value="' . $_POST['email'] . '" ';
                         }
                         ?>/><br/><br/>
                         Mot de passe<br/><input type="password" name="mdp"/><br/><br/>

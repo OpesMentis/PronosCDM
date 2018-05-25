@@ -37,7 +37,7 @@ if (isset($_SESSION['login'])) {
     include('connect.php');
 
     if (isset($_POST['pseudo']) and isset($_POST['mdp'])) {
-        $req = $bdd->prepare("SELECT login, mdp FROM users WHERE LOWER(login)=LOWER(:pseudo)");
+        $req = $bdd->prepare("SELECT login, mdp, email, clef, actif FROM users WHERE LOWER(login)=LOWER(:pseudo)");
         $req->execute(array(
             'pseudo' => $_POST['pseudo']
         ));
@@ -50,7 +50,7 @@ if (isset($_SESSION['login'])) {
             </tr>
             <?php
         } else {
-            if (password_verify($_POST['mdp'], $data['mdp'])) {?>
+            if (password_verify($_POST['mdp'], $data['mdp']) && $data['actif'] == '1') {?>
                 <tr>
                     <td align="center">
                         <font style="font-size: 15px;">Connexion réussie !<br/>Redirection en cours</font><?php
@@ -61,6 +61,22 @@ if (isset($_SESSION['login'])) {
                     </td>
                 </tr>
                 <?php
+            } elseif ($data['actif'] == '0') {
+                $destinataire = $data['email'];
+                $sujet = 'Activation de votre compte';
+                $header = 'From: "Pronostics CDM2018"<noreply@antoineplanchot.eu>';
+                $message = 'Bonjour ' . $data['login'] . '.
+
+Votre inscription est presque finalisée, il ne vous reste plus qu\'à activer votre compte en cliquant sur le lien ci-dessous ou le copiant dans la barre d\'adresse de votre navigateur.
+
+' . 'https://lab.antoineplanchot.eu/cdm2018/activation.php?log=' . urlencode($data['login']) . '&clef=' . urlencode($data['clef']) . '
+
+----
+Cet email a été envoyé automatiquement, merci de ne pas y répondre.';
+
+                mail($destinataire, $sujet, $message, $header);
+                header('Location: activation.php');
+                exit();
             } else {?>
                 <tr>
                     <td align="center">

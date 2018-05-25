@@ -39,10 +39,9 @@ if (isset($_SESSION['login'])) {
             <center><font style="font-size: 20px;">Le résultat du test anti-robot n'est pas concluant...</font></center>
             <?php
         } else {
-            $req = $bdd->prepare("SELECT COUNT(*) AS cnt FROM users WHERE LOWER(login)=LOWER(:pseudo) OR email=:mail");
+            $req = $bdd->prepare("SELECT COUNT(*) AS cnt FROM users WHERE LOWER(login)=LOWER(:pseudo)");
             $req->execute(array(
                 'pseudo' => $_POST['pseudo'],
-                'mail' => $_POST['email']
             ));
             $num_name = $req->fetch();
 
@@ -64,8 +63,8 @@ if (isset($_SESSION['login'])) {
                 $req->execute(array(
                     'pseudo' => $_POST['pseudo'],
                     'mdp' => password_hash($_POST['mdp'], PASSWORD_DEFAULT),
-                    'email' => $_POST['email'],
-                    'clef' => $clef
+                    'mail' => $_POST['email'],
+                    'key' => $clef
                 ));
 
                 $destinataire = $_POST['email'];
@@ -81,9 +80,8 @@ Votre inscription est presque finalisée, il ne vous reste plus qu\'à activer v
 Cet email a été envoyé automatiquement, merci de ne pas y répondre.';
 
                 mail($destinataire, $sujet, $message, $header);
-
-                ?>
-                <center><font style="font-size: 20px;">Inscription réussie !<br/>Pour activer votre compte, cliquez sur le lien contenu dans le mail qui vient de vous être envoyé.</font></center><?php
+                header('Location: activation.php');
+                exit();
             }
         }
     }

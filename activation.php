@@ -7,6 +7,8 @@ if (isset($_SESSION['login'])) {
 
 include('connect.php');
 
+$nofield = false;
+
 if (isset($_GET['log']) && isset($_GET['clef'])) {
     $log = $_GET['log'];
     $clef = $_GET['clef'];
@@ -19,8 +21,9 @@ if (isset($_GET['log']) && isset($_GET['clef'])) {
         $req = $bdd->prepare("UPDATE users SET actif=1 WHERE id=:usr");
         $req->execute(array('usr' => $usr['id']));
         $msg = 'Votre compte a été activé avec succès ! Rendez-vous maintenant à l\'accueil pour vous connecter avec vos identifiants et commencer notre aventure commune.';
+        $nofield = true;
     } else {
-        $msg = 'Nous avons rencontré un problème, le lien que vous avez suivi semble incorrect. Assurez-vous de ne pas être trompé en recopiant l\'URL ou demandez l\'envoi d\'un nouveau mail <i>via</i> le formulaire ci-dessous.';
+        $msg = 'Nous avons rencontré un problème, le lien que vous avez suivi semble incorrect. Assurez-vous de ne pas vous être trompé en recopiant l\'URL ou demandez l\'envoi d\'un nouveau mail <i>via</i> le formulaire ci-dessous.';
     }
 } elseif(isset($_POST['email'])) {
     $req = $bdd->prepare("SELECT login, clef, actif FROM users WHERE email=:mail");
@@ -44,6 +47,7 @@ Cet email a été envoyé automatiquement, merci de ne pas y répondre.';
         $msg = 'Un e-mail vient de vous être envoyé.';
     } elseif ($usr && $usr['actif'] == '1') {
         $msg = 'Votre compte est déjà activé. Rendez-vous en page d\'accueil pour vous connecter avec vos identifiants.';
+        $nofield = true;
     } else {
         $msg = 'Cette adresse e-mail nous est inconnue.';
     }
@@ -74,16 +78,20 @@ Cet email a été envoyé automatiquement, merci de ne pas y répondre.';
                 <font style="font-size: 20px;"><?php echo $msg;?></font>
             </td>
         </tr>
-        <tr>
-            <td width="33%" align="left">
-                <font style="font-size: 17px;">
-                    <form method="post" action="activation.php">
-                        Adresse e-mail<br/><input type="text" name="email"/>
-                        <input type="submit" value="Valider"/>
-                    </form>
-                </font>
-            </td>
-        </tr>
+        <?php
+        if (!$nofield) {?>
+            <tr>
+                <td width="33%" align="left">
+                    <font style="font-size: 17px;">
+                        <form method="post" action="activation.php">
+                            Adresse e-mail<br/><input type="text" name="email"/>
+                            <input type="submit" value="Valider"/>
+                        </form>
+                    </font>
+                </td>
+            </tr>
+            <?php
+        }?>
     </table>
 </body>
 </html>

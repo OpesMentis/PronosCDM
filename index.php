@@ -61,7 +61,7 @@ if (isset($_SESSION['login'])) {
                     </td>
                 </tr>
                 <?php
-            } elseif ($data['actif'] == '0') {
+            } elseif ($data['actif'] == '0' && $data['email']) {
                 $destinataire = $data['email'];
                 $sujet = 'Activation de votre compte';
                 $header = 'From: "Pronostics CDM2018"<noreply@antoineplanchot.eu>';
@@ -76,6 +76,9 @@ Cet email a été envoyé automatiquement, merci de ne pas y répondre.';
 
                 mail($destinataire, $sujet, $message, $header);
                 header('Location: activation.php');
+                exit();
+            } elseif ($data['actif'] == '0' && !$data['email']) {
+                header('Location: regul.php?log=' . $data['login']);
                 exit();
             } else {?>
                 <tr>

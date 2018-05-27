@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.6deb4
+-- version 4.7.7
 -- https://www.phpmyadmin.net/
 --
--- Client :  localhost:3306
--- Généré le :  Lun 21 Mai 2018 à 01:10
--- Version du serveur :  10.1.26-MariaDB-0+deb9u1
--- Version de PHP :  7.0.30-1+0~20180505045735.18+stretch~1.gbpcfecb9
+-- Hôte : localhost
+-- Généré le :  Dim 27 mai 2018 à 21:28
+-- Version du serveur :  5.7.20-18-log
+-- Version de PHP :  7.1.13
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -50,11 +52,11 @@ CREATE TABLE `matchs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Contenu de la table `matchs`
+-- Déchargement des données de la table `matchs`
 --
 
 INSERT INTO `matchs` (`id`, `groupe`, `team1`, `team2`, `score1`, `score2`, `winner`, `date`, `played`) VALUES
-(1, 'A', 1, 2, 0, 0, 0, '2018-06-14 18:00:00', 0),
+(1, 'A', 1, 2, 0, 0, 0, '2018-06-14 17:00:00', 0),
 (2, 'A', 3, 4, 0, 0, 0, '2018-06-15 14:00:00', 0),
 (3, 'B', 7, 8, 0, 0, 0, '2018-06-15 17:00:00', 0),
 (4, 'B', 5, 6, 0, 0, 0, '2018-06-15 20:00:00', 0),
@@ -174,7 +176,7 @@ CREATE TABLE `teams` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Contenu de la table `teams`
+-- Déchargement des données de la table `teams`
 --
 
 INSERT INTO `teams` (`id`, `pays`, `groupe`) VALUES
@@ -221,12 +223,15 @@ CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `login` varchar(255) NOT NULL,
   `mdp` varchar(255) NOT NULL,
-  `points` int(11) NOT NULL,
-  `id_commu` int(11) NOT NULL DEFAULT '0'
+  `points` int(11) NOT NULL DEFAULT '0',
+  `id_commu` int(11) NOT NULL DEFAULT '0',
+  `email` varchar(255) NOT NULL,
+  `clef` varchar(32) NOT NULL,
+  `actif` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Index pour les tables exportées
+-- Index pour les tables déchargées
 --
 
 --
@@ -272,44 +277,52 @@ ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT pour les tables exportées
+-- AUTO_INCREMENT pour les tables déchargées
 --
 
 --
 -- AUTO_INCREMENT pour la table `commus`
 --
 ALTER TABLE `commus`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
 -- AUTO_INCREMENT pour la table `matchs`
 --
 ALTER TABLE `matchs`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+
 --
 -- AUTO_INCREMENT pour la table `paris_0`
 --
 ALTER TABLE `paris_0`
-  MODIFY `id_pari` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=147;
+  MODIFY `id_pari` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
 --
 -- AUTO_INCREMENT pour la table `paris_divers`
 --
 ALTER TABLE `paris_divers`
-  MODIFY `id_pari` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_pari` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
 --
 -- AUTO_INCREMENT pour la table `paris_match`
 --
 ALTER TABLE `paris_match`
-  MODIFY `id_pari` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_pari` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+
 --
 -- AUTO_INCREMENT pour la table `teams`
 --
 ALTER TABLE `teams`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+
 --
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+COMMIT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

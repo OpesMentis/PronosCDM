@@ -37,7 +37,7 @@ if (!isset($_SESSION['login'])) {
             $num_commu = $data['id_commu'];
             $nom_commu = $data['nom'];
 
-            $req = $bdd->prepare("SELECT login, points FROM users WHERE login!='admin' AND id_commu=:com ORDER BY points DESC");
+            $req = $bdd->prepare("SELECT login, points FROM users WHERE login!='admin' AND id_commu=:com AND actif!=0 ORDER BY points DESC");
             $req->execute(array('com' => $num_commu));
 
             ?>

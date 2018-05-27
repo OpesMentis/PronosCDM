@@ -26,7 +26,7 @@ if (!isset($_SESSION['login'])) {
             <?php
             include('connect.php');
 
-            $req = $bdd->query("SELECT login, points FROM users WHERE login!='admin' ORDER BY points DESC");
+            $req = $bdd->query("SELECT login, points FROM users WHERE login!='admin' AND actif!=0 ORDER BY points DESC");
             ?>
             <font style="font-size: 30px;"><b>Tableau d'honneur</b><br/><br/></font>
         </div>

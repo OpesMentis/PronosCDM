@@ -126,6 +126,12 @@ if (!isset($_SESSION['login'])) {
                 if (isset($_POST['ok'])) {
                     $req = $bdd->prepare("DELETE FROM users WHERE id=:id_u");
                     $req->execute(array('id_u' => $id_perso));
+                    $req = $bdd->prepare("DELETE FROM paris_0 WHERE id_user=:id_u");
+                    $req->execute(array('id_u' => $id_perso));
+                    $req = $bdd->prepare("DELETE FROM paris_divers WHERE id_user=:id_u");
+                    $req->execute(array('id_u' => $id_perso));
+                    $req = $bdd->prepare("DELETE FROM paris_match WHERE id_user=:id_u");
+                    $req->execute(array('id_u' => $id_perso));
                     header('Location: logout.php');
                     exit();
                 } else {

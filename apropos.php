@@ -26,6 +26,7 @@ session_start();
         Le code source du site est disponible sur <a href="https://github.com/OpesMentis/PronosCDM">le dépôt Git du projet</a> sous licence libre.<br/><br/>
         L'administrateur du site se réserve le droit de supprimer sans préavis ni justification votre compte.<br/><br/>
         Ce site n'est affilié en aucune manière à la FIFA ou aux instances organisatrices de la coupe du monde de football.<br/><br/>
+        Vos données ne font l'objet d'aucun traitement automatisées à des fins commerciales et nous ne partageons pas vos informations auprès de tiers, quelqu'ils soient.<br/><br/>
         Pour tout contact : <i>contact[at]antoineplanchot.eu</i>
     </font></div>
 </body>

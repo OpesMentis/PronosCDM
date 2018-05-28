@@ -77,7 +77,7 @@ if (!isset($_SESSION['login'])) {
     </table>
     <table width="90%" align="center" style="border-spacing: 10px;" id="matchs">
         <?php
-        $req = $bdd->query("SELECT matchs.id AS id_match, DATE_FORMAT(date, '%d/%m, %Hh%i') AS date, DATE_FORMAT(date, '%Y-%m-%d') AS day, matchs.groupe, eq1.pays AS e1, eq2.pays AS e2 FROM matchs JOIN teams eq1 ON eq1.id = matchs.team1 JOIN teams eq2 ON eq2.id = matchs.team2 WHERE date > NOW() AND played = 0 ORDER BY date ASC");
+        $req = $bdd->query("SELECT matchs.id AS id_match, DATE_FORMAT(date + INTERVAL '2' HOUR, '%d/%m, %Hh%i') AS dt, DATE_FORMAT(date + INTERVAL '2' HOUR, '%Y-%m-%d') AS day, matchs.groupe, eq1.pays AS e1, eq2.pays AS e2 FROM matchs JOIN teams eq1 ON eq1.id = matchs.team1 JOIN teams eq2 ON eq2.id = matchs.team2 WHERE date > NOW() AND played = 0 ORDER BY date ASC");
 
         $i = 0;
         while ($item = $req->fetch()) {
@@ -91,7 +91,7 @@ if (!isset($_SESSION['login'])) {
                 <td width="20%" align="center" id=<?php echo '"' . $item['id_match'] . '"';?> style="border: 1px solid black; <?php echo 'background-color: ' . (date("Y-m-d") == $item['day']? 'yellow;': (!$res? 'white;': 'grey;')) ?>"><a href=<?php echo "match.php?id=" . $item['id_match']; ?>><div><br/>
                     <font style="font-size: 20px;"><?php echo $item['e1'] . ' — ' . $item['e2'];?></font><br/>
                     <font style="font-size: 15px;">-- / --</font><br/>
-                    <font style="font-size: 15px;"><?php echo $item['date'];?></font><br/>
+                    <font style="font-size: 15px;"><?php echo $item['dt'];?></font><br/>
                     <font style="font-size: 15px;"><b>
                         <?php
                         if ($_SESSION['login'] == 'admin') {
@@ -124,7 +124,7 @@ if (!isset($_SESSION['login'])) {
     </table>
     <table width="90%" align="center" style="border-spacing: 10px;" id="matchs">
         <?php
-        $req = $bdd->query("SELECT matchs.id AS id_match, DATE_FORMAT(date, '%d/%m, %Hh%i') AS date, matchs.groupe, eq1.pays AS e1, eq2.pays AS e2 FROM matchs JOIN teams eq1 ON eq1.id = matchs.team1 JOIN teams eq2 ON eq2.id = matchs.team2 WHERE date < NOW() AND played = 0 ORDER BY date ASC");
+        $req = $bdd->query("SELECT matchs.id AS id_match, DATE_FORMAT(date + INTERVAL '2' HOUR, '%d/%m, %Hh%i') AS dt, matchs.groupe, eq1.pays AS e1, eq2.pays AS e2 FROM matchs JOIN teams eq1 ON eq1.id = matchs.team1 JOIN teams eq2 ON eq2.id = matchs.team2 WHERE date < NOW() AND played = 0 ORDER BY date ASC");
 
         $i = 0;
         while ($item = $req->fetch()) {
@@ -138,7 +138,7 @@ if (!isset($_SESSION['login'])) {
                 <td width="20%" align="center" style="border: 1px solid black;"><br/>
                     <font style="font-size: 20px;"><?php echo $item['e1'] . ' — ' . $item['e2'];?></font><br/>
                     <font style="font-size: 15px;">-- / --</font><br/>
-                    <font style="font-size: 15px;"><?php echo $item['date'];?></font><br/>
+                    <font style="font-size: 15px;"><?php echo $item['dt'];?></font><br/>
                     <font style="font-size: 15px;"><b>
                         <?php
                         if ($_SESSION['login'] == 'admin') {
@@ -170,7 +170,7 @@ if (!isset($_SESSION['login'])) {
     </table>
     <table width="90%" align="center" style="border-spacing: 10px;" id="matchs">
         <?php
-        $req = $bdd->query("SELECT matchs.id AS id_match, DATE_FORMAT(date, '%d/%m, %Hh%i') AS date, matchs.groupe, eq1.pays AS e1, eq2.pays AS e2, score1, score2 FROM matchs JOIN teams eq1 ON eq1.id = matchs.team1 JOIN teams eq2 ON eq2.id = matchs.team2 WHERE played = 1 ORDER BY date ASC");
+        $req = $bdd->query("SELECT matchs.id AS id_match, DATE_FORMAT(date + INTERVAL '2' HOUR, '%d/%m, %Hh%i') AS dt, matchs.groupe, eq1.pays AS e1, eq2.pays AS e2, score1, score2 FROM matchs JOIN teams eq1 ON eq1.id = matchs.team1 JOIN teams eq2 ON eq2.id = matchs.team2 WHERE played = 1 ORDER BY date ASC");
 
         $i = 0;
         while ($item = $req->fetch()) {
@@ -184,7 +184,7 @@ if (!isset($_SESSION['login'])) {
                 <td width="20%" align="center" style="border: 1px solid black;"><br/>
                     <font style="font-size: 20px;"><?php echo $item['e1'] . ' — ' . $item['e2'];?></font><br/>
                     <font style="font-size: 15px;"><b><?php echo $item['score1'] . ' / ' . $item['score2'];?></b></font><br/>
-                    <font style="font-size: 15px;"><?php echo $item['date'];?></font><br/>
+                    <font style="font-size: 15px;"><?php echo $item['dt'];?></font><br/>
                     <font style="font-size: 15px;">
                         <?php
                         if (!$res) {

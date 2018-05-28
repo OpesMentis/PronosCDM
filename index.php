@@ -95,7 +95,8 @@ Cet email a été envoyé automatiquement, merci de ne pas y répondre.';
             <td align="center">
                 <font style="font-size: 20px;">
                     <br/><br/><br/>
-                    <a href="inscription.php">Pas encore inscrit ?</a>
+                    <a href="inscription.php">Pas encore inscrit ?</a> ⋅ <a href="changemdp.php">Mot de passe oublié</a><br/>
+                    <a href="apropos.php">À propos</a>
                 </font>
             </td>
         </tr>

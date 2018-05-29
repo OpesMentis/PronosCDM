@@ -85,7 +85,7 @@ if (!isset($_SESSION['login'])) {
             </tr>
             <tr>
                 <td width="50%" align="left" style="border: 1px solid black; padding: 5px;">
-                    <?php echo $msg['msg'];?>
+                    <?php echo htmlentities($msg['msg']);?>
                 </td>
             </tr>
         <?php

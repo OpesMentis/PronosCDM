@@ -28,7 +28,7 @@ if (!isset($_SESSION['login'])) {
 
             $req = $bdd->query("SELECT login, points FROM users WHERE login!='admin' AND actif!=0 ORDER BY points DESC");
             ?>
-            <font style="font-size: 30px;"><b>Tableau d'honneur</b><br/><br/></font>
+            <font style="font-size: 30px;"><b>La crème de la crème</b><br/><br/></font>
         </div>
     <table width="50%" align="center" style='border-collapse: collapse;'>
         <?php

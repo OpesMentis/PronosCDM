@@ -23,27 +23,38 @@ if (!isset($_SESSION['login'])) {
         <font style="font-size: 20px;"><a href="logout.php">Déconnexion</a></font>
     </div><br/>
     <div align="center">
-            <?php
-            include('connect.php');
-            $commu = $bdd->prepare("SELECT id_commu, nom FROM users JOIN commus ON users.id_commu=commus.id WHERE login=:pseudo");
-            $commu->execute(array('pseudo' => $_SESSION['login']));
-            $data = $commu->fetch();
+        <?php
+        include('connect.php');
+        $commu = $bdd->prepare("SELECT id_commu, nom FROM users JOIN commus ON users.id_commu=commus.id WHERE login=:pseudo");
+        $commu->execute(array('pseudo' => $_SESSION['login']));
+        $data = $commu->fetch();
 
-            if (!$data) {
-                header('Location: index.php');
-                exit();
-            }
+        if (!$data) {
+            header('Location: index.php');
+            exit();
+        }
 
-            $num_commu = $data['id_commu'];
-            $nom_commu = $data['nom'];
+        $num_commu = $data['id_commu'];
+        $nom_commu = $data['nom'];
 
-            $req = $bdd->prepare("SELECT login, points FROM users WHERE login!='admin' AND id_commu=:com AND actif!=0 ORDER BY points DESC");
-            $req->execute(array('com' => $num_commu));
+        $req = $bdd->prepare("SELECT login, points FROM users WHERE login!='admin' AND id_commu=:com AND actif!=0 ORDER BY points DESC");
+        $req->execute(array('com' => $num_commu));
 
-            ?>
-            <font style="font-size: 30px;"><b>Toute la tribu s'est réunie autour de grands menhirs</b><br/><br/></font>
-            <font style="font-size: 25px;"><i>Classement de la communauté <b><?php echo $nom_commu;?></b></i><br/><br/></font>
-        </div>
+        ?>
+        <font style="font-size: 30px;"><b>Toute la tribu s'est réunie autour de grands menhirs</b><br/><br/></font>
+        <font style="font-size: 25px;"><i>⋅ <?php echo $nom_commu;?> ⋅</i><br/></font>
+        
+    </div>
+    <table width="90%" align="center" style='border-collapse: collapse;'>
+        <tr>
+            <td width="50%" align="center">
+                <font style="font-size: 20px;"><b>Classement de la communauté</b><br/><br/></font>
+            </td>
+            <td width="50%" align="center">
+                <font style="font-size: 20px;"><a href="fil.php">Fil de discussion</a><br/><br/></font>
+            </td>
+        </tr>
+    </table>
     <table width="50%" align="center" style='border-collapse: collapse;'>
         <?php
         $i = 0;

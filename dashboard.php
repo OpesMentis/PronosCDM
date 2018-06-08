@@ -36,19 +36,22 @@ if (!isset($_SESSION['login'])) {
         ?>
         <font style="font-size: 30px;"><b>Tableau de bord de <?php echo $_SESSION['login'] . '</b> <i>(' . $pts . ')</i>'?><br/><br/></font>
     </div>
-    <table width="100%" align="center" style="border-spacing: 50px;">
+    <table width="100%" align="center">
         <tr>
             <td width="33%" align="center">
                 <a href="ranking.php"><img src="img/rank.svg" alt="Classement" style="height:100px;"><br/>
                 <font style="font-size: 20px;">Classement</font></a>
+                <br/><br/><br/>
             </td>
             <td width="33%" align="center">
                 <a href="predictions.php"><img src="img/crystal-ball.svg" alt="Prédictions" style="height:100px;"><br/>
                 <font style="font-size: 20px;">Prédictions</font></a>
+                <br/><br/><br/>
             </td>
             <td width="33%" align="center">
                 <a href="settings.php"><img src="img/parameters.svg" alt="Paramètres" style="height:100px;"><br/>
                 <font style="font-size: 20px;">Paramètres</font></a>
+                <br/><br/><br/>
             </td>
         </tr>
         <tr>
@@ -82,6 +85,7 @@ if (!isset($_SESSION['login'])) {
     </table>
 
     <div align="center">
+        <br/>
         <font style="font-size: 15px;">
             Les icônes sont issues du site <i><a href="https://flaticon.com">Flaticon</a></i>, distribuées sous licence libre, et ont été réalisées par <a href="https://www.flaticon.com/authors/freepik">Freepik</a>, <a href="https://www.flaticon.com/authors/smashicons">Smashicons</a> et <a href="https://www.flaticon.com/authors/designmodo">Designmodo</a>.
         </font>

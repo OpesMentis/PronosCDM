@@ -20,9 +20,9 @@ if (isset($_SESSION['login'])) {
     <div align="center">
         <font style="font-family: 'Mina'; font-size: 40px;"><b>PRONOSTICS COUPE DU MONDE 2018</b></font>
     </div><br/><br/>
-    <table align="center" border="0">
+    <table align="center" width="20%">
         <tr>
-            <td width="300">
+            <td width="100%">
                 <font style="font-size: 20px;">
                     <font style="font-size: 30px;"><b>Connexion</b></font><br/><br/>
                     <form method="post" action="index.php">
@@ -91,6 +91,8 @@ Cet email a été envoyé automatiquement, merci de ne pas y répondre.';
         }
     }
     ?>
+    </table>
+    <table align="center">
         <tr>
             <td align="center">
                 <font style="font-size: 20px;">

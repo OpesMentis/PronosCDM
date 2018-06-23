@@ -196,7 +196,7 @@ if (!isset($_SESSION['login'])) {
                 <font style="font-size: 15px;"><a href="groupes.php">La phase de groupes</a></font><br/>
             </td>
             <td width="15%" align="center">
-                <font style="font-size: 15px;"><a href="huitiemes.php">Les huitièmes de finale</b></font><br/>
+                <font style="font-size: 15px;"><a href="huitiemes.php">Les huitièmes de finale</a></font><br/>
             </td>
             <td width="15%" align="center">
                 <font style="font-size: 15px;"><b>Les quarts de finale</b></font><br/>
@@ -205,7 +205,7 @@ if (!isset($_SESSION['login'])) {
                 <font style="font-size: 15px;"><a href="demifinales.php">Les demi-finales</a></font><br/>
             </td>
             <td width="15%" align="center">
-                <font style="font-size: 15px;"><a href="petitefinale.php">La petite finale</b></font><br/>
+                <font style="font-size: 15px;"><a href="petitefinale.php">La petite finale</a></font><br/>
             </td>
             <td width="15%" align="center">
                 <font style="font-size: 15px;"><a href="finale.php">La finale</a></font><br/>

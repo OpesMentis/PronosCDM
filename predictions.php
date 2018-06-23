@@ -88,7 +88,7 @@ if (!isset($_SESSION['login'])) {
             <tr>
             <?php
             }?>
-                <td width="20%" align="center" id=<?php echo '"' . $item['id_match'] . '"';?> style="border: 1px solid black; <?php echo 'background-color: ' . (date("Y-m-d") == $item['day']? 'yellow;': (!$res? 'white;': 'grey;')) ?>"><a href=<?php echo "match.php?id=" . $item['id_match']; ?>><div><br/>
+                <td width="20%" align="center" id="<?php echo $item['id_match'];?>" style="border: 1px solid black; <?php echo 'background-color: ' . (date("Y-m-d") == $item['day']? 'yellow;': (!$res? 'white;': 'grey;')) ?>"><a href=<?php echo "match.php?id=" . $item['id_match']; ?>><div><br/>
                     <font style="font-size: 20px;"><?php echo $item['e1'] . ' — ' . $item['e2'];?></font><br/>
                     <font style="font-size: 15px;">-- / --</font><br/>
                     <font style="font-size: 15px;"><?php echo $item['dt'];?></font><br/>

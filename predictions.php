@@ -181,19 +181,22 @@ if (!isset($_SESSION['login'])) {
             <tr>
             <?php
             }?>
-                <td width="20%" align="center" style="border: 1px solid black;"><br/>
-                    <font style="font-size: 20px;"><?php echo $item['e1'] . ' — ' . $item['e2'];?></font><br/>
-                    <font style="font-size: 15px;"><b><?php echo $item['score1'] . ' / ' . $item['score2'];?></b></font><br/>
-                    <font style="font-size: 15px;"><?php echo $item['dt'];?></font><br/>
-                    <font style="font-size: 15px;">
-                        <?php
-                        if (!$res) {
-                            echo 'VOUS N\'AVIEZ PAS PARIÉ';
-                        } else {
-                            echo 'VOUS PRÉVOYIEZ : ' . $res['score1'] . '-' . $res['score2'];
-                        }
-                        ?>
-                    </font><br/><br/>
+                <td width="20%" align="center" style="border: 1px solid black;" id="<?php echo $item['id_match'];?>">
+                    <a href=<?php echo "match_result.php?id=" . $item['id_match']; ?>>
+                        <br/>
+                        <font style="font-size: 20px;"><?php echo $item['e1'] . ' — ' . $item['e2'];?></font><br/>
+                        <font style="font-size: 15px;"><b><?php echo $item['score1'] . ' / ' . $item['score2'];?></b></font><br/>
+                        <font style="font-size: 15px;"><?php echo $item['dt'];?></font><br/>
+                        <font style="font-size: 15px;">
+                            <?php
+                            if (!$res) {
+                                echo 'VOUS N\'AVIEZ PAS PARIÉ';
+                            } else {
+                                echo 'VOUS PRÉVOYIEZ : ' . $res['score1'] . '-' . $res['score2'];
+                            }
+                            ?>
+                        </font><br/><br/>
+                    </a>
                 </td><?php
                 if ($i % 4 == 3) {?>
                 </tr>

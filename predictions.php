@@ -69,6 +69,7 @@ if (!isset($_SESSION['login'])) {
             <td width="100%" align="left">
                 <font style="font-size: 25px;">Les matchs à venir</font><br/><br/>
                 <font style="font-size: 15px;">Ne s'affichent ici que les rencontres dont l'affiche est complètement connue. Les matchs de phase finale apparaîtront donc au fur et à mesure de l'avancée de la compétition.</font><br/><br/>
+                <font color="red" style="font-size: 20px;"><b>/!\ Vous pouvez désormais voir les pronostics des autres joueurs à l'issue des rencontres en cliquant sur les matchs passés /!\</b></font><br/><br/>
                 &nbsp;&nbsp;&nbsp;&nbsp;<font style="font-size: 15px; background: yellow">&nbsp;&nbsp;MATCH AUJOURD'HUI&nbsp;&nbsp;</font>
                 &nbsp;&nbsp;&nbsp;&nbsp;<font style="font-size: 15px; background: grey">&nbsp;&nbsp;PRONOSTIC EXPRIMÉ&nbsp;&nbsp;</font>
                 &nbsp;&nbsp;&nbsp;&nbsp;<font style="font-size: 15px; background: white">&nbsp;&nbsp;EN ATTENTE DE VOTRE OPINION&nbsp;&nbsp;</font><br/><br/>

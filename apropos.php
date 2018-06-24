@@ -22,8 +22,8 @@ session_start();
         <font style="font-size: 30px;"><b>Rendons à César ce qui appartient à César</b></font><br/><br/>
     </div>
     <div align="center"><font style="font-size: 20px;">
-        Ce site a été entièrement réalisé par Antoine Planchot.<br/><br/>
-        Le code source du site est disponible sur <a href="https://github.com/OpesMentis/PronosCDM">le dépôt Git du projet</a> sous licence libre.<br/><br/>
+        Ce site a été réalisé par Antoine Planchot et des contributeurs volontaires et bénévoles visibles <a href="https://github.com/OpesMentis/PronosCDM/graphs/contributors">ici</a>.<br/><br/>
+        Le code source du site est disponible sur <a href="https://github.com/OpesMentis/PronosCDM">le dépôt GitHub du projet</a> sous licence MIT.<br/><br/>
         L'administrateur du site se réserve le droit de supprimer sans préavis ni justification votre compte.<br/><br/>
         Ce site n'est affilié en aucune manière à la FIFA ou aux instances organisatrices de la coupe du monde de football.<br/><br/>
         Vos données ne font l'objet d'aucun traitement automatisées à des fins commerciales et nous ne partageons pas vos informations auprès de tiers, quelqu'ils soient.<br/><br/>

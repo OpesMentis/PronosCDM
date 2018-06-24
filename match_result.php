@@ -79,50 +79,69 @@ if (!isset($_SESSION['login'])) {
             <font style="font-size: 20px;"><?php echo $match['score1'] . ' &mdash; ' . $match['score2'];?><br/><br/></font>
 
             <table width="75%" align="center" style='border-collapse: collapse;'>
-                <tr>
-                    <td style='padding: 10px;'>
-                        <font style="font-size: 30px;">Les membres de ma communauté</font>
-                    </td>
-                </tr>
                 <?php
-                $req = $bdd->prepare("SELECT u.login, pm.score1, pm.score2 
-                  FROM paris_match AS pm
-                  JOIN users AS u ON u.id = pm.id_user
-                  WHERE id_match = :id_match AND u.login != 'admin' AND u.id_commu = :comm");
-                $req->execute(array('id_match' => $id_play, 'comm' => $num_commu));
-                while ($item = $req->fetch()) { ?>
-                    <tr <?php echo ($item['login'] == $_SESSION['login'] ? 'style="border: 1px solid black;"': '')?>>
-                        <td width="50%" align="center">
-                            <font style="font-size: 25px;"><?php echo $item['login']?></font>
-                        </td>
-                        <td width="50%" align="center">
-                            <font style="font-size: 25px;"><?php echo $item['score1']?> &mdash; <?php echo $item['score2']?> </font>
+                if ($num_commu != 0) {?>
+                    <tr>
+                        <td style='padding: 10px;'>
+                            <font style="font-size: 30px;">Les membres de ma communauté</font>
                         </td>
                     </tr>
-                <?php
-                }
-                ?>
-                <tr>
-                    <td style='padding: 10px;'>
-                        <font style="font-size: 30px;">Les <i>autres</i></font>
-                    </td>
-                </tr>
-                <?php
-                $req = $bdd->prepare("SELECT u.login, pm.score1, pm.score2 
-                  FROM paris_match AS pm
-                  JOIN users AS u ON u.id = pm.id_user
-                  WHERE id_match = :id_match AND u.login != 'admin' AND u.id_commu != :comm");
-                $req->execute(array('id_match' => $id_play, 'comm' => $num_commu));
-                while ($item = $req->fetch()) { ?>
-                    <tr <?php echo ($item['login'] == $_SESSION['login'] ? 'style="border: 1px solid black;"': '')?>>
-                        <td width="50%" align="center">
-                            <font style="font-size: 25px;"><?php echo $item['login']?></font>
-                        </td>
-                        <td width="50%" align="center">
-                            <font style="font-size: 25px;"><?php echo $item['score1']?> &mdash; <?php echo $item['score2']?> </font>
+                    <?php
+                    $req = $bdd->prepare("SELECT u.login, pm.score1, pm.score2 
+                      FROM paris_match AS pm
+                      JOIN users AS u ON u.id = pm.id_user
+                      WHERE id_match = :id_match AND u.login != 'admin' AND u.id_commu = :comm");
+                    $req->execute(array('id_match' => $id_play, 'comm' => $num_commu));
+                    while ($item = $req->fetch()) { ?>
+                        <tr <?php echo ($item['login'] == $_SESSION['login'] ? 'style="border: 1px solid black;"': '')?>>
+                            <td width="50%" align="center">
+                                <font style="font-size: 25px;"><?php echo $item['login']?></font>
+                            </td>
+                            <td width="50%" align="center">
+                                <font style="font-size: 25px;"><?php echo $item['score1']?> &mdash; <?php echo $item['score2']?> </font>
+                            </td>
+                        </tr>
+                    <?php
+                    }
+                    ?>
+                    <tr>
+                        <td style='padding: 10px;'>
+                            <font style="font-size: 30px;">Les <i>autres</i></font>
                         </td>
                     </tr>
-                <?php
+                    <?php
+                    $req = $bdd->prepare("SELECT u.login, pm.score1, pm.score2 
+                      FROM paris_match AS pm
+                      JOIN users AS u ON u.id = pm.id_user
+                      WHERE id_match = :id_match AND u.login != 'admin' AND u.id_commu != :comm");
+                    $req->execute(array('id_match' => $id_play, 'comm' => $num_commu));
+                    while ($item = $req->fetch()) { ?>
+                        <tr>
+                            <td width="50%" align="center">
+                                <font style="font-size: 25px;"><?php echo $item['login']?></font>
+                            </td>
+                            <td width="50%" align="center">
+                                <font style="font-size: 25px;"><?php echo $item['score1']?> &mdash; <?php echo $item['score2']?> </font>
+                            </td>
+                        </tr>
+                    <?php
+                    }
+                } else {
+                    $req = $bdd->prepare("SELECT u.login, pm.score1, pm.score2 
+                      FROM paris_match AS pm
+                      JOIN users AS u ON u.id = pm.id_user
+                      WHERE id_match = :id_match AND u.login != 'admin'");
+                    $req->execute(array('id_match' => $id_play));
+                    while ($item = $req->fetch()) { ?>
+                        <tr <?php echo ($item['login'] == $_SESSION['login'] ? 'style="border: 1px solid black;"': '')?>>
+                            <td width="50%" align="center">
+                                <font style="font-size: 25px;"><?php echo $item['login']?></font>
+                            </td>
+                            <td width="50%" align="center">
+                                <font style="font-size: 25px;"><?php echo $item['score1']?> &mdash; <?php echo $item['score2']?> </font>
+                            </td>
+                        </tr>
+                    <?php }
                 }
                 ?>
             </table>

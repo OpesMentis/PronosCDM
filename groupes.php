@@ -104,7 +104,7 @@ if (!isset($_SESSION['login'])) {
             <td width="20%" align="center">
                 <font style="font-size: 20px;">Groupe <?php echo ' ' . $grp[$i];?></font><br/>
                 <font style="font-size: 15px;">1<sup>er</sup> du groupe</font>
-                <select name=<?php echo '"' . $grp[$i] . '1" ' . ($_SESSION['login'] != 'admin' && strtotime('2018-06-18 15:00:00') < strtotime('now') ? 'disabled': '');?>>
+                <select name=<?php echo '"' . $grp[$i] . '1" ' . ($_SESSION['login'] != 'admin' && strtotime('2018-06-14 15:00:00') < strtotime('now') ? 'disabled': '');?>>
                     <option value="0">--</option>
                     <?php
                     for ($j = 0; $j < 4; $j++) {
@@ -116,7 +116,7 @@ if (!isset($_SESSION['login'])) {
                     }?>
                 </select><br/>
                 <font style="font-size: 15px;">2<sup>e</sup> du groupe</font>
-                <select name=<?php echo '"' . $grp[$i] . '2" ' . ($_SESSION['login'] != 'admin' && strtotime('2018-06-18 15:00:00') < strtotime('now') ? 'disabled': '');?>>
+                <select name=<?php echo '"' . $grp[$i] . '2" ' . ($_SESSION['login'] != 'admin' && strtotime('2018-06-14 15:00:00') < strtotime('now') ? 'disabled': '');?>>
                     <option value="0">--</option>
                     <?php
                     for ($j = 0; $j < 4; $j++) {

@@ -43,7 +43,7 @@ if (!isset($_SESSION['login'])) {
                 $vals[$i] = $pari['val'];
             }
 
-            if (($_SESSION['login'] == 'admin' || strtotime('2018-06-18 15:00:00') > strtotime('now'))) {
+            if (($_SESSION['login'] == 'admin' || strtotime('2018-06-14 15:00:00') > strtotime('now'))) {
                 if (isset($_POST[$items[$i]]) && ctype_digit($_POST[$items[$i]]) && strlen($_POST[$items[$i]]) <= 5) {
                     if ($pari && $vals[$i] != $_POST[$items[$i]]) {
                         $req = $bdd->prepare("UPDATE paris_divers SET val=:value WHERE id_pari=:id");
@@ -87,13 +87,13 @@ if (!isset($_SESSION['login'])) {
                 <td width="50%" align="right">
                     <br/>
                     <font style="font-size: 20px;">Nombre de buts marqués pendant la compétition</font>
-                    <input type="text" name="a" size="5" value=<?php echo '"' . $vals[0] . '" ' . ($_SESSION['login'] != 'admin' && strtotime('2018-06-18 15:00:00') < strtotime('now') ? 'disabled': '');?>/><br/><i><font style="font-size: 15px;"><?php echo $msg[0];?></font></i><br/><br/>
+                    <input type="text" name="a" size="5" value=<?php echo '"' . $vals[0] . '" ' . ($_SESSION['login'] != 'admin' && strtotime('2018-06-14 15:00:00') < strtotime('now') ? 'disabled': '');?>/><br/><i><font style="font-size: 15px;"><?php echo $msg[0];?></font></i><br/><br/>
                     <font style="font-size: 20px;">Nombre de buts marqués par la France</font>
-                    <input type="text" name="b" size="5" value=<?php echo '"' . $vals[1] . '" ' . ($_SESSION['login'] != 'admin' && strtotime('2018-06-18 15:00:00') < strtotime('now') ? 'disabled': '');?>/><br/><i><font style="font-size: 15px;"><?php echo $msg[1];?></font></i><br/><br/>
+                    <input type="text" name="b" size="5" value=<?php echo '"' . $vals[1] . '" ' . ($_SESSION['login'] != 'admin' && strtotime('2018-06-14 15:00:00') < strtotime('now') ? 'disabled': '');?>/><br/><i><font style="font-size: 15px;"><?php echo $msg[1];?></font></i><br/><br/>
                     <font style="font-size: 20px;">Nombre de buts encaissés par la France</font>
-                    <input type="text" name="c" size="5" value=<?php echo '"' . $vals[2] . '" ' . ($_SESSION['login'] != 'admin' && strtotime('2018-06-18 15:00:00') < strtotime('now') ? 'disabled': '');?>/><br/><i><font style="font-size: 15px;"><?php echo $msg[2];?></font></i><br/><br/>
+                    <input type="text" name="c" size="5" value=<?php echo '"' . $vals[2] . '" ' . ($_SESSION['login'] != 'admin' && strtotime('2018-06-14 15:00:00') < strtotime('now') ? 'disabled': '');?>/><br/><i><font style="font-size: 15px;"><?php echo $msg[2];?></font></i><br/><br/>
                     <font style="font-size: 20px;">Nombre de cartons pendant la compétition</font>
-                    <input type="text" name="d" size="5" value=<?php echo '"' . $vals[3] . '" ' . ($_SESSION['login'] != 'admin' && strtotime('2018-06-18 15:00:00') < strtotime('now') ? 'disabled': '');?>/><br/><i><font style="font-size: 15px;"><?php echo $msg[3];?></font></i><br/><br/>
+                    <input type="text" name="d" size="5" value=<?php echo '"' . $vals[3] . '" ' . ($_SESSION['login'] != 'admin' && strtotime('2018-06-14 15:00:00') < strtotime('now') ? 'disabled': '');?>/><br/><i><font style="font-size: 15px;"><?php echo $msg[3];?></font></i><br/><br/>
                 </td>
                 <td width="50%" align="center">
                     <input type="submit" value="Je valide"/>

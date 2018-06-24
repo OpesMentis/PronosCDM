@@ -111,7 +111,7 @@ if (!isset($_SESSION['login'])) {
             <td width="20%" align="center">
                 <font style="font-size: 20px;">Petite finale</font><br/>
                 <font style="font-size: 15px;">Vainqueur</font>
-                <select name=<?php echo '"1" ' . ($_SESSION['login'] != 'admin' && strtotime('2018-06-18 15:00:00') < strtotime('now') || $j1 == '0' || $j2 == '0' ? 'disabled': '');?>>
+                <select name=<?php echo '"1" ' . ($_SESSION['login'] != 'admin' && strtotime('2018-06-14 15:00:00') < strtotime('now') || $j1 == '0' || $j2 == '0' ? 'disabled': '');?>>
                     <option value="0">--</option>
                     <?php
                     if ($j1 != '0') {

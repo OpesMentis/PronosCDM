@@ -143,7 +143,7 @@ if (!isset($_SESSION['login'])) {
                 <td width="20%" align="center">
                     <font style="font-size: 20px;">Huitième de finale n°<?php echo (2*$i+1);?></font><br/>
                     <font style="font-size: 15px;">Vainqueur</font>
-                    <select name=<?php echo '"' . ($i+1) . '" ' . ($_SESSION['login'] != 'admin' && strtotime('2018-06-18 15:00:00') < strtotime('now') || $j11 == '0' || $j22 == '0' ? 'disabled': '');?>>
+                    <select name=<?php echo '"' . ($i+1) . '" ' . ($_SESSION['login'] != 'admin' && strtotime('2018-06-14 15:00:00') < strtotime('now') || $j11 == '0' || $j22 == '0' ? 'disabled': '');?>>
                         <option value="0">--</option>
                         <?php
                         if ($j11 != '0') {
@@ -159,7 +159,7 @@ if (!isset($_SESSION['login'])) {
                 <td width="20%" align="center">
                     <font style="font-size: 20px;">Huitième de finale n°<?php echo (2*$i+2);?></font><br/>
                     <font style="font-size: 15px;">Vainqueur</font>
-                    <select name=<?php echo '"' . ($i+5) . '" ' . ($_SESSION['login'] !='admin' && strtotime('2018-06-18 15:00:00') < strtotime('now') || $j12 == '0' || $j21 == '0' ? 'disabled': '');?>>
+                    <select name=<?php echo '"' . ($i+5) . '" ' . ($_SESSION['login'] !='admin' && strtotime('2018-06-14 15:00:00') < strtotime('now') || $j12 == '0' || $j21 == '0' ? 'disabled': '');?>>
                         <option value="0">--</option>
                         <?php
                         if ($j21 != '0') {

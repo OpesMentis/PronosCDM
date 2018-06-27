@@ -82,6 +82,19 @@ if (!isset($_SESSION['login'])) {
                 }
             }
         }
+
+        $stats = $bdd->prepare("SELECT 
+            (SELECT SUM(score1 + score2) FROM matchs) as TOT,
+            (SELECT SUM(s) from (
+                SELECT score1 as s from matchs WHERE team1 = :team union
+                SELECT score2 as s from matchs WHERE team2 = :team
+            ) as _) as BP,
+            (SELECT SUM(s) from (
+                SELECT score1 as s from matchs WHERE team2 = :team union
+                SELECT score2 as s from matchs WHERE team1 = :team
+            ) as _) as BC");
+        $stats->execute(array('team' => 9)); // 9 = France
+        $stats = $stats->fetch();
         ?>
         <font style="font-size: 30px;"><b><i>« Sarah Connor ? »</i></b><br/><br/></font>
     </div>
@@ -152,7 +165,7 @@ if (!isset($_SESSION['login'])) {
         </tr>
         <tr>
             <td><i>Nombre de buts marqués pendant la compétition</i></td>
-            <td><i>0</i></td>
+            <td><i><?php echo $stats['TOT'] ?></i></td>
             <td>171</td>
             <td>143</td>
             <td>147</td>
@@ -161,7 +174,7 @@ if (!isset($_SESSION['login'])) {
         </tr>
         <tr>
             <td><i>Nombre de buts marqués par la France</i></td>
-            <td><i>0</i></td>
+            <td><i><?php echo $stats['BP'] ?></i></td>
             <td>10</td>
             <td>1</td>
             <td>9</td>
@@ -170,7 +183,7 @@ if (!isset($_SESSION['login'])) {
         </tr>
         <tr>
             <td><i>Nombre de buts encaissés par la France</i></td>
-            <td><i>0</i></td>
+            <td><i><?php echo $stats['BC'] ?></i></td>
             <td>3</td>
             <td>4</td>
             <td>3</td>

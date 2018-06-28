@@ -28,7 +28,7 @@ if (!isset($_SESSION['login'])) {
         }
 
         #resultTable td:nth-child(2) {
-            background-color: rgba(0,0,0,0.1);
+            background-color: rgba(0,0,0,0.3);
         }
     </style>
 </head>

@@ -6,7 +6,7 @@ if (! file_exists(__DIR__ . '/config.php')) {
 
 include('config.php');
 try {
-    $bdd = new PDO('mysql:host=' . $addr . ';dbname=' . $db_name, $db_user, $db_pw, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+    $bdd = new PDO('mysql:host=' . $addr . ';dbname=' . $db_name . ';charset=utf8', $db_user, $db_pw, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
 } catch (Exception $e) {
     die('Erreur : ' . $e->getMessage());
 }

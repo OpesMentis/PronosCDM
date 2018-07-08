@@ -42,7 +42,7 @@ if (!isset($_SESSION['login'])) {
         $data = $commu->fetch();
         $num_commu = $data['id_commu'];
         $id_play = $_GET['id'];
-        $req = $bdd->prepare("SELECT matchs.groupe AS groupe, eq1.pays AS e1, eq2.pays AS e2, matchs.score1, matchs.score2, DATE_FORMAT(date + INTERVAL '2' HOUR, '%d/%m, %Hh%i') AS date, date AS dt 
+        $req = $bdd->prepare("SELECT matchs.groupe AS groupe, eq1.pays AS e1, eq2.pays AS e2, matchs.score1, matchs.score2, DATE_FORMAT(date + INTERVAL '2' HOUR, '%d/%m, %Hh%i') AS date, date AS dt, winner
           FROM matchs JOIN teams eq1 ON eq1.id = matchs.team1 
           INNER JOIN teams eq2 ON eq2.id = matchs.team2 
           WHERE matchs.id=:id_match AND matchs.played = 1");
@@ -76,7 +76,7 @@ if (!isset($_SESSION['login'])) {
             ?>
             <font style="font-size: 20px;"><?php echo $entete . ' &sdot; ' . $match['date'];?><br/></font>
             <font style="font-size: 35px;"><?php echo $match['e1'] . ' &mdash; ' . $match['e2'];?></font><br/>
-            <font style="font-size: 20px;"><?php echo $match['score1'] . ' &mdash; ' . $match['score2'];?><br/><br/></font>
+            <font style="font-size: 20px;"><?php echo ($match['winner']==1?'[':'') . $match['score1'] . ($match['winner']==1?']':'') . ' &mdash; ' . ($match['winner']==2?'[':'') . $match['score2'] . ($match['winner']==2?']':'');?><br/><br/></font>
 
             <table width="75%" align="center" style='border-collapse: collapse;'>
                 <?php
@@ -87,7 +87,7 @@ if (!isset($_SESSION['login'])) {
                         </td>
                     </tr>
                     <?php
-                    $req = $bdd->prepare("SELECT u.login, pm.score1, pm.score2 
+                    $req = $bdd->prepare("SELECT u.login, pm.score1, pm.score2, winner 
                       FROM paris_match AS pm
                       JOIN users AS u ON u.id = pm.id_user
                       WHERE id_match = :id_match AND u.login != 'admin' AND u.id_commu = :comm");
@@ -98,7 +98,7 @@ if (!isset($_SESSION['login'])) {
                                 <font style="font-size: 25px;"><?php echo $item['login']?></font>
                             </td>
                             <td width="50%" align="center">
-                                <font style="font-size: 25px;"><?php echo $item['score1']?> &mdash; <?php echo $item['score2']?> </font>
+                                <font style="font-size: 25px;"><?php echo ($item['winner']==1?'[':'') . $item['score1'] . ($item['winner']==1?']':'')?> &mdash; <?php echo ($item['winner']==2?'[':'') . $item['score2'] . ($item['winner']==2?']':'')?> </font>
                             </td>
                         </tr>
                     <?php
@@ -110,7 +110,7 @@ if (!isset($_SESSION['login'])) {
                         </td>
                     </tr>
                     <?php
-                    $req = $bdd->prepare("SELECT u.login, pm.score1, pm.score2 
+                    $req = $bdd->prepare("SELECT u.login, pm.score1, pm.score2, winner 
                       FROM paris_match AS pm
                       JOIN users AS u ON u.id = pm.id_user
                       WHERE id_match = :id_match AND u.login != 'admin' AND u.id_commu != :comm");
@@ -121,13 +121,13 @@ if (!isset($_SESSION['login'])) {
                                 <font style="font-size: 25px;"><?php echo $item['login']?></font>
                             </td>
                             <td width="50%" align="center">
-                                <font style="font-size: 25px;"><?php echo $item['score1']?> &mdash; <?php echo $item['score2']?> </font>
+                                <font style="font-size: 25px;"><?php echo ($item['winner']==1?'[':'') . $item['score1'] . ($item['winner']==1?']':'')?> &mdash; <?php echo ($item['winner']==2?'[':'') . $item['score2'] . ($item['winner']==2?']':'')?> </font>
                             </td>
                         </tr>
                     <?php
                     }
                 } else {
-                    $req = $bdd->prepare("SELECT u.login, pm.score1, pm.score2 
+                    $req = $bdd->prepare("SELECT u.login, pm.score1, pm.score2, winner 
                       FROM paris_match AS pm
                       JOIN users AS u ON u.id = pm.id_user
                       WHERE id_match = :id_match AND u.login != 'admin'");
@@ -138,7 +138,7 @@ if (!isset($_SESSION['login'])) {
                                 <font style="font-size: 25px;"><?php echo $item['login']?></font>
                             </td>
                             <td width="50%" align="center">
-                                <font style="font-size: 25px;"><?php echo $item['score1']?> &mdash; <?php echo $item['score2']?> </font>
+                                <font style="font-size: 25px;"><?php echo ($item['winner']==1?'[':'') . $item['score1'] . ($item['winner']==1?']':'')?> &mdash; <?php echo ($item['winner']==2?'[':'') . $item['score2'] . ($item['winner']==2?']':'')?> </font>
                             </td>
                         </tr>
                     <?php }

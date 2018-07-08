@@ -82,7 +82,7 @@ if (!isset($_SESSION['login'])) {
 
         $i = 0;
         while ($item = $req->fetch()) {
-            $pari = $bdd->prepare("SELECT score1, score2 FROM paris_match JOIN users ON users.id = paris_match.id_user WHERE id_match=:play AND users.login=:usr");
+            $pari = $bdd->prepare("SELECT score1, score2, winner FROM paris_match JOIN users ON users.id = paris_match.id_user WHERE id_match=:play AND users.login=:usr");
             $pari->execute(array('play' => $item['id_match'], 'usr' => $_SESSION['login']));
             $res = $pari->fetch();
             if ($i % 4 == 0) {?>
@@ -101,7 +101,7 @@ if (!isset($_SESSION['login'])) {
                             if (!$res) {
                                 echo 'AUCUN PARI POUR L\'INSTANT';
                             } else {
-                                echo 'VOUS PRÉVOYEZ : ' . $res['score1'] . '-' . $res['score2'];
+                                echo 'VOUS PRÉVOYEZ : ' . ($res['winner']==1?'[':'') . $res['score1'] . ($res['winner']==1?']':'') . '-' . ($res['winner']==2?'[':'') . $res['score2'] . ($res['winner']==2?']':'');
                             }
                         }
                         ?>
@@ -129,7 +129,7 @@ if (!isset($_SESSION['login'])) {
 
         $i = 0;
         while ($item = $req->fetch()) {
-            $pari = $bdd->prepare("SELECT score1, score2 FROM paris_match JOIN users ON users.id = paris_match.id_user WHERE id_match=:play AND users.login=:usr");
+            $pari = $bdd->prepare("SELECT score1, score2, winner FROM paris_match JOIN users ON users.id = paris_match.id_user WHERE id_match=:play AND users.login=:usr");
             $pari->execute(array('play' => $item['id_match'], 'usr' => $_SESSION['login']));
             $res = $pari->fetch();
             if ($i % 4 == 0) {?>
@@ -148,7 +148,7 @@ if (!isset($_SESSION['login'])) {
                             if (!$res) {
                                 echo 'TROP TARD POUR PARIER';
                             } else {
-                                echo 'VOUS PRÉVOYEZ : ' . $res['score1'] . '-' . $res['score2'];
+                                echo 'VOUS PRÉVOYEZ : ' . ($res['winner']==1?'[':'') . $res['score1'] . ($res['winner']==1?']':'') . '-' . ($res['winner']==2?'[':'') . $res['score2'] . ($res['winner']==2?']':'');
                             }
                         }
                         ?>
@@ -171,7 +171,7 @@ if (!isset($_SESSION['login'])) {
     </table>
     <table width="90%" align="center" style="border-spacing: 10px;" id="matchs">
         <?php
-        $req = $bdd->query("SELECT matchs.id AS id_match, DATE_FORMAT(date + INTERVAL '2' HOUR, '%d/%m, %Hh%i') AS dt, matchs.groupe, eq1.pays AS e1, eq2.pays AS e2, score1, score2 FROM matchs JOIN teams eq1 ON eq1.id = matchs.team1 JOIN teams eq2 ON eq2.id = matchs.team2 WHERE played = 1 ORDER BY date ASC");
+        $req = $bdd->query("SELECT matchs.id AS id_match, DATE_FORMAT(date + INTERVAL '2' HOUR, '%d/%m, %Hh%i') AS dt, matchs.groupe, eq1.pays AS e1, eq2.pays AS e2, score1, score2, winner FROM matchs JOIN teams eq1 ON eq1.id = matchs.team1 JOIN teams eq2 ON eq2.id = matchs.team2 WHERE played = 1 ORDER BY date ASC");
 
         $i = 0;
         while ($item = $req->fetch()) {
@@ -186,14 +186,14 @@ if (!isset($_SESSION['login'])) {
                     <a href=<?php echo "match_result.php?id=" . $item['id_match']; ?>>
                         <br/>
                         <font style="font-size: 20px;"><?php echo $item['e1'] . ' — ' . $item['e2'];?></font><br/>
-                        <font style="font-size: 15px;"><b><?php echo $item['score1'] . ' / ' . $item['score2'];?></b></font><br/>
+                        <font style="font-size: 15px;"><b><?php echo ($item['winner']==1?'[':'') . $item['score1'] . ($item['winner']==1?']':'') . ' / ' . ($item['winner']==2?'[':'') . $item['score2'] . ($item['winner']==2?']':'');?></b></font><br/>
                         <font style="font-size: 15px;"><?php echo $item['dt'];?></font><br/>
                         <font style="font-size: 15px;">
                             <?php
                             if (!$res) {
                                 echo 'VOUS N\'AVIEZ PAS PARIÉ';
                             } else {
-                                echo 'VOUS PRÉVOYIEZ : ' . $res['score1'] . '-' . $res['score2'];
+                                echo 'VOUS PRÉVOYIEZ : ' . ($res['winner']==1?'[':'') . $res['score1'] . ($res['winner']==1?']':'') . '-' . ($res['winner']==2?'[':'') . $res['score2'] . ($res['winner']==2?']':'');
                             }
                             ?>
                         </font><br/><br/>

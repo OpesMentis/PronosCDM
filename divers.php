@@ -86,12 +86,12 @@ if (!isset($_SESSION['login'])) {
         $stats = $bdd->prepare("SELECT 
             (SELECT SUM(score1 + score2) FROM matchs) as TOT,
             (SELECT SUM(s) from (
-                SELECT score1 as s from matchs WHERE team1 = :team union
-                SELECT score2 as s from matchs WHERE team2 = :team
+                SELECT id,score1 as s from matchs WHERE team1 = :team union
+                SELECT id,score2 as s from matchs WHERE team2 = :team
             ) as _) as BP,
             (SELECT SUM(s) from (
-                SELECT score1 as s from matchs WHERE team2 = :team union
-                SELECT score2 as s from matchs WHERE team1 = :team
+                SELECT id,score1 as s from matchs WHERE team2 = :team union
+                SELECT id,score2 as s from matchs WHERE team1 = :team
             ) as _) as BC");
         $stats->execute(array('team' => 9)); // 9 = France
         $stats = $stats->fetch();
